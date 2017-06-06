@@ -1,4 +1,22 @@
-export const AUTH_USER = 'auth_user',
-             UNAUTH_USER = 'unauth_user',
-             AUTH_REFRESH = 'auth_refresh',
-             AUTH_ERROR = 'auth_error';
+import types from './types';
+
+const login = (username, password) => ({
+  type: types.LOGIN,
+  username,
+  password,
+});
+
+const logout = ( ) => ({
+  type: types.LOGOUT,
+});
+
+const refresh_token = ( token ) => ({
+  type: types.REFRESH_JWT,
+  refresh_token: token,
+});
+
+export default {
+  login,
+  logout,
+  refresh_token,
+};
