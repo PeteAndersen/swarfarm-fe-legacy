@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 
 import { authActions } from 'state/ducks/auth/'
 
-console.log(authActions);
-
 const Home = ({auth, attemptLogin}) => (
   <div>
     <p>Hello and welcome to swarfarm beta!</p>
