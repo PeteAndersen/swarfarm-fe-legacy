@@ -1,4 +1,4 @@
-import types from './types';
+import types from "./types";
 
 /* State shape
 {
@@ -24,15 +24,16 @@ const INITIAL_STATE = {
   error: null,
   token: null,
   refresh_token: null,
-  user: null,
-}
+  user: null
+};
 
-export default function (state = INITIAL_STATE, action) {
-  switch(action.type) {
+export default function(state = INITIAL_STATE, { type: actionType, payload }) {
+  switch (actionType) {
     case types.LOGIN:
       return {
         ...state,
         isLoading: true,
+        error: null
       };
     case types.LOGIN_COMPLETED:
       return {
@@ -40,16 +41,16 @@ export default function (state = INITIAL_STATE, action) {
         isLoading: false,
         isAuthenticated: true,
         error: null,
-        token: action.payload.token,
-        refresh_token: action.payload.refresh_token,
-        user: action.payload.user,
+        token: payload.token,
+        refresh_token: payload.refresh_token,
+        user: payload.user
       };
     case types.LOGIN_FAILED:
       return {
         ...state,
         isLoading: false,
-        error: action.payload,
-      }
+        error: payload.errorMessage
+      };
     case types.LOGOUT:
       return {
         ...state,
@@ -58,7 +59,7 @@ export default function (state = INITIAL_STATE, action) {
         error: null,
         token: null,
         refresh_token: null,
-        user: null,
+        user: null
       };
     case types.LOGOUT_COMPLETED:
       return {
@@ -68,7 +69,7 @@ export default function (state = INITIAL_STATE, action) {
     case types.REFRESH_JWT:
       return {
         ...state,
-        isLoading: true,
+        isLoading: true
       };
     case types.REFRESH_JWT_COMPLETED:
       return {
@@ -76,16 +77,16 @@ export default function (state = INITIAL_STATE, action) {
         isLoading: false,
         isAuthenticated: true,
         error: null,
-        token: action.payload.token,
-        refresh_token: action.payload.refresh_token,
-        user: action.payload.user,
+        token: payload.token,
+        refresh_token: payload.refresh_token,
+        user: payload.user
       };
     case types.REFRESH_JWT_FAILED:
       return {
         ...state,
         isLoading: false,
-        error: action.payload,
-      }
+        error: payload
+      };
     default:
       return state;
   }

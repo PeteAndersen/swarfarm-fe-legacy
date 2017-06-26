@@ -15,15 +15,16 @@ import api from "./api";
 
 function* login(username, password) {
   try {
-    const authInfo = yield call(api.getToken, username, password);
-    yield put({ type: types.LOGIN_COMPLETED, payload: authInfo });
-    //yield call(localStorage.setItem, "token", authInfo.token);
-    //yield call(localStorage.setItem, "refresh_token", authInfo.refresh_token);
+    const { token, refresh_token, user } = yield call(
+      api.getToken,
+      username,
+      password
+    );
+    yield put(actions.loginSuccess(token, refresh_token, user));
   } catch (err) {
-    yield put({ type: types.LOGIN_FAILED, payload: err });
+    yield put(actions.loginFailed(err));
   } finally {
     if (yield cancelled()) {
-      console.log("Login saga cancelled");
       // ?? dunno what to put here
     }
   }
@@ -31,19 +32,15 @@ function* login(username, password) {
 
 function* loginFlow() {
   while (true) {
-    console.log("Waiting for login request");
-    const { username, password } = yield take(types.LOGIN);
-    console.log(`Got a login request for ${username} with pw ${password}`);
+    // Wait for login action, then wait for either logout or login_failed.
+    const { payload: { username, password } } = yield take(types.LOGIN);
     const task = yield fork(login, username, password);
+
     yield take([types.LOGOUT, types.LOGIN_FAILED]);
     if (task) {
       yield cancel(task);
     }
-    console.log("Clearing tokens");
-    //yield call(localStorage.removeItem, "token");
-    //yield call(localStorage.removeItem, "refresh_token");
-    console.log("LOGOUT complete");
-    yield put({ type: types.LOGOUT_COMPLETED });
+    yield put(actions.logoutCompleted());
   }
 }
 

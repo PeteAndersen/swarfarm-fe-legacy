@@ -8,6 +8,7 @@ const Api = axios.create({
 
 const getAuthToken = () => {
   const token = localStorage.getItem("token");
+  console.log(token);
   return token ? token : undefined;
 };
 
@@ -24,5 +25,11 @@ export default function request(method, url, data) {
     reqConfig["headers"] = { Authorization: `JWT ${token}` };
   }
 
-  return Api(reqConfig).then(response => response.data);
+  return Api(reqConfig).then(response => response.data).catch(function(error) {
+    if (error.response) {
+      throw error.response.data;
+    } else {
+      throw error.message;
+    }
+  });
 }
