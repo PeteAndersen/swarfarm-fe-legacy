@@ -1,17 +1,28 @@
 import axios from "axios";
 
 const API_ROOT = "http://127.0.0.1:8000/api/v2/";
+const Api = axios.create({
+  baseURL: API_ROOT,
+  timeout: 15000
+});
 
-export default function request(method, endpoint, data) {
-  const url = endpoint.indexOf(API_ROOT) === -1
-    ? API_ROOT + endpoint
-    : endpoint;
+const getAuthToken = () => {
+  const token = localStorage.getItem("token");
+  return token ? token : undefined;
+};
 
-  // TODO: Add automatically adding jwt token to headers if exists
+export default function request(method, url, data) {
+  const token = getAuthToken();
 
-  return axios({
+  const reqConfig = {
     method,
     url,
     data
-  }).then(response => response);
+  };
+
+  if (token) {
+    reqConfig["headers"] = { Authorization: `JWT ${token}` };
+  }
+
+  return Api(reqConfig).then(response => response.data);
 }
