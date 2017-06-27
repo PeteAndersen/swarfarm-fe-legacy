@@ -1,4 +1,5 @@
 import axios from "axios";
+import localForage from "localforage";
 
 const API_ROOT = "http://127.0.0.1:8000/api/v2/";
 const Api = axios.create({
@@ -7,9 +8,9 @@ const Api = axios.create({
 });
 
 const getAuthToken = () => {
-  const token = localStorage.getItem("token");
-  console.log(token);
-  return token ? token : undefined;
+  // const token = localForage.getItem("token");
+  // return token ? token : undefined;
+  return undefined;
 };
 
 export default function request(method, url, data) {

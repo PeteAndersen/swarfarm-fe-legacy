@@ -1,3 +1,4 @@
+import { REHYDRATE } from "redux-persist/constants";
 import types from "./types";
 
 /* State shape
@@ -29,6 +30,22 @@ const INITIAL_STATE = {
 
 export default function(state = INITIAL_STATE, { type: actionType, payload }) {
   switch (actionType) {
+    case REHYDRATE:
+      // Only JWT, refresh_token, and user_data
+      if (payload.auth) {
+        return {
+          ...state,
+          isLoading: false,
+          isAuthenticated: payload.auth.token ? true : false,
+          error: null,
+          token: payload.auth.token,
+          refresh_token: payload.auth.refresh_token,
+          user: payload.auth.user
+        };
+      } else {
+        return state;
+      }
+
     case types.LOGIN:
       return {
         ...state,
