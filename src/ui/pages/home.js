@@ -33,7 +33,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     attemptLogin: () => {
-      dispatch(authActions.login("porksmashtest", "fakepass"));
+      dispatch(authActions.login("porksmashtest", "iomeg34"));
     },
     logout: () => {
       dispatch(authActions.logout());

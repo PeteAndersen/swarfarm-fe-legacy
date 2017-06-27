@@ -1,5 +1,7 @@
 import { createStore, applyMiddleware, combineReducers } from "redux";
 import createSagaMiddleware from "redux-saga";
+import { persistStore, autoRehydrate } from "redux-persist";
+import localForage from "localforage";
 import { composeWithDevTools } from "redux-devtools-extension/logOnlyInProduction";
 
 import { reducer as formReducer } from "redux-form";
@@ -17,10 +19,15 @@ export default function configureStore(initialState) {
   const store = createStore(
     rootReducer,
     initialState,
-    composeWithDevTools(applyMiddleware(sagaMiddleware))
+    composeWithDevTools(applyMiddleware(sagaMiddleware), autoRehydrate())
   );
 
   sagaMiddleware.run(rootSaga);
+  persistStore(store, {
+    storage: localForage,
+    debounce: 1000,
+    whitelist: ["auth", "bestiary"]
+  });
 
   return store;
 }
