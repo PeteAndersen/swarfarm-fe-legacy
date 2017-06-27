@@ -9,13 +9,10 @@ import {
   take
 } from "redux-saga/effects";
 import { REHYDRATE } from "redux-persist/constants";
-import localForage from "localforage";
-
 import actions from "./actions";
 import types from "./types";
 import api from "./api";
-
-// TODO: use the action creators
+import { setAuthToken, clearAuthToken } from "services/api";
 
 function* login(username, password) {
   try {
@@ -25,8 +22,9 @@ function* login(username, password) {
       password
     );
     yield put(actions.loginSuccess(token, refresh_token, user));
+    yield call(setAuthToken, token);
   } catch (err) {
-    yield put(actions.loginFailed(err));
+    yield put(actions.loginFailed(String(err)));
   } finally {
     if (yield cancelled()) {
       // ?? dunno what to put here
@@ -38,8 +36,10 @@ function* refreshJWT(refresh_token) {
   try {
     const { token, user } = yield call(api.refreshToken, refresh_token);
     yield put(actions.loginSuccess(token, refresh_token, user));
+    yield call(setAuthToken, token);
   } catch (err) {
-    yield put(actions.loginFailed(err));
+    console.log(err);
+    yield put(actions.loginFailed(String(err)));
   } finally {
     if (yield cancelled()) {
       // ?? dunno what to put here
@@ -63,6 +63,7 @@ function* loginFlow() {
       yield cancel(task);
       task = null;
     }
+    yield call(clearAuthToken);
     yield put(actions.logoutCompleted());
   }
 }

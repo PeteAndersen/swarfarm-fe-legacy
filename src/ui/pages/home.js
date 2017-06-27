@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import { authActions } from "state/ducks/auth/";
 
-const Home = ({ auth, attemptLogin, logout }) => (
+const Home = ({ auth, attemptLogin, logout }) =>
   <div>
     <p>Hello and welcome to swarfarm beta!</p>
     {auth.isAuthenticated
@@ -18,12 +18,11 @@ const Home = ({ auth, attemptLogin, logout }) => (
     {auth.isLoading ? <p>LOGGING IN BRUH</p> : null}
     {auth.error
       ? auth.error.non_field_errors
-          ? <p>{auth.error.non_field_errors}</p>
-          : <p>{auth.error}</p>
+        ? <p>{auth.error.non_field_errors}</p>
+        : <p>{auth.error}</p>
       : null}
 
-  </div>
-);
+  </div>;
 
 const mapStateToProps = state => {
   return {

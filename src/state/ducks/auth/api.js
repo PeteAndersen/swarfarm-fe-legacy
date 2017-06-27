@@ -8,14 +8,24 @@ export default {
     });
   },
   refreshToken: refreshToken => {
-    return request("post", "auth/delegate-token/", {
-      client_id: "swarfarm",
-      refresh_token: refreshToken
-    });
+    return request(
+      "post",
+      "auth/delegate-token/",
+      {
+        client_id: "swarfarm",
+        refresh_token: refreshToken
+      },
+      false
+    );
   },
   verifyToken: token => {
-    return request("post", "auth/verify-token/", {
-      token
-    });
+    return request(
+      "post",
+      "auth/verify-token/",
+      {
+        token
+      },
+      false
+    );
   }
 };

@@ -1,5 +1,5 @@
 import axios from "axios";
-import localForage from "localforage";
+import JWT from "jwt-client";
 
 const API_ROOT = "http://127.0.0.1:8000/api/v2/";
 const Api = axios.create({
@@ -7,30 +7,43 @@ const Api = axios.create({
   timeout: 15000
 });
 
-const getAuthToken = () => {
-  // const token = localForage.getItem("token");
-  // return token ? token : undefined;
-  return undefined;
+export const setAuthToken = token => {
+  JWT.keep(token);
 };
 
-export default function request(method, url, data) {
-  const token = getAuthToken();
+export const clearAuthToken = () => {
+  JWT.forget();
+};
 
+export const getAuthToken = () => {
+  try {
+    const token = JWT.get();
+    return token;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+export default async function request(method, url, data, use_auth = true) {
+  const token = JWT.get();
   const reqConfig = {
     method,
     url,
     data
   };
 
-  if (token) {
+  if (token && JWT.validate(token) && use_auth) {
     reqConfig["headers"] = { Authorization: `JWT ${token}` };
   }
 
-  return Api(reqConfig).then(response => response.data).catch(function(error) {
-    if (error.response) {
-      throw error.response.data;
+  try {
+    const response = await Api(reqConfig);
+    return response.data;
+  } catch (err) {
+    if (err.response) {
+      throw err.response.data;
     } else {
-      throw error.message;
+      throw err.message;
     }
-  });
+  }
 }
