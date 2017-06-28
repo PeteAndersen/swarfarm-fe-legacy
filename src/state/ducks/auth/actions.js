@@ -37,5 +37,14 @@ export default {
     payload: {
       token
     }
+  }),
+
+  refreshTokenFailed: error => ({
+    type: types.REFRESH_JWT_FAILED,
+    payload: error
+  }),
+
+  refreshTokenCompleted: () => ({
+    type: types.REFRESH_JWT_COMPLETED
   })
 };

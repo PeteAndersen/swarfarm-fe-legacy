@@ -84,10 +84,7 @@ export default function(state = INITIAL_STATE, { type: actionType, payload }) {
         isLoading: false
       };
     case types.REFRESH_JWT:
-      return {
-        ...state,
-        isLoading: true
-      };
+      return state;
     case types.REFRESH_JWT_COMPLETED:
       return {
         ...state,
