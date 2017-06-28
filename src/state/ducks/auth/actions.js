@@ -1,50 +1,64 @@
 import types from "./types";
 
+const login = (username, password) => ({
+  type: types.LOGIN,
+  payload: {
+    username,
+    password
+  }
+});
+
+const loginSuccess = (token, refresh_token, user) => ({
+  type: types.LOGIN_COMPLETED,
+  payload: {
+    token,
+    refresh_token,
+    user
+  }
+});
+const loginFailed = errorMessage => ({
+  type: types.LOGIN_FAILED,
+  payload: {
+    errorMessage
+  }
+});
+
+const logout = () => ({
+  type: types.LOGOUT
+});
+
+const logoutCompleted = () => ({
+  type: types.LOGOUT_COMPLETED
+});
+
+const refreshToken = token => ({
+  type: types.REFRESH_JWT,
+  payload: {
+    token
+  }
+});
+
+const refreshTokenFailed = error => ({
+  type: types.REFRESH_JWT_FAILED,
+  payload: error
+});
+
+const refreshTokenCompleted = (token, refresh_token, user) => ({
+  type: types.REFRESH_JWT_COMPLETED,
+  payload: {
+    token,
+    refresh_token,
+    user
+  }
+});
+
 export default {
-  login: (username, password) => ({
-    type: types.LOGIN,
-    payload: {
-      username,
-      password
-    }
-  }),
-
-  loginSuccess: (token, refresh_token, user) => ({
-    type: types.LOGIN_COMPLETED,
-    payload: {
-      token,
-      refresh_token,
-      user
-    }
-  }),
-  loginFailed: errorMessage => ({
-    type: types.LOGIN_FAILED,
-    payload: {
-      errorMessage
-    }
-  }),
-
-  logout: () => ({
-    type: types.LOGOUT
-  }),
-
-  logoutCompleted: () => ({
-    type: types.LOGOUT_COMPLETED
-  }),
-
-  refreshToken: token => ({
-    type: types.REFRESH_JWT,
-    payload: {
-      token
-    }
-  }),
-
-  refreshTokenFailed: error => ({
-    type: types.REFRESH_JWT_FAILED,
-    payload: error
-  }),
-
-  refreshTokenCompleted: () => ({
-    type: types.REFRESH_JWT_COMPLETED
-  })
+  login,
+  loginFailed,
+  loginSuccess,
+  logout,
+  logoutCompleted,
+  refreshToken,
+  refreshTokenFailed,
+  refreshTokenCompleted
 };

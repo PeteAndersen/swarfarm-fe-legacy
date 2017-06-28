@@ -70,23 +70,18 @@ function* loginFlow() {
 
 function* refreshTokenFlow() {
   while (true) {
-    const { payload: { refreshToken } } = yield take(types.REFRESH_JWT);
-    console.log(`Refreshing JWT with refresh token ${refreshToken}`);
-    const task = yield fork(refreshJWT, refreshToken);
-
+    const { payload: { token } } = yield take(types.REFRESH_JWT);
+    yield fork(refreshJWT, token);
     yield take([types.REFRESH_JWT_COMPLETED, types.REFRESH_JWT_FAILED]);
-    if (task) {
-      yield cancel(task);
-    }
   }
 }
 
 function* refreshAuthOnStartFlow() {
   // Run-once on redux store rehydration to check if refresh token is available.
   yield take(REHYDRATE);
-  const refreshToken = yield select(state => state.auth.refresh_token);
-  if (refreshToken) {
-    yield put(actions.refreshToken(refreshToken));
+  const token = yield select(state => state.auth.refresh_token);
+  if (token) {
+    yield put(actions.refreshToken(token));
   }
 }
 
