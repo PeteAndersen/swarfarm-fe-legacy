@@ -1,21 +1,21 @@
-import React from 'react';
-import { render } from 'react-dom';
+import React from "react";
+import { render } from "react-dom";
 import { Provider } from "react-redux";
-import { BrowserRouter as Router } from "react-router-dom";
+import { ConnectedRouter } from "react-router-redux";
 
-import App from 'ui/layout/app';
+import App from "ui/layout/app";
 import configureStore from "state/store";
-import registerServiceWorker from './registerServiceWorker';
+import { history } from "state/store";
+import registerServiceWorker from "./registerServiceWorker";
 
-const reduxStore = configureStore( window.REDUX_INITIAL_DATA );
+const reduxStore = configureStore(window.REDUX_INITIAL_DATA);
 
-const RootHtml = ( ) => (
-  <Provider store={ reduxStore }>
-    <Router>
+const RootHtml = () =>
+  <Provider store={reduxStore}>
+    <ConnectedRouter history={history}>
       <App />
-    </Router>
-  </Provider>
-)
+    </ConnectedRouter>
+  </Provider>;
 
-render(<RootHtml />, document.getElementById('root'));
+render(<RootHtml />, document.getElementById("root"));
 registerServiceWorker();
