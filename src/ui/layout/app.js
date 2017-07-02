@@ -1,21 +1,24 @@
 import React from "react";
-import { Link, Route } from "react-router-dom";
-import routes from "ui/routes";
+import { Route } from "react-router-dom";
+import { Container } from "semantic-ui-react";
 
-const App = ( ) => (
-    <div>
-        <header>
-            <Link to="/">Home</Link>
-            <Link to="/news">News</Link>
-            <Link to="/bestiary">Bestiary</Link>
-        </header>
+import MainMenu from "ui/components/MainMenu";
+import { Home, News, Bestiary } from "ui/pages";
 
-        { routes.map( route => <Route key={ route.path } { ...route } /> ) }
+const App = () => (
+  <div>
+    <MainMenu />
 
-        <footer>
-            Da footer.
-        </footer>
-    </div>
+    <Container fluid>
+      <Route path="/" component={Home} exact />
+      <Route path="/news" component={News} />
+      <Route path="/bestiary" component={Bestiary} />
+    </Container>
+
+    <footer>
+      Da footer.
+    </footer>
+  </div>
 );
 
 export default App;
