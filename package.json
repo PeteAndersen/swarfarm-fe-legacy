@@ -18,7 +18,8 @@
     "redux-persist": "^4.8.1",
     "redux-saga": "^0.15.3",
     "semantic-ui-css": "^2.2.10",
-    "semantic-ui-react": "^0.68.5"
+    "semantic-ui-react": "^0.68.5",
+    "styled-components": "^2.1.1"
   },
   "devDependencies": {
     "cross-env": "^5.0.1",
