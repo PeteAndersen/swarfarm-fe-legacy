@@ -9,9 +9,11 @@ import {
   take
 } from "redux-saga/effects";
 import { REHYDRATE } from "redux-persist/constants";
+
 import actions from "./actions";
 import types from "./types";
 import api from "./api";
+import { history } from "state/store";
 import { setAuthToken, clearAuthToken } from "services/api";
 
 function* login(username, password) {
@@ -23,8 +25,19 @@ function* login(username, password) {
     );
     yield put(actions.loginSuccess(token, refresh_token, user));
     yield call(setAuthToken, token);
-  } catch (err) {
-    yield put(actions.loginFailed(String(err)));
+    history.push("/");
+  } catch ({ username, password, non_field_errors }) {
+    yield put(
+      actions.loginFailed({
+        _error: {
+          username: username ? username.join(". ") : null,
+          password: password ? password.join(". ") : null,
+          non_field_errors: non_field_errors
+            ? non_field_errors.join(". ")
+            : null
+        }
+      })
+    );
   } finally {
     if (yield cancelled()) {
       // ?? dunno what to put here

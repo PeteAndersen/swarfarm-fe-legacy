@@ -6,15 +6,11 @@ import { authActions } from "state/ducks/auth/";
 import LoginForm from "./LoginForm";
 
 class Login extends React.Component {
-  loginSubmit = values => {
-    const { username, password } = values;
-    this.props.attemptLogin(username, password);
-  };
   render() {
     return (
       <Grid centered>
         <Grid.Column mobile={15} tablet={8} computer={4}>
-          <LoginForm onSubmit={this.loginSubmit} />
+          <LoginForm />
         </Grid.Column>
       </Grid>
     );
@@ -23,8 +19,10 @@ class Login extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    attemptLogin: (username, password) => {
-      dispatch(authActions.login(username, password));
+    attemptLogin: values => {
+      return new Promise((resolve, reject) => {
+        dispatch(authActions.login(values.username, values.password));
+      });
     }
   };
 };

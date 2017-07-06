@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Menu, Dropdown, Icon, Divider } from "semantic-ui-react";
+import { Menu, Header, Dropdown, Icon, Divider } from "semantic-ui-react";
 
 import { authActions } from "state/ducks/auth/";
 
@@ -9,6 +9,7 @@ class MainMenu extends React.Component {
   render() {
     return (
       <Menu>
+        <Menu.Item as={Header}>SWARFARM</Menu.Item>
         <Menu.Item as={Link} to="/">Home</Menu.Item>
         <Menu.Item as={Link} to="/news">News</Menu.Item>
         <Menu.Item as={Link} to="/bestiary">Bestiary</Menu.Item>

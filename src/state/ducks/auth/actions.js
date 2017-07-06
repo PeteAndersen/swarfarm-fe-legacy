@@ -16,10 +16,10 @@ const loginSuccess = (token, refresh_token, user) => ({
     user
   }
 });
-const loginFailed = errorMessage => ({
+const loginFailed = errors => ({
   type: types.LOGIN_FAILED,
   payload: {
-    errorMessage
+    ...errors
   }
 });
 
