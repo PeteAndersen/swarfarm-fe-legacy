@@ -1,0 +1,9 @@
+const GET_NEWS = "news/GET_NEWS_SUBMIT";
+const GET_NEWS_FAILED = "news/GET_NEWS_FAILURE";
+const GET_NEWS_COMPLETED = "news/GET_NEWS_SUCCESS";
+
+export default {
+  GET_NEWS,
+  GET_NEWS_FAILED,
+  GET_NEWS_COMPLETED
+};
