@@ -26,18 +26,30 @@ function* login(username, password) {
     yield put(actions.loginSuccess(token, refresh_token, user));
     yield call(setAuthToken, token);
     history.push("/");
-  } catch ({ username, password, non_field_errors }) {
-    yield put(
-      actions.loginFailed({
-        _error: {
-          username: username ? username.join(". ") : null,
-          password: password ? password.join(". ") : null,
-          non_field_errors: non_field_errors
-            ? non_field_errors.join(". ")
-            : null
-        }
-      })
-    );
+  } catch (error) {
+    console.log(typeof error);
+    if (typeof error === "string") {
+      yield put(
+        actions.loginFailed({
+          _error: {
+            non_field_errors: error
+          }
+        })
+      );
+    } else {
+      const { username, password, non_field_errors } = error;
+      yield put(
+        actions.loginFailed({
+          _error: {
+            username: username ? username.join(". ") : null,
+            password: password ? password.join(". ") : null,
+            non_field_errors: non_field_errors
+              ? non_field_errors.join(". ")
+              : null
+          }
+        })
+      );
+    }
   } finally {
     if (yield cancelled()) {
       // ?? dunno what to put here

@@ -40,9 +40,11 @@ export default async function request(method, url, data, use_auth = true) {
     const response = await Api(reqConfig);
     return response.data;
   } catch (err) {
+    console.log(err);
     if (err.response) {
       throw err.response.data;
     } else {
+      console.log(err.message);
       throw err.message;
     }
   }

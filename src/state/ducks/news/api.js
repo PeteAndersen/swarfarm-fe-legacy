@@ -1,7 +1,12 @@
 import request from "services/api";
 
-const getNews = () => {
-  return request("get", "news/");
+const getNews = (page = null) => {
+  let endpoint = "news/";
+
+  if (page) {
+    endpoint += `?page=${page}`;
+  }
+  return request("get", endpoint);
 };
 
 const getArticle = postID => {
