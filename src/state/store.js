@@ -33,7 +33,7 @@ export default function configureStore(initialState) {
   sagaMiddleware.run(rootSaga);
   persistStore(store, {
     storage: localForage,
-    blacklist: ["rootSaga", "form", "router"]
+    whitelist: ["auth", "bestiary"]
   });
 
   return store;

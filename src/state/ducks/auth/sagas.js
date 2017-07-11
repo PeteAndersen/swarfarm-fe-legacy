@@ -27,7 +27,6 @@ function* login(username, password) {
     yield call(setAuthToken, token);
     history.push("/");
   } catch (error) {
-    console.log(typeof error);
     if (typeof error === "string") {
       yield put(
         actions.loginFailed({

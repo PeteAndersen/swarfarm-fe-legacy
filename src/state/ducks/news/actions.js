@@ -1,10 +1,9 @@
 import types from "./types";
 
-const getNews = () => ({
+const getNews = page => ({
   type: types.GET_NEWS,
   payload: {
-    username,
-    password
+    page
   }
 });
 
@@ -22,8 +21,16 @@ const getNewsFailed = errors => ({
   }
 });
 
+const changePage = page => ({
+  type: types.CHANGE_PAGE,
+  payload: {
+    page
+  }
+});
+
 export default {
   getNews,
   getNewsFailed,
-  getNewsSuccess
+  getNewsSuccess,
+  changePage
 };
