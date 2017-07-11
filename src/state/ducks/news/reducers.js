@@ -40,7 +40,7 @@ export default function(state = INITIAL_STATE, { type: actionType, payload }) {
         articles: payload.articles.reduce((allArticles, article) => {
           allArticles[article.id] = article;
           return allArticles;
-        }, state.articles)
+        }, Object.assign({}, state.articles))
       };
     case types.GET_NEWS_FAILED:
       return {

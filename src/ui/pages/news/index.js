@@ -1,26 +1,44 @@
 import React from "react";
 import { connect } from "react-redux";
-import { newsActions } from "state/ducks/news";
+import { newsActions, newsSelectors } from "state/ducks/news";
+
+import { Container, Item, Dimmer, Loader } from "semantic-ui-react";
+
+import Article from "./Article";
 
 class News extends React.Component {
+  componentWillMount() {
+    this.props.getNews();
+  }
   render() {
+    const articles = this.props.articles.map((article, index) =>
+      <Article key={index} article={article} />
+    );
+
     return (
-      <div>
-        <p>This is the news!</p>
-        <button onClick={this.props.getNews}>Get News</button>
-      </div>
+      <Container text>
+        <Dimmer.Dimmable as={Item.Group} divided dimmed={this.props.isLoading}>
+          <Dimmer inverted active={this.props.isLoading}>
+            <Loader inverted>Loading...</Loader>
+          </Dimmer>
+          {articles}
+        </Dimmer.Dimmable>
+      </Container>
     );
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
   return {
-    getNews: () => {
-      return new Promise((resolve, reject) => {
-        dispatch(newsActions.getNews());
-      });
-    }
+    isLoading: state.news.isLoading,
+    articles: newsSelectors.getNewsPage(state)
   };
 };
 
-export default connect(null, mapDispatchToProps)(News);
+const mapDispatchToProps = dispatch => {
+  return {
+    getNews: () => dispatch(newsActions.getNews())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(News);
