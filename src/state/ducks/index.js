@@ -2,7 +2,7 @@ import { all, fork } from "redux-saga/effects";
 import { formSubmitSaga } from "redux-form-submit-saga";
 import { authRootSaga } from "./auth";
 import { newsRootSaga } from "./news";
-import { bestiaryRootSaga } from "./bestiary";
+import { bestiaryRootSaga, bestiarySchema } from "./bestiary";
 
 export const rootSaga = function*() {
   yield all([
