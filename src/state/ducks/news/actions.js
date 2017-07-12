@@ -7,10 +7,11 @@ const getNews = page => ({
   }
 });
 
-const getNewsSuccess = articles => ({
+const getNewsSuccess = (articles, count) => ({
   type: types.GET_NEWS_COMPLETED,
   payload: {
-    articles
+    articles,
+    count
   }
 });
 

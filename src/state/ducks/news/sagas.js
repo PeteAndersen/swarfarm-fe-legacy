@@ -6,8 +6,8 @@ import api from "./api";
 
 function* loadPage(page = null) {
   try {
-    const { results } = yield call(api.getNews, page);
-    yield put(actions.getNewsSuccess(results));
+    const { results, count } = yield call(api.getNews, page);
+    yield put(actions.getNewsSuccess(results, count));
   } catch (error) {
     yield put(
       actions.getNewsFailed({
@@ -28,6 +28,13 @@ function* watchGetNews() {
   }
 }
 
+function* monitorPagination() {
+  while (true) {
+    const { payload: { page } } = yield take(types.CHANGE_PAGE);
+    yield put(actions.getNews(page));
+  }
+}
+
 export default function*() {
-  yield all([fork(watchGetNews)]);
+  yield all([fork(watchGetNews), fork(monitorPagination)]);
 }
