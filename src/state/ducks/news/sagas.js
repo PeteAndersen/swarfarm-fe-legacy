@@ -1,4 +1,4 @@
-import { all, call, cancel, fork, put, take } from "redux-saga/effects";
+import { all, call, cancel, fork, spawn, put, take } from "redux-saga/effects";
 
 import actions from "./actions";
 import types from "./types";
@@ -36,5 +36,5 @@ function* monitorPagination() {
 }
 
 export default function*() {
-  yield all([fork(watchGetNews), fork(monitorPagination)]);
+  yield all([spawn(watchGetNews), spawn(monitorPagination)]);
 }

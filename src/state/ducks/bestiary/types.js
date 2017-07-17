@@ -1,1 +1,7 @@
-export default {};
+const POPULATE_BESTIARY = "bestiary/POPULATE_BESTIARY";
+const RECEIVE_BESTIARY_DATA = "bestiary/RECEIVE_BESTIARY_DATA";
+
+export default {
+  POPULATE_BESTIARY,
+  RECEIVE_BESTIARY_DATA
+};

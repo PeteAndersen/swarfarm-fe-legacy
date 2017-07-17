@@ -4,6 +4,7 @@ import {
   cancel,
   cancelled,
   fork,
+  spawn,
   put,
   select,
   take
@@ -111,8 +112,8 @@ function* refreshAuthOnStartFlow() {
 
 export default function*() {
   yield all([
-    fork(loginFlow),
-    fork(refreshTokenFlow),
-    fork(refreshAuthOnStartFlow)
+    spawn(loginFlow),
+    spawn(refreshTokenFlow),
+    spawn(refreshAuthOnStartFlow)
   ]);
 }
