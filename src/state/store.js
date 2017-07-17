@@ -10,6 +10,7 @@ import { reducer as formReducer } from "redux-form";
 
 import * as reducers from "./ducks";
 import { rootSaga } from "./ducks";
+import { uiActions } from "./ducks/ui";
 
 export const history = createHistory();
 
@@ -31,10 +32,16 @@ export default function configureStore(initialState) {
   );
 
   sagaMiddleware.run(rootSaga);
-  persistStore(store, {
-    storage: localForage,
-    whitelist: ["auth" /*, "bestiary"*/]
-  });
+  persistStore(
+    store,
+    {
+      storage: localForage,
+      whitelist: ["auth" /*, "bestiary"*/]
+    },
+    () => {
+      store.dispatch(uiActions.rehydrateComplete());
+    }
+  );
 
   return store;
 }

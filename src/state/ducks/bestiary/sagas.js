@@ -1,5 +1,6 @@
-import { all, call, cancel, spawn, put, take } from "redux-saga/effects";
+import { all, call, spawn, put, take } from "redux-saga/effects";
 import { normalize } from "normalizr";
+import { REHYDRATE } from "redux-persist/constants";
 
 import actions from "./actions";
 import api from "./api";
@@ -10,9 +11,7 @@ function* getEntireList(apiFunc, dataSchema) {
   let page = 1;
   let data = {};
   do {
-    console.log("callin API");
     data = yield call(apiFunc, page);
-    console.log(data);
     const normalized = normalize(data.results, dataSchema);
     yield put(actions.receiveBestiaryData(normalized.entities));
     page += 1;
@@ -20,11 +19,17 @@ function* getEntireList(apiFunc, dataSchema) {
 }
 
 function* populateBestiary() {
-  yield take(types.POPULATE_BESTIARY);
-  console.log("populating entire bestiary...");
-  // Load the entire bestiary
-  //yield* getEntireList(api.getMonsterList, schema.monsterList);
-  yield* getEntireList(api.getSkillList, schema.skillList);
+  while (true) {
+    yield take(types.POPULATE_BESTIARY);
+    // Load the entire bestiary
+    try {
+      yield* getEntireList(api.getMonsterList, schema.monsterList);
+      yield* getEntireList(api.getSkillList, schema.skillList);
+      yield put(actions.populateBestiaryComplete());
+    } catch (err) {
+      yield put(actions.populateBestiaryCancelled());
+    }
+  }
 }
 
 export default function*() {

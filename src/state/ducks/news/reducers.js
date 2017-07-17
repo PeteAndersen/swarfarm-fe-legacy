@@ -37,7 +37,6 @@ export default function(state = INITIAL_STATE, { type: actionType, payload }) {
         error: null
       };
     case types.GET_NEWS_COMPLETED:
-      console.log();
       return {
         ...state,
         isLoading: false,

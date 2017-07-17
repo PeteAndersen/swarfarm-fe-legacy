@@ -1,3 +1,5 @@
+import { merge } from "lodash";
+
 import types from "./types";
 
 /* State shape
@@ -10,7 +12,11 @@ import types from "./types";
     homunculusSkills: {},
     craftMaterials: {},
     sources: {}
-  }
+  },
+  isLoading: boolean,
+  isPopulating: boolean,
+  wasPopulated: boolean,
+  lastPopulated: datetime || null
 }
 */
 
@@ -23,40 +29,36 @@ const INITIAL_STATE = {
     homunculusSkills: {},
     craftMaterials: {},
     sources: {}
-  }
+  },
+  isLoading: false,
+  isPopulating: false,
+  wasPopulated: false,
+  lastPopulated: null
 };
 
 export default function(state = INITIAL_STATE, { type: actionType, payload }) {
   switch (actionType) {
     case types.RECEIVE_BESTIARY_DATA:
-      console.log(payload);
+      return merge({ ...state }, { entities: payload });
+
+    case types.POPULATE_BESTIARY:
       return {
         ...state,
-        entities: {
-          monsters: Object.assign(
-            {},
-            state.entities.monsters,
-            payload.monsters
-          ),
-          skills: Object.assign({}, state.entities.skills, payload.skills),
-          leaderSkills: Object.assign(
-            {},
-            state.entities.leaderSkills,
-            payload.leaderSkills
-          ),
-          effects: Object.assign({}, state.entities.effects, payload.effects),
-          homunculusSkills: Object.assign(
-            {},
-            state.entities.homunculusSkills,
-            payload.homunculusSkills
-          ),
-          craftMaterials: Object.assign(
-            {},
-            state.entities.craftMaterials,
-            payload.craftMaterials
-          ),
-          sources: Object.assign({}, state.entities.sources, payload.sources)
-        }
+        isPopulating: true,
+        lastPopulated: new Date()
+      };
+
+    case types.POPULATE_BESTIARY_COMPLETE:
+      return {
+        ...state,
+        wasPopulated: true,
+        isPopulating: false
+      };
+    case types.POPULATE_BESTIARY_CANCELLED:
+      return {
+        ...state,
+        isPopulating: false,
+        lastPopulated: null
       };
     default:
       return state;
