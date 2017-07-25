@@ -17,6 +17,9 @@ import types from "./types";
   isPopulating: boolean,
   wasPopulated: boolean,
   lastPopulated: datetime || null
+  currentPage: integer,
+  pageSize: integer,
+  monsterList: [integer],
 }
 */
 
@@ -33,7 +36,10 @@ const INITIAL_STATE = {
   isLoading: false,
   isPopulating: false,
   wasPopulated: false,
-  lastPopulated: null
+  lastPopulated: null,
+  currentPage: 1,
+  pageSize: 50,
+  monsterList: []
 };
 
 export default function(state = INITIAL_STATE, { type: actionType, payload }) {
