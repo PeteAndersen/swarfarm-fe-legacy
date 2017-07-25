@@ -23,7 +23,7 @@ class Bestiary extends React.Component {
           <Loader active={isPopulating && !wasPopulated}>
             Populating bestiary...
           </Loader>
-          <MonsterList monsters={monsterList} />
+          {isPopulating ? null : <MonsterList monsters={monsterList} />}
         </Container>
       </div>
     );

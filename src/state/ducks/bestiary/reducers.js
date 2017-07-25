@@ -1,5 +1,3 @@
-import { merge } from "lodash";
-
 import types from "./types";
 
 /* State shape
@@ -24,6 +22,9 @@ import types from "./types";
 */
 
 const INITIAL_STATE = {
+  isPopulating: false,
+  wasPopulated: false,
+  lastPopulated: null,
   entities: {
     monsters: {},
     skills: {},
@@ -33,19 +34,44 @@ const INITIAL_STATE = {
     craftMaterials: {},
     sources: {}
   },
-  isLoading: false,
-  isPopulating: false,
-  wasPopulated: false,
-  lastPopulated: null,
-  currentPage: 1,
-  pageSize: 50,
-  monsterList: []
+  ui: {
+    isLoading: false,
+    currentPage: 1,
+    pageSize: 50
+  }
 };
 
 export default function(state = INITIAL_STATE, { type: actionType, payload }) {
   switch (actionType) {
     case types.RECEIVE_BESTIARY_DATA:
-      return merge({ ...state }, { entities: payload });
+      return {
+        ...state,
+        entities: {
+          monsters: Object.assign(
+            {},
+            state.entities.monsters,
+            payload.monsters
+          ),
+          skills: Object.assign({}, state.entities.skills, payload.skills),
+          leaderSkills: Object.assign(
+            {},
+            state.entities.leaderSkills,
+            payload.leaderSkills
+          ),
+          effects: Object.assign({}, state.entities.effects, payload.effects),
+          homunculusSkills: Object.assign(
+            {},
+            state.entities.homunculusSkills,
+            payload.homunculusSkills
+          ),
+          craftMaterials: Object.assign(
+            {},
+            state.entities.craftMaterials,
+            payload.craftMaterials
+          ),
+          sources: Object.assign({}, state.entities.sources, payload.sources)
+        }
+      };
 
     case types.POPULATE_BESTIARY:
       return {
