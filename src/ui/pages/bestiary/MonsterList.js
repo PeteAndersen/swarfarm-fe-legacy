@@ -1,11 +1,11 @@
 import React from "react";
+import MonsterCard from "./MonsterCard";
 
 const MonsterList = ({ monsters }) => {
   console.log(monsters);
-  console.log(Object.keys(monsters));
   const monsterList = monsters.map((monster, idx) =>
     <li key={idx}>
-      {monster.name}
+      <MonsterCard monster={monster} />
     </li>
   );
 
