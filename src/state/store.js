@@ -36,7 +36,7 @@ export default function configureStore(initialState) {
     store,
     {
       storage: localForage,
-      whitelist: ['auth'],
+      whitelist: ['auth', 'bestiary'],
     },
     () => {
       store.dispatch(uiActions.rehydrateComplete());

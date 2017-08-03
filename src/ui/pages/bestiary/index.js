@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Container, Dimmer, Loader } from 'semantic-ui-react';
+import { Grid, Dimmer, Loader } from 'semantic-ui-react';
 
 import { bestiaryActions, bestiarySelectors } from 'state/ducks/bestiary';
+import FilterForm from './FilterForm';
 import MonsterList from './MonsterList';
 
 class Bestiary extends React.Component {
@@ -14,15 +15,24 @@ class Bestiary extends React.Component {
       this.props.populateBestiary();
     }
   }
+
   render() {
     const { isPopulating, wasPopulated, isLoading, monsterList } = this.props;
+    const bestiaryList = (
+      <Grid>
+        <Grid.Column width={4}>
+          <FilterForm />
+        </Grid.Column>
+        <Grid.Column width={12} stretched>
+          <MonsterList monsters={monsterList} />
+        </Grid.Column>
+      </Grid>
+    );
 
     return (
       <div>
-        <Container>
-          <Loader active={isPopulating && !wasPopulated}>Populating bestiary...</Loader>
-          {isPopulating ? null : <MonsterList monsters={monsterList} />}
-        </Container>
+        <Loader active={isPopulating && !wasPopulated}>Populating bestiary...</Loader>
+        {isPopulating ? null : bestiaryList}
       </div>
     );
   }
