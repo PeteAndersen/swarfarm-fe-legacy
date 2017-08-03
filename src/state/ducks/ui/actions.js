@@ -1,9 +1,9 @@
-import types from "./types";
+import types from './types';
 
 const rehydrateComplete = () => ({
-  type: types.REHYDRATE_COMPLETE
+  type: types.REHYDRATE_COMPLETE,
 });
 
 export default {
-  rehydrateComplete
+  rehydrateComplete,
 };

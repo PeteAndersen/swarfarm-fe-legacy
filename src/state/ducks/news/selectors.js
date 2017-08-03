@@ -1,4 +1,4 @@
-import { createSelector } from "reselect";
+import { createSelector } from 'reselect';
 
 const isLoading = state => state.news.isLoading;
 const getArticles = state => state.news.articles;
@@ -20,25 +20,19 @@ const getArticlePage = createSelector(
           return aPublishedOn > bPublishedOn ? -1 : 1;
         } else if (a.sticky) {
           return -1;
-        } else {
-          return 1;
         }
+        return 1;
       })
       .slice((page - 1) * pageSize, page * pageSize);
-  }
+  },
 );
 
-const getPageCount = createSelector(
-  [getArticleCount, getPageSize],
-  (numArticles, pageSize) => {
-    return Math.ceil(numArticles / pageSize);
-  }
-);
+const getPageCount = createSelector([getArticleCount, getPageSize], (numArticles, pageSize) => Math.ceil(numArticles / pageSize));
 
 export default {
   isLoading,
   getArticlePage,
   getPage,
   getPageSize,
-  getPageCount
+  getPageCount,
 };

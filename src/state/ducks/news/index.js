@@ -1,8 +1,8 @@
-import reducer from "./reducers";
+import reducer from './reducers';
 
-export { default as newsActions } from "./actions";
-export { default as newsRootSaga } from "./sagas";
-export { default as newsApi } from "./api";
-export { default as newsSelectors } from "./selectors";
+export { default as newsActions } from './actions';
+export { default as newsRootSaga } from './sagas';
+export { default as newsApi } from './api';
+export { default as newsSelectors } from './selectors';
 
 export default reducer;

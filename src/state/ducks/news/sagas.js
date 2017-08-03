@@ -1,8 +1,8 @@
-import { all, call, cancel, fork, spawn, put, take } from "redux-saga/effects";
+import { all, call, cancel, fork, spawn, put, take } from 'redux-saga/effects';
 
-import actions from "./actions";
-import types from "./types";
-import api from "./api";
+import actions from './actions';
+import types from './types';
+import api from './api';
 
 function* loadPage(page = null) {
   try {
@@ -11,8 +11,8 @@ function* loadPage(page = null) {
   } catch (error) {
     yield put(
       actions.getNewsFailed({
-        errorMessage: error.message
-      })
+        errorMessage: error.message,
+      }),
     );
   }
 }
@@ -35,6 +35,6 @@ function* monitorPagination() {
   }
 }
 
-export default function*() {
+export default function* () {
   yield all([spawn(watchGetNews), spawn(monitorPagination)]);
 }

@@ -1,11 +1,11 @@
-import { all, call, spawn, put, take } from "redux-saga/effects";
-import { normalize } from "normalizr";
-import { REHYDRATE } from "redux-persist/constants";
+import { all, call, spawn, put, take } from 'redux-saga/effects';
+import { normalize } from 'normalizr';
+import { REHYDRATE } from 'redux-persist/constants';
 
-import actions from "./actions";
-import api from "./api";
-import types from "./types";
-import schema from "./schema";
+import actions from './actions';
+import api from './api';
+import types from './types';
+import schema from './schema';
 
 function* getEntireList(apiFunc, dataSchema) {
   let page = 1;
@@ -32,6 +32,6 @@ function* populateBestiary() {
   }
 }
 
-export default function*() {
+export default function* () {
   yield all([spawn(populateBestiary)]);
 }

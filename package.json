@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "cross-env": "^5.0.1",
+    "eslint-config-airbnb": "^15.1.0",
     "flow-bin": "^0.47.0",
     "react-scripts": "1.0.7"
   },

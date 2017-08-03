@@ -1,16 +1,16 @@
-import { createStore, applyMiddleware, combineReducers } from "redux";
-import createSagaMiddleware from "redux-saga";
-import { persistStore, autoRehydrate } from "redux-persist";
-import localForage from "localforage";
-import createHistory from "history/createBrowserHistory";
-import { routerReducer, routerMiddleware } from "react-router-redux";
-import { composeWithDevTools } from "redux-devtools-extension/logOnlyInProduction";
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import { persistStore, autoRehydrate } from 'redux-persist';
+import localForage from 'localforage';
+import createHistory from 'history/createBrowserHistory';
+import { routerReducer, routerMiddleware } from 'react-router-redux';
+import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
 
-import { reducer as formReducer } from "redux-form";
+import { reducer as formReducer } from 'redux-form';
 
-import * as reducers from "./ducks";
-import { rootSaga } from "./ducks";
-import { uiActions } from "./ducks/ui";
+import * as reducers from './ducks';
+import { rootSaga } from './ducks';
+import { uiActions } from './ducks/ui';
 
 export const history = createHistory();
 
@@ -19,7 +19,7 @@ export default function configureStore(initialState) {
   const rootReducer = combineReducers({
     ...reducers,
     router: routerReducer,
-    form: formReducer
+    form: formReducer,
   });
 
   const store = createStore(
@@ -27,8 +27,8 @@ export default function configureStore(initialState) {
     initialState,
     composeWithDevTools(
       applyMiddleware(sagaMiddleware, routerMiddleware(history)),
-      autoRehydrate()
-    )
+      autoRehydrate(),
+    ),
   );
 
   sagaMiddleware.run(rootSaga);
@@ -36,11 +36,11 @@ export default function configureStore(initialState) {
     store,
     {
       storage: localForage,
-      whitelist: ["auth" /*, "bestiary"*/]
+      whitelist: ['auth'],
     },
     () => {
       store.dispatch(uiActions.rehydrateComplete());
-    }
+    },
   );
 
   return store;

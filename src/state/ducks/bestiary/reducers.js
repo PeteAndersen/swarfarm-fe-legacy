@@ -1,4 +1,4 @@
-import types from "./types";
+import types from './types';
 
 /* State shape
 {
@@ -32,16 +32,16 @@ const INITIAL_STATE = {
     effects: {},
     homunculusSkills: {},
     craftMaterials: {},
-    sources: {}
+    sources: {},
   },
   ui: {
     isLoading: false,
     currentPage: 1,
-    pageSize: 50
-  }
+    pageSize: 50,
+  },
 };
 
-export default function(state = INITIAL_STATE, { type: actionType, payload }) {
+export default function (state = INITIAL_STATE, { type: actionType, payload }) {
   switch (actionType) {
     case types.RECEIVE_BESTIARY_DATA:
       return {
@@ -51,30 +51,34 @@ export default function(state = INITIAL_STATE, { type: actionType, payload }) {
           skills: Object.assign({}, state.entities.skills, payload.skills),
           leaderSkills: Object.assign({}, state.entities.leaderSkills, payload.leaderSkills),
           effects: Object.assign({}, state.entities.effects, payload.effects),
-          homunculusSkills: Object.assign({}, state.entities.homunculusSkills, payload.homunculusSkills),
+          homunculusSkills: Object.assign(
+            {},
+            state.entities.homunculusSkills,
+            payload.homunculusSkills,
+          ),
           craftMaterials: Object.assign({}, state.entities.craftMaterials, payload.craftMaterials),
-          sources: Object.assign({}, state.entities.sources, payload.sources)
-        }
+          sources: Object.assign({}, state.entities.sources, payload.sources),
+        },
       };
 
     case types.POPULATE_BESTIARY:
       return {
         ...state,
         isPopulating: true,
-        lastPopulated: new Date()
+        lastPopulated: new Date(),
       };
 
     case types.POPULATE_BESTIARY_COMPLETE:
       return {
         ...state,
         wasPopulated: true,
-        isPopulating: false
+        isPopulating: false,
       };
     case types.POPULATE_BESTIARY_CANCELLED:
       return {
         ...state,
         isPopulating: false,
-        lastPopulated: null
+        lastPopulated: null,
       };
     default:
       return state;

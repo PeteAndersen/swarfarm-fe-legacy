@@ -1,4 +1,4 @@
-import { createSelector } from "reselect";
+import { createSelector } from 'reselect';
 
 // UI
 const isLoading = state => state.bestiary.isLoading;
@@ -19,21 +19,19 @@ const getMonsterList = createSelector(
   getSkills,
   getLeaderSkills,
   getSources,
-  (monsters, skills, leaderSkills, sources) => {
-    const monsterArray = Object.values(monsters)
+  (monsters, skills, leaderSkills, sources) =>
+    Object.values(monsters)
       .filter(mon => mon.obtainable)
       .sort((a, b) => (a.name > b.name ? 1 : -1))
-      .map(monster => {
-        return {
-          ...monster,
-          skills: monster.skills ? monster.skills.map(skillId => skills[skillId]) : null,
-          leaderSkill: monster.leaderSkill ? leaderSkills[monster.leaderSkill] : null,
-          source: monster.source ? monster.source.map(sourceId => sources[sourceId]) : null
-        };
-      });
-    return monsterArray;
-  }
+      .map(monster => ({
+        ...monster,
+        skills: monster.skills ? monster.skills.map(skillId => skills[skillId]) : null,
+        leaderSkill: monster.leaderSkill ? leaderSkills[monster.leaderSkill] : null,
+        source: monster.source ? monster.source.map(sourceId => sources[sourceId]) : null,
+      })),
 );
+
+const getObtainableMonsterList = createSelector(getMonsterList, (monsters) => {});
 
 export default {
   isLoading,
@@ -43,5 +41,5 @@ export default {
   getCurrentPage,
   getPageSize,
   getMonsters,
-  getMonsterList
+  getMonsterList,
 };

@@ -1,11 +1,11 @@
-import React from "react";
-import { connect } from "react-redux";
-import styled from "styled-components";
+import React from 'react';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
 
-import MainMenu from "ui/components/MainMenu";
-import Footer from "ui/components/Footer";
-import GlobalLoader from "ui/components/GlobalLoader";
-import Routes from "ui/layout/Routes";
+import MainMenu from 'ui/components/MainMenu';
+import Footer from 'ui/components/Footer';
+import GlobalLoader from 'ui/components/GlobalLoader';
+import Routes from 'ui/layout/Routes';
 
 const Body = styled.div`
   display: flex;
@@ -16,19 +16,17 @@ const Body = styled.div`
 const Content = styled.div`flex: 1;`;
 
 const App = props =>
-  <Body>
+  (<Body>
     <MainMenu />
     <Content>
       {props.isRehydrated ? <Routes /> : <GlobalLoader />}
     </Content>
     <Footer />
-  </Body>;
+  </Body>);
 
-const mapStateToProps = state => {
-  return {
-    ...state.ui,
-    location: state.router.location // required for redux-router Routes to update inside a connect()ed component
-  };
-};
+const mapStateToProps = state => ({
+  ...state.ui,
+  location: state.router.location, // required for redux-router Routes to update inside a connect()ed component
+});
 
 export default connect(mapStateToProps)(App);

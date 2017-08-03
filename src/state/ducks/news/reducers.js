@@ -1,4 +1,4 @@
-import types from "./types";
+import types from './types';
 
 /* State shape
 {
@@ -25,16 +25,16 @@ const INITIAL_STATE = {
   page: 1,
   pageSize: 0,
   articles: {},
-  articleCount: 0
+  articleCount: 0,
 };
 
-export default function(state = INITIAL_STATE, { type: actionType, payload }) {
+export default function (state = INITIAL_STATE, { type: actionType, payload }) {
   switch (actionType) {
     case types.GET_NEWS:
       return {
         ...state,
         isLoading: true,
-        error: null
+        error: null,
       };
     case types.GET_NEWS_COMPLETED:
       return {
@@ -48,20 +48,18 @@ export default function(state = INITIAL_STATE, { type: actionType, payload }) {
         articleCount: payload.count,
         // Set pageSize to match how many items server returns
         pageSize:
-          payload.articles.length > state.pageSize
-            ? payload.articles.length
-            : state.pageSize
+          payload.articles.length > state.pageSize ? payload.articles.length : state.pageSize,
       };
     case types.GET_NEWS_FAILED:
       return {
         ...state,
         isLoading: false,
-        error: payload.errorMessage
+        error: payload.errorMessage,
       };
     case types.CHANGE_PAGE:
       return {
         ...state,
-        page: payload.page
+        page: payload.page,
       };
     default:
       return state;

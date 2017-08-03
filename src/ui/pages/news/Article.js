@@ -1,8 +1,8 @@
-import React from "react";
-import { Item, Icon } from "semantic-ui-react";
+import React from 'react';
+import { Item, Icon } from 'semantic-ui-react';
 
 const Article = ({ article: { id, title, sticky, created, body } }) =>
-  <Item>
+  (<Item>
     <Item.Content>
       <Item.Header>
         {sticky ? <Icon name="pin" /> : null}
@@ -18,6 +18,6 @@ const Article = ({ article: { id, title, sticky, created, body } }) =>
         {body}
       </Item.Description>
     </Item.Content>
-  </Item>;
+  </Item>);
 
 export default Article;

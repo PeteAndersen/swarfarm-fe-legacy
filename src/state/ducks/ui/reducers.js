@@ -1,4 +1,4 @@
-import types from "./types";
+import types from './types';
 
 /* State shape
 {
@@ -7,15 +7,15 @@ import types from "./types";
 */
 
 const INITIAL_STATE = {
-  isRehydrated: false
+  isRehydrated: false,
 };
 
-export default function(state = INITIAL_STATE, { type: actionType, payload }) {
+export default function (state = INITIAL_STATE, { type: actionType, payload }) {
   switch (actionType) {
     case types.REHYDRATE_COMPLETE:
       return {
         ...state,
-        isRehydrated: true
+        isRehydrated: true,
       };
     default:
       return state;

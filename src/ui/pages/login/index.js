@@ -1,9 +1,9 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Grid } from "semantic-ui-react";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Grid } from 'semantic-ui-react';
 
-import { authActions } from "state/ducks/auth/";
-import LoginForm from "./LoginForm";
+import { authActions } from 'state/ducks/auth/';
+import LoginForm from './LoginForm';
 
 class Login extends React.Component {
   render() {
@@ -17,14 +17,10 @@ class Login extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    attemptLogin: values => {
-      return new Promise((resolve, reject) => {
-        dispatch(authActions.login(values.username, values.password));
-      });
-    }
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  attemptLogin: values => new Promise((resolve, reject) => {
+    dispatch(authActions.login(values.username, values.password));
+  }),
+});
 
 export default connect(null, mapDispatchToProps)(Login);

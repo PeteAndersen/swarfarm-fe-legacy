@@ -1,53 +1,37 @@
-import {
-  all,
-  call,
-  cancel,
-  cancelled,
-  fork,
-  spawn,
-  put,
-  select,
-  take
-} from "redux-saga/effects";
-import { REHYDRATE } from "redux-persist/constants";
+import { all, call, cancel, cancelled, fork, spawn, put, select, take } from 'redux-saga/effects';
+import { REHYDRATE } from 'redux-persist/constants';
 
-import actions from "./actions";
-import types from "./types";
-import api from "./api";
-import { history } from "state/store";
-import { setAuthToken, clearAuthToken } from "services/api";
+import actions from './actions';
+import types from './types';
+import api from './api';
+import { history } from 'state/store';
+import { setAuthToken, clearAuthToken } from 'services/api';
 
 function* login(username, password) {
   try {
-    const { token, refresh_token, user } = yield call(
-      api.getToken,
-      username,
-      password
-    );
+    const { token, refresh_token, user } = yield call(api.getToken, username, password);
     yield put(actions.loginSuccess(token, refresh_token, user));
     yield call(setAuthToken, token);
-    history.push("/");
+    history.push('/');
   } catch (error) {
-    if (typeof error === "string") {
+    if (typeof error === 'string') {
       yield put(
         actions.loginFailed({
           _error: {
-            non_field_errors: error
-          }
-        })
+            non_field_errors: error,
+          },
+        }),
       );
     } else {
       const { username, password, non_field_errors } = error;
       yield put(
         actions.loginFailed({
           _error: {
-            username: username ? username.join(". ") : null,
-            password: password ? password.join(". ") : null,
-            non_field_errors: non_field_errors
-              ? non_field_errors.join(". ")
-              : null
-          }
-        })
+            username: username ? username.join('. ') : null,
+            password: password ? password.join('. ') : null,
+            non_field_errors: non_field_errors ? non_field_errors.join('. ') : null,
+          },
+        }),
       );
     }
   } finally {
@@ -75,10 +59,7 @@ function* loginFlow() {
   while (true) {
     // Wait for login action, then wait for either logout or login_failed.
     let task;
-    const { type, payload } = yield take([
-      types.LOGIN,
-      types.REFRESH_JWT_COMPLETED
-    ]);
+    const { type, payload } = yield take([types.LOGIN, types.REFRESH_JWT_COMPLETED]);
     if (type === types.LOGIN) {
       task = yield fork(login, payload.username, payload.password);
     }
@@ -110,10 +91,6 @@ function* refreshAuthOnStartFlow() {
   }
 }
 
-export default function*() {
-  yield all([
-    spawn(loginFlow),
-    spawn(refreshTokenFlow),
-    spawn(refreshAuthOnStartFlow)
-  ]);
+export default function* () {
+  yield all([spawn(loginFlow), spawn(refreshTokenFlow), spawn(refreshAuthOnStartFlow)]);
 }

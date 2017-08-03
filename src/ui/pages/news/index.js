@@ -1,17 +1,10 @@
-import React from "react";
-import { connect } from "react-redux";
-import { newsActions, newsSelectors } from "state/ducks/news";
+import React from 'react';
+import { connect } from 'react-redux';
+import { newsActions, newsSelectors } from 'state/ducks/news';
 
-import {
-  Container,
-  Item,
-  Dimmer,
-  Loader,
-  Button,
-  Icon
-} from "semantic-ui-react";
+import { Container, Item, Dimmer, Loader, Button, Icon } from 'semantic-ui-react';
 
-import Article from "./Article";
+import Article from './Article';
 
 class News extends React.Component {
   componentWillMount() {
@@ -31,7 +24,7 @@ class News extends React.Component {
   render() {
     const { currentPage, numPages, isLoading } = this.props;
     const articles = this.props.articles.map((article, index) =>
-      <Article key={index} article={article} />
+      <Article key={index} article={article} />,
     );
 
     return (
@@ -62,14 +55,14 @@ const mapStateToProps = state => {
     isLoading: newsSelectors.isLoading(state),
     articles: newsSelectors.getArticlePage(state),
     currentPage: newsSelectors.getPage(state),
-    numPages: newsSelectors.getPageCount(state)
+    numPages: newsSelectors.getPageCount(state),
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     getNews: () => dispatch(newsActions.getNews()),
-    changePage: newPage => dispatch(newsActions.changePage(newPage))
+    changePage: newPage => dispatch(newsActions.changePage(newPage)),
   };
 };
 
