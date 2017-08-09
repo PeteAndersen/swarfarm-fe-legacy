@@ -1,19 +1,20 @@
 import React from 'react';
-import MonsterCard from './MonsterCard';
+import { Table } from 'semantic-ui-react';
 
-const MonsterList = ({ monsters }) => {
-  console.log(monsters);
-  const monsterList = monsters.map((monster, idx) =>
-    (<li key={idx}>
-      <MonsterCard monster={monster} />
-    </li>),
-  );
+import MonsterRow from './MonsterRow';
 
-  return (
-    <ul>
-      {monsterList}
-    </ul>
-  );
-};
+const MonsterList = ({ monsters }) =>
+  (<Table>
+    <Table.Header>
+      <Table.Row>
+        <Table.HeaderCell>Monster</Table.HeaderCell>
+        <Table.HeaderCell>Base Stars</Table.HeaderCell>
+        <Table.HeaderCell>Element</Table.HeaderCell>
+      </Table.Row>
+    </Table.Header>
+    <Table.Body>
+      {monsters.map(monster => <MonsterRow monster={monster} />)}
+    </Table.Body>
+  </Table>);
 
 export default MonsterList;
