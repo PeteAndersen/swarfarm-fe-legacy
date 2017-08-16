@@ -45,11 +45,11 @@ const mapStateToProps = state => ({
   lastPopulated: bestiarySelectors.lastPopulated(state),
   currentPage: bestiarySelectors.getCurrentPage(state),
   pageSize: bestiarySelectors.getPageSize(state),
-  monsterList: bestiarySelectors.getMonsterList(state),
+  monsterList: bestiarySelectors.getMonsterList(state)
 });
 
 const mapDispatchToProps = dispatch => ({
-  populateBestiary: () => dispatch(bestiaryActions.populateBestiary()),
+  populateBestiary: () => dispatch(bestiaryActions.populateBestiary())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Bestiary);

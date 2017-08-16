@@ -2,8 +2,8 @@ import React from 'react';
 import { Dimmer, Loader } from 'semantic-ui-react';
 
 const GlobalLoader = () =>
-  (<Dimmer active inverted>
+  <Dimmer active inverted>
     <Loader indeterminate>Loading SWARFARM...</Loader>
-  </Dimmer>);
+  </Dimmer>;
 
 export default GlobalLoader;

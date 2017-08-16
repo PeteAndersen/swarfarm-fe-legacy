@@ -1,3 +1,7 @@
 {
-  "extends": "airbnb"
+  "extends": "react-app",
+  "rules": {
+    "quotes": ["error", "single"],
+    "max-len": ["error", 100]
+  }
 }

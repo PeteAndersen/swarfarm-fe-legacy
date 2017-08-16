@@ -4,7 +4,7 @@ import { Table } from 'semantic-ui-react';
 import MonsterRow from './MonsterRow';
 
 const MonsterList = ({ monsters }) =>
-  (<Table>
+  <Table>
     <Table.Header>
       <Table.Row>
         <Table.HeaderCell>Monster</Table.HeaderCell>
@@ -13,8 +13,8 @@ const MonsterList = ({ monsters }) =>
       </Table.Row>
     </Table.Header>
     <Table.Body>
-      {monsters.map(monster => <MonsterRow monster={monster} />)}
+      {monsters.map(monster => <MonsterRow key={monster.pk} monster={monster} />)}
     </Table.Body>
-  </Table>);
+  </Table>;
 
 export default MonsterList;
