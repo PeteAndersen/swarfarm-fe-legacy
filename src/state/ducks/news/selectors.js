@@ -24,15 +24,17 @@ const getArticlePage = createSelector(
         return 1;
       })
       .slice((page - 1) * pageSize, page * pageSize);
-  },
+  }
 );
 
-const getPageCount = createSelector([getArticleCount, getPageSize], (numArticles, pageSize) => Math.ceil(numArticles / pageSize));
+const getPageCount = createSelector([getArticleCount, getPageSize], (numArticles, pageSize) =>
+  Math.ceil(numArticles / pageSize)
+);
 
 export default {
   isLoading,
   getArticlePage,
   getPage,
   getPageSize,
-  getPageCount,
+  getPageCount
 };

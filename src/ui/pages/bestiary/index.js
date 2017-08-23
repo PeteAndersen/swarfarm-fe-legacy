@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Grid, Dimmer, Loader } from 'semantic-ui-react';
+import { Grid, Loader } from 'semantic-ui-react';
 
 import { bestiaryActions, bestiarySelectors } from 'state/ducks/bestiary';
 import FilterForm from './FilterForm';
 import MonsterList from './MonsterList';
+import Pager from './Pager';
 
 class Bestiary extends React.Component {
   componentWillMount() {
@@ -17,13 +18,24 @@ class Bestiary extends React.Component {
   }
 
   render() {
-    const { isPopulating, wasPopulated, isLoading, monsterList } = this.props;
+    const {
+      isPopulating,
+      wasPopulated,
+      isLoading,
+      currentPage,
+      numPages,
+      monsterList
+    } = this.props;
     const bestiaryList = (
       <Grid>
         <Grid.Column width={4}>
           <FilterForm />
         </Grid.Column>
         <Grid.Column width={12} stretched>
+          <Pager currentPage={currentPage} numPages={numPages} />
+          <div>
+            Pages: {numPages}
+          </div>
           <MonsterList monsters={monsterList} />
         </Grid.Column>
       </Grid>
@@ -45,7 +57,8 @@ const mapStateToProps = state => ({
   lastPopulated: bestiarySelectors.lastPopulated(state),
   currentPage: bestiarySelectors.getCurrentPage(state),
   pageSize: bestiarySelectors.getPageSize(state),
-  monsterList: bestiarySelectors.getMonsterList(state)
+  numPages: bestiarySelectors.getPageCount(state),
+  monsterList: bestiarySelectors.getVisibleMonsterList(state)
 });
 
 const mapDispatchToProps = dispatch => ({

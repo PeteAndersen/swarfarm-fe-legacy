@@ -13,7 +13,7 @@ const MonsterList = ({ monsters }) =>
       </Table.Row>
     </Table.Header>
     <Table.Body>
-      {monsters.map(monster => <MonsterRow key={monster.pk} monster={monster} />)}
+      {monsters.map(monster => <MonsterRow key={monster.id} monster={monster} />)}
     </Table.Body>
   </Table>;
 
