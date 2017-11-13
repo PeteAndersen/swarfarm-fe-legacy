@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { persistStore, autoRehydrate } from 'redux-persist';
 import localForage from 'localforage';
@@ -19,16 +19,15 @@ export default function configureStore(initialState) {
   const rootReducer = combineReducers({
     ...reducers,
     router: routerReducer,
-    form: formReducer,
+    form: formReducer
   });
+
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
   const store = createStore(
     rootReducer,
     initialState,
-    composeWithDevTools(
-      applyMiddleware(sagaMiddleware, routerMiddleware(history)),
-      autoRehydrate(),
-    ),
+    composeEnhancers(applyMiddleware(sagaMiddleware, routerMiddleware(history)), autoRehydrate())
   );
 
   sagaMiddleware.run(rootSaga);
@@ -36,11 +35,11 @@ export default function configureStore(initialState) {
     store,
     {
       storage: localForage,
-      whitelist: ['auth', 'bestiary'],
+      whitelist: ['auth', 'bestiary']
     },
     () => {
       store.dispatch(uiActions.rehydrateComplete());
-    },
+    }
   );
 
   return store;
