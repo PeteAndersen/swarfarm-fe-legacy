@@ -3,7 +3,7 @@ import { all, call, cancel, cancelled, fork, spawn, put, select, take } from 're
 import actions from './actions';
 import types from './types';
 import api from './api';
-//import { history } from 'state/store';
+import history from 'state/history';
 import { setAuthToken, clearAuthToken } from 'services/api';
 
 function* login(username, password) {
@@ -11,7 +11,7 @@ function* login(username, password) {
     const { token, refresh_token, user } = yield call(api.getToken, username, password);
     yield put(actions.loginSuccess(token, refresh_token, user));
     yield call(setAuthToken, token);
-    //history.push('/');
+    yield call(history.push, '/');
   } catch (error) {
     if (typeof error === 'string') {
       yield put(

@@ -6,17 +6,18 @@ import 'semantic-ui-css/semantic.min.css';
 
 import App from 'ui/layout/app';
 import configureStore from 'state/store';
-import { history } from 'state/store';
+import history from 'state/history';
 import registerServiceWorker from './registerServiceWorker';
 
 const reduxStore = configureStore(window.REDUX_INITIAL_DATA);
 
-const RootHtml = () =>
-  (<Provider store={reduxStore}>
+const RootHtml = () => (
+  <Provider store={reduxStore}>
     <ConnectedRouter history={history}>
       <App />
     </ConnectedRouter>
-  </Provider>);
+  </Provider>
+);
 
 render(<RootHtml />, document.getElementById('root'));
 registerServiceWorker();
