@@ -17,6 +17,10 @@ class Bestiary extends React.Component {
     }
   }
 
+  switchPage(e, element) {
+    this.props.changePage(element.children);
+  }
+
   render() {
     const {
       isPopulating,
@@ -32,7 +36,7 @@ class Bestiary extends React.Component {
           <FilterForm />
         </Grid.Column>
         <Grid.Column width={12} stretched>
-          <Pager currentPage={currentPage} numPages={numPages} />
+          <Pager currentPage={currentPage} numPages={numPages} handlerSwitchPage={this.switchPage.bind(this)} />
           <div>
             Pages: {numPages}
           </div>
@@ -62,7 +66,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  populateBestiary: () => dispatch(bestiaryActions.populateBestiary())
+  populateBestiary: () => dispatch(bestiaryActions.populateBestiary()),
+  changePage: page => dispatch(bestiaryActions.changePage(page))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Bestiary);
