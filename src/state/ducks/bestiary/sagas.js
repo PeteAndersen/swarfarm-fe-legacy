@@ -1,6 +1,5 @@
 import { all, call, spawn, put, take } from 'redux-saga/effects';
 import { normalize } from 'normalizr';
-import { REHYDRATE } from 'redux-persist/constants';
 
 import actions from './actions';
 import api from './api';
@@ -32,6 +31,6 @@ function* populateBestiary() {
   }
 }
 
-export default function* () {
+export default function*() {
   yield all([spawn(populateBestiary)]);
 }

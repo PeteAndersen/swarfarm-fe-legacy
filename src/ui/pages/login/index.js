@@ -18,9 +18,10 @@ class Login extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  attemptLogin: values => new Promise((resolve, reject) => {
-    dispatch(authActions.login(values.username, values.password));
-  }),
+  attemptLogin: values =>
+    new Promise((resolve, reject) => {
+      dispatch(authActions.login(values.username, values.password));
+    })
 });
 
 export default connect(null, mapDispatchToProps)(Login);

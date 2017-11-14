@@ -1,5 +1,0 @@
-const REHYDRATE_COMPLETE = 'ui/REHYDRATE_COMPLETE';
-
-export default {
-  REHYDRATE_COMPLETE,
-};

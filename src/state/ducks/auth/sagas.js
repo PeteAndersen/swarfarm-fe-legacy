@@ -1,5 +1,4 @@
 import { all, call, cancel, cancelled, fork, spawn, put, select, take } from 'redux-saga/effects';
-import { REHYDRATE } from 'redux-persist/constants';
 
 import actions from './actions';
 import types from './types';
@@ -18,9 +17,9 @@ function* login(username, password) {
       yield put(
         actions.loginFailed({
           _error: {
-            non_field_errors: error,
-          },
-        }),
+            non_field_errors: error
+          }
+        })
       );
     } else {
       const { username, password, non_field_errors } = error;
@@ -29,9 +28,9 @@ function* login(username, password) {
           _error: {
             username: username ? username.join('. ') : null,
             password: password ? password.join('. ') : null,
-            non_field_errors: non_field_errors ? non_field_errors.join('. ') : null,
-          },
-        }),
+            non_field_errors: non_field_errors ? non_field_errors.join('. ') : null
+          }
+        })
       );
     }
   } finally {
@@ -82,15 +81,6 @@ function* refreshTokenFlow() {
   }
 }
 
-function* refreshAuthOnStartFlow() {
-  // Run-once on redux store rehydration to check if refresh token is available.
-  yield take(REHYDRATE);
-  const token = yield select(state => state.auth.refresh_token);
-  if (token) {
-    yield put(actions.refreshToken(token));
-  }
-}
-
-export default function* () {
-  yield all([spawn(loginFlow), spawn(refreshTokenFlow), spawn(refreshAuthOnStartFlow)]);
+export default function*() {
+  yield all([spawn(loginFlow), spawn(refreshTokenFlow)]);
 }

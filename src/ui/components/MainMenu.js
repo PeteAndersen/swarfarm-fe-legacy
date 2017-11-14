@@ -18,29 +18,31 @@ class MainMenu extends React.Component {
         <Menu.Item as={Link} to="/bestiary">
           Bestiary
         </Menu.Item>
-        {this.props.auth.isAuthenticated
-          ? <Menu.Menu position="right">
-              <Dropdown item floating text={this.props.auth.user.username}>
-                <Dropdown.Menu>
-                  <Dropdown.Item as={Link} to="/profile/edit">
-                    <Icon name="user" />Edit Profile
-                  </Dropdown.Item>
-                  <Dropdown.Item as={Link} to="/profile/edit">
-                    <Icon name="users" />Friends
-                  </Dropdown.Item>
-                  <Divider />
-                  <Dropdown.Item onClick={this.props.logout}>Log Out</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </Menu.Menu>
-          : <Menu.Menu position="right">
-              <Menu.Item as={Link} to="/login">
-                Log In
-              </Menu.Item>
-              <Menu.Item as={Link} to="/register">
-                Register
-              </Menu.Item>
-            </Menu.Menu>}
+        {this.props.auth.isAuthenticated ? (
+          <Menu.Menu position="right">
+            <Dropdown item floating text={this.props.auth.user.username}>
+              <Dropdown.Menu>
+                <Dropdown.Item as={Link} to="/profile/edit">
+                  <Icon name="user" />Edit Profile
+                </Dropdown.Item>
+                <Dropdown.Item as={Link} to="/profile/edit">
+                  <Icon name="users" />Friends
+                </Dropdown.Item>
+                <Divider />
+                <Dropdown.Item onClick={this.props.logout}>Log Out</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </Menu.Menu>
+        ) : (
+          <Menu.Menu position="right">
+            <Menu.Item as={Link} to="/login">
+              Log In
+            </Menu.Item>
+            <Menu.Item as={Link} to="/register">
+              Register
+            </Menu.Item>
+          </Menu.Menu>
+        )}
       </Menu>
     );
   }
