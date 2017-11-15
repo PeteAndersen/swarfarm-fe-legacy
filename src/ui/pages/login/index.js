@@ -10,7 +10,7 @@ class Login extends React.Component {
     return (
       <Grid centered>
         <Grid.Column mobile={15} tablet={8} computer={4}>
-          <LoginForm />
+          <LoginForm handleSubmit={this.props.attemptLogin} />
         </Grid.Column>
       </Grid>
     );

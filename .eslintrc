@@ -2,6 +2,6 @@
   "extends": "react-app",
   "rules": {
     "quotes": ["error", "single"],
-    "max-len": ["error", 100]
+    "max-len": ["warn", 100]
   }
 }
