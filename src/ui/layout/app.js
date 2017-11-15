@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 import MainMenu from 'ui/components/MainMenu';
 import Footer from 'ui/components/Footer';
-import GlobalLoader from 'ui/components/GlobalLoader';
 import Routes from 'ui/layout/Routes';
 
 const Body = styled.div`
@@ -15,18 +14,19 @@ const Body = styled.div`
 
 const Content = styled.div`flex: 1;`;
 
-const App = props =>
-  (<Body>
+const App = props => (
+  <Body>
     <MainMenu />
     <Content>
-      {props.isRehydrated ? <Routes /> : <GlobalLoader />}
+      <Routes />
     </Content>
     <Footer />
-  </Body>);
+  </Body>
+);
 
 const mapStateToProps = state => ({
   ...state.ui,
-  location: state.router.location, // required for redux-router Routes to update inside a connect()ed component
+  location: state.router.location // required for redux-router Routes to update inside a connect()ed component
 });
 
 export default connect(mapStateToProps)(App);

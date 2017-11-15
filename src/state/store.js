@@ -7,13 +7,19 @@ import history from './history';
 import * as reducers from './ducks';
 import rootSaga from './ducks/sagas';
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const persistConfig = { key: 'root', storage: localForage };
-const sagaMiddleware = createSagaMiddleware();
-const rootReducer = combineReducers({
+const persistConfig = {
+  key: 'root',
+  storage: localForage,
+  whitelist: ['auth', 'bestiary']
+};
+
+const rootReducer = persistCombineReducers(persistConfig, {
   ...reducers,
   router: routerReducer
 });
+
+const sagaMiddleware = createSagaMiddleware();
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export default function configureStore(initialState) {
   const store = createStore(
@@ -22,8 +28,8 @@ export default function configureStore(initialState) {
     composeEnhancers(applyMiddleware(sagaMiddleware, routerMiddleware(history)))
   );
 
-  persistStore(store);
+  const persistor = persistStore(store);
   sagaMiddleware.run(rootSaga);
 
-  return store;
+  return { store, persistor };
 }
