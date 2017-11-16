@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.17.1",
+    "classnames": "^2.2.5",
     "formik": "^0.10.4",
     "history": "^4.7.2",
     "jwt-client": "^0.2.1",
