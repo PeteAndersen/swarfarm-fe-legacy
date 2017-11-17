@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import MainMenu from 'ui/components/MainMenu';
@@ -24,9 +23,4 @@ const App = props => (
   </Body>
 );
 
-const mapStateToProps = state => ({
-  ...state.ui,
-  location: state.router.location // required for redux-router Routes to update inside a connect()ed component
-});
-
-export default connect(mapStateToProps)(App);
+export default App;
