@@ -12,10 +12,10 @@ class MainMenu extends React.Component {
         <Menu.Item as={Link} to="/" header>
           SWARFARM
         </Menu.Item>
-        <Menu.Item as={Link} to="/news">
+        <Menu.Item as={Link} to="/news" active={this.props.path.startsWith('/news')}>
           News
         </Menu.Item>
-        <Menu.Item as={Link} to="/bestiary">
+        <Menu.Item as={Link} to="/bestiary" active={this.props.path.startsWith('/bestiary')}>
           Bestiary
         </Menu.Item>
         {this.props.auth.isAuthenticated ? (
@@ -25,7 +25,7 @@ class MainMenu extends React.Component {
                 <Dropdown.Item as={Link} to="/profile/edit">
                   <Icon name="user" />Edit Profile
                 </Dropdown.Item>
-                <Dropdown.Item as={Link} to="/profile/edit">
+                <Dropdown.Item as={Link} to="/profile/friends">
                   <Icon name="users" />Friends
                 </Dropdown.Item>
                 <Divider />
@@ -35,10 +35,10 @@ class MainMenu extends React.Component {
           </Menu.Menu>
         ) : (
           <Menu.Menu position="right">
-            <Menu.Item as={Link} to="/login">
+            <Menu.Item as={Link} to="/login" active={this.props.path.startsWith('/login')}>
               Log In
             </Menu.Item>
-            <Menu.Item as={Link} to="/register">
+            <Menu.Item as={Link} to="/register" active={this.props.path.startsWith('/register')}>
               Register
             </Menu.Item>
           </Menu.Menu>
@@ -49,7 +49,8 @@ class MainMenu extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  path: state.router.location.pathname
 });
 
 const mapDispatchToProps = dispatch => ({
