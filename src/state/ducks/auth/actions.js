@@ -4,8 +4,8 @@ const login = (username, password) => ({
   type: types.LOGIN,
   payload: {
     username,
-    password,
-  },
+    password
+  }
 });
 
 const loginSuccess = (token, refresh_token, user) => ({
@@ -13,34 +13,30 @@ const loginSuccess = (token, refresh_token, user) => ({
   payload: {
     token,
     refresh_token,
-    user,
-  },
+    user
+  }
 });
 const loginFailed = errors => ({
   type: types.LOGIN_FAILED,
   payload: {
-    ...errors,
-  },
+    ...errors
+  }
 });
 
 const logout = () => ({
-  type: types.LOGOUT,
-});
-
-const logoutCompleted = () => ({
-  type: types.LOGOUT_COMPLETED,
+  type: types.LOGOUT
 });
 
 const refreshToken = token => ({
   type: types.REFRESH_JWT,
   payload: {
-    token,
-  },
+    token
+  }
 });
 
 const refreshTokenFailed = error => ({
   type: types.REFRESH_JWT_FAILED,
-  payload: error,
+  payload: error
 });
 
 const refreshTokenCompleted = (token, refresh_token, user) => ({
@@ -48,8 +44,8 @@ const refreshTokenCompleted = (token, refresh_token, user) => ({
   payload: {
     token,
     refresh_token,
-    user,
-  },
+    user
+  }
 });
 
 export default {
@@ -57,8 +53,7 @@ export default {
   loginFailed,
   loginSuccess,
   logout,
-  logoutCompleted,
   refreshToken,
   refreshTokenFailed,
-  refreshTokenCompleted,
+  refreshTokenCompleted
 };

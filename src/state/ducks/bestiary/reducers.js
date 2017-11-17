@@ -1,3 +1,5 @@
+import { persistReducer } from 'redux-persist';
+import localForage from 'localforage';
 import types from './types';
 
 /* State shape
@@ -39,47 +41,65 @@ const INITIAL_STATE = {
   pageSize: 50
 };
 
-export default function(state = INITIAL_STATE, { type: actionType, payload }) {
-  switch (actionType) {
-    case types.RECEIVE_BESTIARY_DATA:
-      return {
-        ...state,
-        entities: {
-          monsters: Object.assign({}, state.entities.monsters, payload.monsters),
-          skills: Object.assign({}, state.entities.skills, payload.skills),
-          leaderSkills: Object.assign({}, state.entities.leaderSkills, payload.leaderSkills),
-          effects: Object.assign({}, state.entities.effects, payload.effects),
-          homunculusSkills: Object.assign({}, state.entities.homunculusSkills, payload.homunculusSkills),
-          craftMaterials: Object.assign({}, state.entities.craftMaterials, payload.craftMaterials),
-          sources: Object.assign({}, state.entities.sources, payload.sources)
-        }
-      };
+const persistConfig = {
+  key: 'bestiary',
+  storage: localForage
+};
 
-    case types.POPULATE_BESTIARY:
-      return {
-        ...state,
-        isPopulating: true,
-        lastPopulated: new Date()
-      };
+const reducer = persistReducer(
+  persistConfig,
+  (state = INITIAL_STATE, { type: actionType, payload }) => {
+    switch (actionType) {
+      case types.RECEIVE_BESTIARY_DATA:
+        return {
+          ...state,
+          entities: {
+            monsters: Object.assign({}, state.entities.monsters, payload.monsters),
+            skills: Object.assign({}, state.entities.skills, payload.skills),
+            leaderSkills: Object.assign({}, state.entities.leaderSkills, payload.leaderSkills),
+            effects: Object.assign({}, state.entities.effects, payload.effects),
+            homunculusSkills: Object.assign(
+              {},
+              state.entities.homunculusSkills,
+              payload.homunculusSkills
+            ),
+            craftMaterials: Object.assign(
+              {},
+              state.entities.craftMaterials,
+              payload.craftMaterials
+            ),
+            sources: Object.assign({}, state.entities.sources, payload.sources)
+          }
+        };
 
-    case types.POPULATE_BESTIARY_COMPLETE:
-      return {
-        ...state,
-        wasPopulated: true,
-        isPopulating: false
-      };
-    case types.POPULATE_BESTIARY_CANCELLED:
-      return {
-        ...state,
-        isPopulating: false,
-        lastPopulated: null
-      };
-    case types.CHANGE_PAGE:
-      return {
-        ...state,
-        currentPage: payload
-      };
-    default:
-      return state;
+      case types.POPULATE_BESTIARY:
+        return {
+          ...state,
+          isPopulating: true,
+          lastPopulated: new Date()
+        };
+
+      case types.POPULATE_BESTIARY_COMPLETE:
+        return {
+          ...state,
+          wasPopulated: true,
+          isPopulating: false
+        };
+      case types.POPULATE_BESTIARY_CANCELLED:
+        return {
+          ...state,
+          isPopulating: false,
+          lastPopulated: null
+        };
+      case types.CHANGE_PAGE:
+        return {
+          ...state,
+          currentPage: payload
+        };
+      default:
+        return state;
+    }
   }
-}
+);
+
+export default reducer;

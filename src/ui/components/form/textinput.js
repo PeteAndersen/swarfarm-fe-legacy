@@ -6,7 +6,6 @@ const Label = ({ children, ...props }) => {
 };
 
 const TextInput = ({ type, id, label, error, value, onChange, className, ...props }) => {
-  console.log({ type, id, label, error, value, onChange, className, ...props });
   const classes = classnames(className, 'field', { error: error });
 
   return (

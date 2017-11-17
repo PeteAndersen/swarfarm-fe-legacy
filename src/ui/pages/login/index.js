@@ -10,18 +10,26 @@ class Login extends React.Component {
     return (
       <Grid centered>
         <Grid.Column mobile={15} tablet={8} computer={4}>
-          <LoginForm handleSubmit={this.props.attemptLogin} />
+          <LoginForm
+            handleSubmit={this.props.attemptLogin}
+            isLoading={this.props.isLoading}
+            submitErrors={this.props.errors}
+          />
         </Grid.Column>
       </Grid>
     );
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  attemptLogin: values =>
-    new Promise((resolve, reject) => {
-      dispatch(authActions.login(values.username, values.password));
-    })
+const mapStateToProps = state => ({
+  isLoading: state.auth.isLoading,
+  errors: state.auth.error
 });
 
-export default connect(null, mapDispatchToProps)(Login);
+const mapDispatchToProps = dispatch => ({
+  attemptLogin: values => {
+    dispatch(authActions.login(values.username, values.password));
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

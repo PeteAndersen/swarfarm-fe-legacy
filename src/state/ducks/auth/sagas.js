@@ -1,4 +1,4 @@
-import { all, call, cancel, cancelled, fork, spawn, put, select, take } from 'redux-saga/effects';
+import { all, call, cancel, cancelled, fork, spawn, put, take } from 'redux-saga/effects';
 
 import actions from './actions';
 import types from './types';
@@ -16,20 +16,26 @@ function* login(username, password) {
     if (typeof error === 'string') {
       yield put(
         actions.loginFailed({
-          _error: {
+          error: {
             non_field_errors: error
           }
         })
       );
     } else {
       const { username, password, non_field_errors } = error;
+      const errors = {};
+      if (username) {
+        errors.username = username.join('. ');
+      }
+      if (password) {
+        errors.password = password.join('. ');
+      }
+      if (non_field_errors) {
+        errors.non_field_errors = non_field_errors.join('. ');
+      }
       yield put(
         actions.loginFailed({
-          _error: {
-            username: username ? username.join('. ') : null,
-            password: password ? password.join('. ') : null,
-            non_field_errors: non_field_errors ? non_field_errors.join('. ') : null
-          }
+          error: errors
         })
       );
     }
@@ -69,7 +75,6 @@ function* loginFlow() {
       task = null;
     }
     yield call(clearAuthToken);
-    yield put(actions.logoutCompleted());
   }
 }
 

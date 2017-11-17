@@ -32,7 +32,7 @@ class Bestiary extends React.Component {
           <Pager
             currentPage={currentPage}
             numPages={numPages}
-            handlerSwitchPage={this.switchPage.bind(this)}
+            handleSwitchPage={this.switchPage.bind(this)}
           />
           <div>Pages: {numPages}</div>
           <MonsterList monsters={monsterList} />
