@@ -39,6 +39,25 @@ const reducer = persistReducer(
   persistConfig,
   (state = INITIAL_STATE, { type: actionType, payload }) => {
     switch (actionType) {
+      case types.REGISTER:
+        return {
+          ...state,
+          isLoading: true,
+          error: null
+        };
+      case types.REGISTER_SUCCESS:
+        return {
+          ...state,
+          isLoading: false,
+          error: null,
+          user: payload
+        };
+      case types.REGISTER_FAILED:
+        return {
+          ...state,
+          isLoading: false,
+          error: payload.error
+        };
       case types.LOGIN:
         return {
           ...state,

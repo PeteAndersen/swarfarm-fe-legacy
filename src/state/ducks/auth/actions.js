@@ -1,5 +1,24 @@
 import types from './types';
 
+const register = values => ({
+  type: types.REGISTER,
+  payload: {
+    ...values
+  }
+});
+
+const registerSuccess = user => ({
+  type: types.REGISTER_SUCCESS,
+  payload: { ...user }
+});
+
+const registerFailed = errors => ({
+  type: types.REGISTER_FAILED,
+  payload: {
+    ...errors
+  }
+});
+
 const login = (username, password) => ({
   type: types.LOGIN,
   payload: {
@@ -49,6 +68,9 @@ const refreshTokenCompleted = (token, refresh_token, user) => ({
 });
 
 export default {
+  register,
+  registerSuccess,
+  registerFailed,
   login,
   loginFailed,
   loginSuccess,
