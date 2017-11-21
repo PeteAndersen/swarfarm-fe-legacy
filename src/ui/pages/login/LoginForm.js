@@ -4,7 +4,7 @@ import { withFormik } from 'formik';
 import Yup from 'yup';
 import { Button, Message } from 'semantic-ui-react';
 
-import TextInput from 'ui/components/form/textinput';
+import Input from 'ui/components/form/input';
 
 const formikEnhancer = withFormik({
   mapPropsToValues: props => ({ username: '', password: '' }),
@@ -26,8 +26,6 @@ class LoginForm extends React.Component {
     if (nextProps.submitErrors && this.props.status !== nextProps.submitErrors.non_field_errors) {
       this.props.setStatus(nextProps.submitErrors.non_field_errors);
     }
-    //console.log(nextProps.submitErrors);
-    //this.props.setErrors(nextProps.error);
   }
 
   render() {
@@ -37,8 +35,8 @@ class LoginForm extends React.Component {
       touched,
       isValid,
       status,
-      handleChange,
-      handleBlur,
+      setFieldValue,
+      setFieldTouched,
       handleSubmit,
       isSubmitting
     } = this.props;
@@ -49,23 +47,23 @@ class LoginForm extends React.Component {
 
     return (
       <form onSubmit={handleSubmit} className={formClasses}>
-        <TextInput
+        <Input
           type="text"
           name="username"
           label="Username"
           error={touched.username && errors.username}
           value={values.username}
-          onChange={handleChange}
-          onBlur={handleBlur}
+          onChange={setFieldValue}
+          onBlur={setFieldTouched}
         />
-        <TextInput
+        <Input
           type="password"
           name="password"
           label="Password"
           error={touched.password && errors.password}
           value={values.password}
-          onChange={handleChange}
-          onBlur={handleBlur}
+          onChange={setFieldValue}
+          onBlur={setFieldTouched}
         />
         {status ? <Message error>{status}</Message> : null}
         <Button disabled={isSubmitting || !isValid}>Submit</Button>
@@ -73,4 +71,5 @@ class LoginForm extends React.Component {
     );
   }
 }
+
 export default formikEnhancer(LoginForm);

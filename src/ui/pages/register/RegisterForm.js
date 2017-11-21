@@ -4,8 +4,8 @@ import { withFormik } from 'formik';
 import Yup from 'yup';
 import { Button, Message } from 'semantic-ui-react';
 
-import TextInput from 'ui/components/form/textinput';
-import TimezoneSelect from 'ui/components/form/timezoneselect';
+import { Input, Select } from 'ui/components/form';
+import timezones from 'services/timezones';
 
 const formikEnhancer = withFormik({
   mapPropsToValues: props => ({ username: '', password: '', timezone: 'America/Los_Angeles' }),
@@ -30,15 +30,6 @@ class LoginForm extends React.Component {
     }
   }
 
-  logBlur(e) {
-    const { name, id, outerHTML } = e.target;
-    const field = name ? name : id;
-
-    console.log(e, e.target, field);
-    debugger;
-    this.props.handleBlur(e);
-  }
-
   render() {
     const {
       values,
@@ -46,8 +37,8 @@ class LoginForm extends React.Component {
       touched,
       isValid,
       status,
-      handleChange,
-      handleBlur,
+      setFieldValue,
+      setFieldTouched,
       handleSubmit,
       isSubmitting
     } = this.props;
@@ -58,31 +49,33 @@ class LoginForm extends React.Component {
 
     return (
       <form onSubmit={handleSubmit} className={formClasses}>
-        <TextInput
+        <Input
           type="text"
           name="username"
           label="Username"
           error={touched.username && errors.username}
           value={values.username}
-          onChange={handleChange}
-          onBlur={this.logBlur.bind(this)}
+          onChange={setFieldValue}
+          onBlur={setFieldTouched}
         />
-        <TextInput
+        <Input
           type="password"
           name="password"
           label="Password"
           error={touched.password && errors.password}
           value={values.password}
-          onChange={handleChange}
-          onBlur={this.logBlur.bind(this)}
+          onChange={setFieldValue}
+          onBlur={setFieldTouched}
         />
-        <TimezoneSelect
+
+        <Select
           name="timezone"
           label="Timezone"
           error={touched.timezone && errors.timezone}
           value={values.timezone}
-          onChange={handleChange}
-          onBlur={handleBlur}
+          onChange={setFieldValue}
+          onBlur={setFieldTouched}
+          options={timezones}
         />
 
         {status ? <Message error>{status}</Message> : null}
