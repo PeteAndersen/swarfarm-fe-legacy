@@ -2,15 +2,21 @@ import React from 'react';
 import classnames from 'classnames';
 import { withFormik } from 'formik';
 import Yup from 'yup';
-import { Button, Message } from 'semantic-ui-react';
+import { Button, Message, Checkbox, Select } from 'semantic-ui-react';
 
-import { Input, Select } from 'ui/components/form';
+import { Field } from 'ui/components/form';
 import timezones from 'services/timezones';
 
 const formikEnhancer = withFormik({
-  mapPropsToValues: props => ({ username: '', password: '', timezone: 'America/Los_Angeles' }),
+  mapPropsToValues: props => ({
+    username: '',
+    public: true,
+    password: '',
+    timezone: 'America/Los_Angeles'
+  }),
   validationSchema: Yup.object().shape({
     username: Yup.string().required(),
+    public: Yup.boolean(),
     password: Yup.string().required(),
     timezone: Yup.string().required()
   }),
@@ -49,7 +55,8 @@ class LoginForm extends React.Component {
 
     return (
       <form onSubmit={handleSubmit} className={formClasses}>
-        <Input
+        <Field
+          control="input"
           type="text"
           name="username"
           label="Username"
@@ -58,7 +65,17 @@ class LoginForm extends React.Component {
           onChange={setFieldValue}
           onBlur={setFieldTouched}
         />
-        <Input
+        <Field
+          control={Checkbox}
+          name="public"
+          label="Public Profile"
+          error={touched.public && errors.public}
+          checked={values.public}
+          onChange={setFieldValue}
+          onBlur={setFieldTouched}
+        />
+        <Field
+          control="input"
           type="password"
           name="password"
           label="Password"
@@ -67,15 +84,15 @@ class LoginForm extends React.Component {
           onChange={setFieldValue}
           onBlur={setFieldTouched}
         />
-
-        <Select
+        <Field
+          control={Select}
+          options={timezones}
           name="timezone"
           label="Timezone"
           error={touched.timezone && errors.timezone}
           value={values.timezone}
           onChange={setFieldValue}
           onBlur={setFieldTouched}
-          options={timezones}
         />
 
         {status ? <Message error>{status}</Message> : null}

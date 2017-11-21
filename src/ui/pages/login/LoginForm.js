@@ -4,7 +4,7 @@ import { withFormik } from 'formik';
 import Yup from 'yup';
 import { Button, Message } from 'semantic-ui-react';
 
-import Input from 'ui/components/form/input';
+import { Field } from 'ui/components/form';
 
 const formikEnhancer = withFormik({
   mapPropsToValues: props => ({ username: '', password: '' }),
@@ -47,7 +47,8 @@ class LoginForm extends React.Component {
 
     return (
       <form onSubmit={handleSubmit} className={formClasses}>
-        <Input
+        <Field
+          control="input"
           type="text"
           name="username"
           label="Username"
@@ -56,7 +57,8 @@ class LoginForm extends React.Component {
           onChange={setFieldValue}
           onBlur={setFieldTouched}
         />
-        <Input
+        <Field
+          control="input"
           type="password"
           name="password"
           label="Password"

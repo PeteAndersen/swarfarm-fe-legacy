@@ -1,7 +1,8 @@
 import axios from 'axios';
 import JWT from 'jwt-client';
 
-const API_ROOT = 'http://127.0.0.1:8000/api/v2/';
+const API_ROOT =
+  process.env.NODE_ENV === 'development' ? '/api/v2/' : 'https://swarfarm.com/api/v2/';
 const Api = axios.create({
   baseURL: API_ROOT,
   timeout: 15000

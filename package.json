@@ -2,6 +2,7 @@
   "name": "swarfarm-fe",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://127.0.0.1:8000",
   "dependencies": {
     "axios": "^0.17.1",
     "classnames": "^2.2.5",

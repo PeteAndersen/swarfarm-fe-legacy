@@ -8,14 +8,8 @@ import { setAuthToken, clearAuthToken } from 'services/api';
 
 function* register(values) {
   try {
-    console.log('registering with data ', values);
     const user = yield call(api.register, values.payload);
     yield put(actions.registerSuccess(user));
-    console.log(
-      'register success, logging in user',
-      values.payload.username,
-      values.payload.password
-    );
     yield put(actions.login(values.payload.username, values.payload.password));
   } catch (error) {
     console.log('register failed', error);
@@ -105,11 +99,8 @@ function* refreshTokenFlow() {
 
 function* registerFlow() {
   while (true) {
-    console.log('waiting for register');
     const values = yield take(types.REGISTER);
-    console.log('got register action, launching register process');
     yield fork(register, values);
-    console.log('waiting for register completion or failure');
     yield take([types.REGISTER_FAILED, types.REGISTER_SUCCESS]);
   }
 }

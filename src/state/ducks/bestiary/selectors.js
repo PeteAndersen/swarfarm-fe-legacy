@@ -20,12 +20,14 @@ const getMonsterList = createSelector(
   getLeaderSkills,
   getSources,
   (monsters, skills, leaderSkills, sources) =>
-    Object.values(monsters).sort((a, b) => (a.name > b.name ? 1 : -1)).map(monster => ({
-      ...monster,
-      skills: monster.skills ? monster.skills.map(skillId => skills[skillId]) : null,
-      leaderSkill: monster.leaderSkill ? leaderSkills[monster.leaderSkill] : null,
-      source: monster.source ? monster.source.map(sourceId => sources[sourceId]) : null
-    }))
+    Object.values(monsters)
+      .sort((a, b) => (a.name > b.name ? 1 : -1))
+      .map(monster => ({
+        ...monster,
+        skills: monster.skills ? monster.skills.map(skillId => skills[skillId]) : null,
+        leaderSkill: monster.leaderSkill ? leaderSkills[monster.leaderSkill] : null,
+        source: monster.source ? monster.source.map(sourceId => sources[sourceId]) : null
+      }))
 );
 
 const getObtainableMonsterList = createSelector(getMonsterList, monsters =>
@@ -41,7 +43,6 @@ const getVisibleMonsterList = createSelector(
 );
 
 const getPageCount = createSelector(getPageSize, getObtainableMonsterList, (pageSize, monsters) => {
-  console.log(monsters.length, pageSize);
   return Math.ceil(monsters.length / pageSize);
 });
 
