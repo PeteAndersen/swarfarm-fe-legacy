@@ -11,9 +11,16 @@ class Select extends React.Component {
   };
 
   render() {
-    const { onChange, onBlur, ...props } = this.props;
+    const { onChange, onBlur, error, ...props } = this.props;
 
-    return <FormSelect onChange={this.handleChange} onBlur={this.handleBlur} {...props} />;
+    return (
+      <FormSelect
+        onChange={this.handleChange}
+        onBlur={this.handleBlur}
+        error={error ? true : false}
+        {...props}
+      />
+    );
   }
 }
 

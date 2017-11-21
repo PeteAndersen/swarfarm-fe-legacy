@@ -11,9 +11,15 @@ class Input extends React.Component {
   };
 
   render() {
-    const { onChange, onBlur, ...props } = this.props;
+    const { onChange, onBlur, error, ...props } = this.props;
     return (
-      <FormField control="input" onChange={this.handleChange} onBlur={this.handleBlur} {...props} />
+      <FormField
+        control="input"
+        onChange={this.handleChange}
+        onBlur={this.handleBlur}
+        error={error ? true : false}
+        {...props}
+      />
     );
   }
 }
