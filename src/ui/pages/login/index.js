@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Grid } from 'semantic-ui-react';
 
-import { authActions } from 'state/ducks/auth/';
+import { authActions, authSelectors } from 'state/ducks/auth/';
 import LoginForm from './LoginForm';
 
 class Login extends React.Component {
@@ -22,8 +22,8 @@ class Login extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  isLoading: state.auth.isLoading,
-  errors: state.auth.error
+  isLoading: authSelectors.isLoading(state),
+  errors: authSelectors.error(state)
 });
 
 const mapDispatchToProps = dispatch => ({
