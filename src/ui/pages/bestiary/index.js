@@ -43,7 +43,7 @@ class Bestiary extends React.Component {
     return (
       <div>
         <Loader active={isPopulating && !wasPopulated}>Populating bestiary...</Loader>
-        {isPopulating ? null : bestiaryList}
+        {isPopulating && !wasPopulated ? null : bestiaryList}
       </div>
     );
   }
