@@ -56,7 +56,7 @@ const reducer = persistReducer(
         return {
           ...state,
           isLoading: false,
-          error: payload.error
+          error: payload
         };
       case types.LOGIN:
         return {

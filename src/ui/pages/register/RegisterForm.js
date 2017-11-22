@@ -51,8 +51,20 @@ class LoginForm extends React.Component {
       this.props.setSubmitting(nextProps.isLoading);
     }
 
-    if (nextProps.submitErrors && this.props.status !== nextProps.submitErrors.non_field_errors) {
-      this.props.setStatus(nextProps.submitErrors.non_field_errors);
+    if (nextProps.submitErrors) {
+      if (this.props.status !== nextProps.submitErrors.non_field_errors) {
+        this.props.setStatus(nextProps.submitErrors.non_field_errors);
+      }
+      Object.entries(nextProps.submitErrors)
+        .filter(([key, value]) => {
+          return key !== 'non_field_errors';
+        })
+        .forEach(([key, value]) => {
+          const error_msg = value.join('. ');
+          if (this.props.errors[key] !== error_msg) {
+            this.props.setFieldError(key, error_msg);
+          }
+        });
     }
   }
 
@@ -70,7 +82,7 @@ class LoginForm extends React.Component {
     } = this.props;
 
     return (
-      <Form onSubmit={handleSubmit} loading={isSubmitting} error={!isValid || status}>
+      <Form onSubmit={handleSubmit} loading={isSubmitting} error={!isValid || status !== undefined}>
         <Field
           control="input"
           type="text"
