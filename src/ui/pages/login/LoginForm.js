@@ -2,15 +2,15 @@ import React from 'react';
 import classnames from 'classnames';
 import { withFormik } from 'formik';
 import Yup from 'yup';
-import { Button, Message } from 'semantic-ui-react';
+import { Form, Button, Message } from 'semantic-ui-react';
 
 import { Field } from 'ui/components/form';
 
 const formikEnhancer = withFormik({
   mapPropsToValues: props => ({ username: '', password: '' }),
   validationSchema: Yup.object().shape({
-    username: Yup.string().required(),
-    password: Yup.string().required()
+    username: Yup.string().required('Please enter a username'),
+    password: Yup.string().required('Please enter a password')
   }),
   handleSubmit: (payload, bag) => {
     bag.props.handleSubmit(payload);
@@ -40,13 +40,15 @@ class LoginForm extends React.Component {
       handleSubmit,
       isSubmitting
     } = this.props;
-    const formClasses = classnames('ui', 'form', {
-      error: !isValid || status,
-      loading: isSubmitting
-    });
+    const formClasses = classnames('ui', 'form', {});
 
     return (
-      <form onSubmit={handleSubmit} className={formClasses}>
+      <Form
+        onSubmit={handleSubmit}
+        className={formClasses}
+        loading={isSubmitting}
+        error={!isValid || status}
+      >
         <Field
           control="input"
           type="text"
@@ -57,6 +59,8 @@ class LoginForm extends React.Component {
           onChange={setFieldValue}
           onBlur={setFieldTouched}
         />
+        {touched.username && errors.username && <Message error>{errors.username}</Message>}
+
         <Field
           control="input"
           type="password"
@@ -67,9 +71,11 @@ class LoginForm extends React.Component {
           onChange={setFieldValue}
           onBlur={setFieldTouched}
         />
+        {touched.password && errors.password && <Message error>{errors.password}</Message>}
+
         {status ? <Message error>{status}</Message> : null}
         <Button disabled={isSubmitting || !isValid}>Submit</Button>
-      </form>
+      </Form>
     );
   }
 }

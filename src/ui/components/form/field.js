@@ -17,6 +17,7 @@ class Field extends React.Component {
 
   handleBlur = () => {
     const name = this.props.name || this.props.id;
+
     this.props.onBlur(name, true);
   };
 
