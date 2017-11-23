@@ -15,27 +15,35 @@ class Bestiary extends React.Component {
     if (new Date() - lastPopulated >= 60 * 60 * 1000) {
       this.props.populateBestiary();
     }
+
+    this.props.changePage(1);
   }
 
-  switchPage(e, element) {
-    this.props.changePage(element.children);
-  }
+  handlePageChange = (e, { page }) => {
+    this.props.changePage(page);
+  };
 
   render() {
     const { isPopulating, wasPopulated, currentPage, numPages, monsterList } = this.props;
+
+    const pager = (
+      <Pager
+        secondary
+        currentPage={currentPage}
+        numPages={numPages}
+        onPageChange={this.handlePageChange}
+      />
+    );
+
     const bestiaryList = (
       <Grid>
         <Grid.Column width={4}>
           <FilterForm />
         </Grid.Column>
         <Grid.Column width={12} stretched>
-          <Pager
-            currentPage={currentPage}
-            numPages={numPages}
-            handleSwitchPage={this.switchPage.bind(this)}
-          />
-          <div>Pages: {numPages}</div>
+          {pager}
           <MonsterList monsters={monsterList} />
+          {pager}
         </Grid.Column>
       </Grid>
     );
