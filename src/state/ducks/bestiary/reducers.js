@@ -43,7 +43,8 @@ const INITIAL_STATE = {
 
 const persistConfig = {
   key: 'bestiary',
-  storage: localForage
+  storage: localForage,
+  whitelist: ['wasPopulated', 'lastPopulated', 'entities']
 };
 
 const reducer = persistReducer(
