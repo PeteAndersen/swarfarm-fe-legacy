@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Menu, Label, Input } from 'semantic-ui-react';
 
-const FilterForm = () =>
-  (<Menu secondary vertical fluid>
+const FilterForm = () => (
+  <Menu vertical fluid>
     <Menu.Item name="inbox">
       <Label color="teal">1</Label>
       Inbox
@@ -21,6 +21,7 @@ const FilterForm = () =>
     <Menu.Item>
       <Input icon="search" placeholder="Search mail..." />
     </Menu.Item>
-  </Menu>);
+  </Menu>
+);
 
 export default FilterForm;
