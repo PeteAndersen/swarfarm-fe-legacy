@@ -17,15 +17,9 @@ const receiveBestiaryData = entities => ({
   payload: entities
 });
 
-const changePage = page => ({
-  type: types.CHANGE_PAGE,
-  payload: page
-});
-
 export default {
   populateBestiary,
   populateBestiaryComplete,
   populateBestiaryCancelled,
-  receiveBestiaryData,
-  changePage
+  receiveBestiaryData
 };

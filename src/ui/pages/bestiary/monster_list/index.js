@@ -8,6 +8,11 @@ import FilterForm from './FilterForm';
 import MonsterList from './MonsterList';
 
 class Bestiary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { page: 1, pageSize: 50 };
+  }
+
   componentWillMount() {
     // Check if bestiary data is older than an hour
     const lastPopulated = new Date(this.props.lastPopulated);
@@ -15,22 +20,24 @@ class Bestiary extends React.Component {
     if (new Date() - lastPopulated >= 60 * 60 * 1000) {
       this.props.populateBestiary();
     }
-
-    this.props.changePage(1);
   }
 
   handlePageChange = (e, { page }) => {
-    this.props.changePage(page);
+    this.setState({ ...this.state, page });
   };
 
   render() {
-    const { isPopulating, wasPopulated, currentPage, numPages, monsterList } = this.props;
-
+    const { isPopulating, wasPopulated, monsterList } = this.props;
+    const monsterPageSlice = monsterList.slice(
+      (this.state.page - 1) * this.state.pageSize,
+      this.state.page * this.state.pageSize
+    );
+    const numPages = Math.ceil(monsterList.length / this.state.pageSize);
     const pager = (
       <Pager
         pagination
         floated="right"
-        currentPage={currentPage}
+        currentPage={this.state.page}
         numPages={numPages}
         onPageChange={this.handlePageChange}
       />
@@ -52,7 +59,7 @@ class Bestiary extends React.Component {
           </Grid.Column>
           <Grid.Column width={12}>
             {pager}
-            <MonsterList monsters={monsterList} />
+            <MonsterList monsters={monsterPageSlice} />
             {pager}
           </Grid.Column>
         </Grid>
@@ -61,20 +68,16 @@ class Bestiary extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps) => ({
   isLoading: bestiarySelectors.isLoading(state),
   isPopulating: bestiarySelectors.isPopulating(state),
   wasPopulated: bestiarySelectors.wasPopulated(state),
   lastPopulated: bestiarySelectors.lastPopulated(state),
-  currentPage: bestiarySelectors.getCurrentPage(state),
-  pageSize: bestiarySelectors.getPageSize(state),
-  numPages: bestiarySelectors.getPageCount(state),
   monsterList: bestiarySelectors.getVisibleMonsterList(state)
 });
 
 const mapDispatchToProps = dispatch => ({
-  populateBestiary: () => dispatch(bestiaryActions.populateBestiary()),
-  changePage: page => dispatch(bestiaryActions.changePage(page))
+  populateBestiary: () => dispatch(bestiaryActions.populateBestiary())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Bestiary);

@@ -23,6 +23,7 @@
     "reselect": "^3.0.1",
     "semantic-ui-css": "^2.2.12",
     "semantic-ui-react": "^0.76.0",
+    "slugify": "^1.2.6",
     "styled-components": "^2.2.3",
     "yup": "^0.23.0"
   },

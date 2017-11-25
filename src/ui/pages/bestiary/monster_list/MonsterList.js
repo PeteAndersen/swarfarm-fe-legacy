@@ -14,7 +14,6 @@ const MonsterList = ({ monsters }) => (
     </Table.Header>
     <Table.Body>
       {monsters.map(monster => {
-        console.log(monster);
         return <MonsterRow key={monster.id} monster={monster} />;
       })}
     </Table.Body>

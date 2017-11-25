@@ -5,8 +5,6 @@ const isLoading = state => state.bestiary.isLoading;
 const isPopulating = state => state.bestiary.isPopulating;
 const wasPopulated = state => state.bestiary.wasPopulated;
 const lastPopulated = state => state.bestiary.lastPopulated;
-const getCurrentPage = state => state.bestiary.currentPage;
-const getPageSize = state => state.bestiary.pageSize;
 
 // Bestiary Entities
 const getMonsters = state => state.bestiary.entities.monsters;
@@ -35,27 +33,16 @@ const getObtainableMonsterList = createSelector(getMonsterList, monsters =>
 );
 
 // UI
-const getVisibleMonsterList = createSelector(
-  getObtainableMonsterList,
-  getCurrentPage,
-  getPageSize,
-  (monsters, page, pageSize) => monsters.slice((page - 1) * pageSize, page * pageSize)
-);
-
-const getPageCount = createSelector(getPageSize, getObtainableMonsterList, (pageSize, monsters) => {
-  return Math.ceil(monsters.length / pageSize);
-});
+// TODO: Add bestiary filters here
+const getVisibleMonsterList = createSelector(getObtainableMonsterList, monsters => monsters);
 
 export default {
   isLoading,
   isPopulating,
   wasPopulated,
   lastPopulated,
-  getCurrentPage,
-  getPageSize,
   getMonsters,
   getMonsterList,
   getObtainableMonsterList,
-  getVisibleMonsterList,
-  getPageCount
+  getVisibleMonsterList
 };

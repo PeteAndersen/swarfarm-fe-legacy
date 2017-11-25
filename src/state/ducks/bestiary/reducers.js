@@ -17,9 +17,6 @@ import types from './types';
   isPopulating: boolean,
   wasPopulated: boolean,
   lastPopulated: datetime || null
-  currentPage: integer,
-  pageSize: integer,
-  monsterList: [integer],
 }
 */
 
@@ -36,9 +33,7 @@ const INITIAL_STATE = {
     craftMaterials: {},
     sources: {}
   },
-  isLoading: false,
-  currentPage: 1,
-  pageSize: 50
+  isLoading: false
 };
 
 const persistConfig = {

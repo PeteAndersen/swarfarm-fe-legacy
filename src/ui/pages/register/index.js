@@ -6,10 +6,6 @@ import { authActions, authSelectors } from 'state/ducks/auth/';
 import RegisterForm from './RegisterForm';
 
 class Register extends React.Component {
-  handleSubmit(values) {
-    console.log(values);
-  }
-
   render() {
     return (
       <Grid centered>
