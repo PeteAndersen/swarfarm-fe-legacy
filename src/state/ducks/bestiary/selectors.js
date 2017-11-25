@@ -7,6 +7,7 @@ const wasPopulated = state => state.bestiary.wasPopulated;
 const lastPopulated = state => state.bestiary.lastPopulated;
 
 // Bestiary Entities
+const getMonsterEntity = (state, id) => state.bestiary.entities.monsters[id];
 const getMonsters = state => state.bestiary.entities.monsters;
 const getSkills = state => state.bestiary.entities.skills;
 const getLeaderSkills = state => state.bestiary.entities.leaderSkills;
@@ -36,11 +37,29 @@ const getObtainableMonsterList = createSelector(getMonsterList, monsters =>
 // TODO: Add bestiary filters here
 const getVisibleMonsterList = createSelector(getObtainableMonsterList, monsters => monsters);
 
+const getMonster = createSelector(
+  getMonsterEntity,
+  getMonsters,
+  getSkills,
+  getLeaderSkills,
+  getSources,
+  (monster, monsters, skills, leaderSkills, sources) => ({
+    ...monster,
+    skills: monster.skills ? monster.skills.map(skillId => skills[skillId]) : null,
+    leaderSkill: monster.leaderSkill ? leaderSkills[monster.leaderSkill] : null,
+    source: monster.source ? monster.source.map(sourceId => sources[sourceId]) : null,
+    awakens_to: monster.awakens_to ? monsters[monster.awakens_to] : null,
+    awakens_from: monster.awakens_from ? monsters[monster.awakens_from] : null
+  })
+);
+
 export default {
   isLoading,
   isPopulating,
   wasPopulated,
   lastPopulated,
+  getMonsterEntity,
+  getMonster,
   getMonsters,
   getMonsterList,
   getObtainableMonsterList,
