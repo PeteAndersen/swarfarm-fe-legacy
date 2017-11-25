@@ -1,5 +1,4 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Segment, Grid, Dimmer, Loader, Header } from 'semantic-ui-react';
 
@@ -7,7 +6,6 @@ import { bestiaryActions, bestiarySelectors } from 'state/ducks/bestiary';
 import Pager from 'ui/components/Pager';
 import FilterForm from './FilterForm';
 import MonsterList from './MonsterList';
-import Monster from './monster';
 
 class Bestiary extends React.Component {
   componentWillMount() {
@@ -48,21 +46,16 @@ class Bestiary extends React.Component {
             <p>This is a one-time process</p>
           </Loader>
         </Dimmer>
-        <Switch>
-          <Route path="/bestiary" exact>
-            <Grid>
-              <Grid.Column width={4}>
-                <FilterForm />
-              </Grid.Column>
-              <Grid.Column width={12}>
-                {pager}
-                <MonsterList monsters={monsterList} />
-                {pager}
-              </Grid.Column>
-            </Grid>
-          </Route>
-        </Switch>
-        <Route path="/bestiary/:name/:id" component={Monster} exact />
+        <Grid>
+          <Grid.Column width={4}>
+            <FilterForm />
+          </Grid.Column>
+          <Grid.Column width={12}>
+            {pager}
+            <MonsterList monsters={monsterList} />
+            {pager}
+          </Grid.Column>
+        </Grid>
       </Dimmer.Dimmable>
     );
   }
