@@ -6,8 +6,8 @@ import Dungeons from './dungeons';
 
 const Routes = () => (
   <Switch>
-    <Route path="/bestiary" component={Monsters} exact />
     <Route path="/bestiary/dungeons" component={Dungeons} />
+    <Route path="/bestiary" component={Monsters} />
   </Switch>
 );
 

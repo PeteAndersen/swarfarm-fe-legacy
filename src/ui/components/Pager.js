@@ -56,10 +56,9 @@ class Pager extends React.Component {
   render() {
     const buttons = this.getPageButtons();
     const { currentPage, numPages, onPageChange, visibleButtons, ...props } = this.props;
-    const totalButtonCount = 4 + buttons.length;
 
     return (
-      <Menu widths={totalButtonCount} {...props}>
+      <Menu {...props}>
         <Menu.Item
           page={1}
           onClick={onPageChange}

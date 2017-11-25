@@ -3,7 +3,7 @@ import { Table } from 'semantic-ui-react';
 
 import MonsterRow from './MonsterRow';
 
-const MonsterList = ({ monsters }) =>
+const MonsterList = ({ monsters }) => (
   <Table>
     <Table.Header>
       <Table.Row>
@@ -13,8 +13,12 @@ const MonsterList = ({ monsters }) =>
       </Table.Row>
     </Table.Header>
     <Table.Body>
-      {monsters.map(monster => <MonsterRow key={monster.id} monster={monster} />)}
+      {monsters.map(monster => {
+        console.log(monster);
+        return <MonsterRow key={monster.id} monster={monster} />;
+      })}
     </Table.Body>
-  </Table>;
+  </Table>
+);
 
 export default MonsterList;

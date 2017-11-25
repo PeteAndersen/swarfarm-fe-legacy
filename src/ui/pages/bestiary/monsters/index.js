@@ -1,11 +1,13 @@
 import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Grid, Dimmer, Loader, Header } from 'semantic-ui-react';
+import { Segment, Grid, Dimmer, Loader, Header } from 'semantic-ui-react';
 
 import { bestiaryActions, bestiarySelectors } from 'state/ducks/bestiary';
+import Pager from 'ui/components/Pager';
 import FilterForm from './FilterForm';
 import MonsterList from './MonsterList';
-import Pager from 'ui/components/Pager';
+import Monster from './monster';
 
 class Bestiary extends React.Component {
   componentWillMount() {
@@ -28,7 +30,8 @@ class Bestiary extends React.Component {
 
     const pager = (
       <Pager
-        secondary
+        pagination
+        floated="right"
         currentPage={currentPage}
         numPages={numPages}
         onPageChange={this.handlePageChange}
@@ -36,7 +39,7 @@ class Bestiary extends React.Component {
     );
 
     return (
-      <Dimmer.Dimmable as="div" dimmed={isPopulating && !wasPopulated}>
+      <Dimmer.Dimmable as={Segment} dimmed={isPopulating && !wasPopulated}>
         <Dimmer active={isPopulating && !wasPopulated} page>
           <Loader>
             <Header size="large" color="green">
@@ -45,17 +48,21 @@ class Bestiary extends React.Component {
             <p>This is a one-time process</p>
           </Loader>
         </Dimmer>
-
-        <Grid>
-          <Grid.Column width={4}>
-            <FilterForm />
-          </Grid.Column>
-          <Grid.Column width={12} stretched>
-            {pager}
-            <MonsterList monsters={monsterList} />
-            {pager}
-          </Grid.Column>
-        </Grid>
+        <Switch>
+          <Route path="/bestiary" exact>
+            <Grid>
+              <Grid.Column width={4}>
+                <FilterForm />
+              </Grid.Column>
+              <Grid.Column width={12}>
+                {pager}
+                <MonsterList monsters={monsterList} />
+                {pager}
+              </Grid.Column>
+            </Grid>
+          </Route>
+        </Switch>
+        <Route path="/bestiary/:name/:id" component={Monster} exact />
       </Dimmer.Dimmable>
     );
   }
