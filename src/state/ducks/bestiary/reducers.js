@@ -81,17 +81,52 @@ const reducer = persistReducer(
           wasPopulated: true,
           isPopulating: false
         };
+
       case types.POPULATE_BESTIARY_CANCELLED:
         return {
           ...state,
           isPopulating: false,
           lastPopulated: null
         };
-      case types.CHANGE_PAGE:
+
+      case types.GET_MONSTER:
         return {
           ...state,
-          currentPage: payload
+          isLoading: true
         };
+
+      case types.GET_MONSTER_COMPLETE:
+        return {
+          ...state,
+          isLoading: false
+        };
+
+      case types.GET_MONSTER_FAILED:
+        return {
+          ...state,
+          isLoading: false,
+          error: payload
+        };
+
+      case types.GET_SKILL:
+        return {
+          ...state,
+          isLoading: true
+        };
+
+      case types.GET_SKILL_COMPLETE:
+        return {
+          ...state,
+          isLoading: false
+        };
+
+      case types.GET_SKILL_FAILED:
+        return {
+          ...state,
+          isLoading: false,
+          error: payload
+        };
+
       default:
         return state;
     }

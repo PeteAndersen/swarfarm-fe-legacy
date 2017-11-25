@@ -1,4 +1,4 @@
-import { all, call, spawn, put, take } from 'redux-saga/effects';
+import { all, call, spawn, put, take, takeEvery } from 'redux-saga/effects';
 import { normalize } from 'normalizr';
 
 import actions from './actions';
@@ -31,6 +31,42 @@ function* populateBestiary() {
   }
 }
 
+function* getMonster({ type, payload: id }) {
+  try {
+    const data = yield call(api.getMonster, id);
+    const normalized = normalize(data, schema.monster);
+    yield put(actions.receiveBestiaryData(normalized.entities));
+
+    // Queue up actions to update its skills
+    for (let skillID of data.skills) {
+      yield put(actions.getSkill(skillID));
+    }
+
+    yield put(actions.getMonsterComplete());
+  } catch (err) {
+    yield put(actions.getMonsterFailed(err));
+  }
+}
+
+function* getSkill({ type, payload: id }) {
+  try {
+    const data = yield call(api.getSkill, id);
+    const normalized = normalize(data, schema.skill);
+    yield put(actions.receiveBestiaryData(normalized.entities));
+    yield put(actions.getSkillComplete());
+  } catch (err) {
+    yield put(actions.getSkillFailed(err));
+  }
+}
+
+function* getMonsterFlow() {
+  yield takeEvery(types.GET_MONSTER, getMonster);
+}
+
+function* getSkillFlow() {
+  yield takeEvery(types.GET_SKILL, getSkill);
+}
+
 export default function*() {
-  yield all([spawn(populateBestiary)]);
+  yield all([spawn(populateBestiary), spawn(getMonsterFlow), spawn(getSkillFlow)]);
 }
