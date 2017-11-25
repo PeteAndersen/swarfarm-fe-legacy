@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Segment, Grid, Dimmer, Loader, Header } from 'semantic-ui-react';
 
 import { bestiaryActions, bestiarySelectors } from 'state/ducks/bestiary';
+import history from 'state/history';
 import Pager from 'ui/components/Pager';
 import FilterForm from './FilterForm';
 import MonsterList from './MonsterList';
@@ -23,21 +24,22 @@ class Bestiary extends React.Component {
   }
 
   handlePageChange = (e, { page }) => {
-    this.setState({ ...this.state, page });
+    history.push(`/bestiary/${page}`);
   };
 
   render() {
     const { isPopulating, wasPopulated, monsterList } = this.props;
+    const page = this.props.match.params.page || 1;
     const monsterPageSlice = monsterList.slice(
-      (this.state.page - 1) * this.state.pageSize,
-      this.state.page * this.state.pageSize
+      (page - 1) * this.state.pageSize,
+      page * this.state.pageSize
     );
     const numPages = Math.ceil(monsterList.length / this.state.pageSize);
     const pager = (
       <Pager
         pagination
         floated="right"
-        currentPage={this.state.page}
+        currentPage={page}
         numPages={numPages}
         onPageChange={this.handlePageChange}
       />

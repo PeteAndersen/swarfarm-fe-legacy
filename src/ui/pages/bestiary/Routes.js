@@ -8,8 +8,8 @@ import Dungeons from './dungeons';
 const Routes = () => (
   <Switch>
     <Route path="/bestiary/dungeons" component={Dungeons} />
-    <Route path="/bestiary" component={MonsterList} exact />
-    <Route path="/bestiary/:com2us_id-:slug" component={Monster} exact />
+    <Route path="/bestiary/:page(\d+)?" component={MonsterList} exact />
+    <Route path="/bestiary/:id(\d+)-:name" component={Monster} exact />
   </Switch>
 );
 
