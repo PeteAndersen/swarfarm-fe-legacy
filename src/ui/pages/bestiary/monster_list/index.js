@@ -4,7 +4,7 @@ import { Segment, Grid, Dimmer, Loader, Header } from 'semantic-ui-react';
 
 import { bestiaryActions, bestiarySelectors } from 'state/ducks/bestiary';
 import history from 'state/history';
-import Pager from 'ui/components/Pager';
+import { Pager, ScrollToTopOnMount } from 'ui/components';
 import FilterForm from './FilterForm';
 import MonsterList from './MonsterList';
 
@@ -47,6 +47,7 @@ class Bestiary extends React.Component {
 
     return (
       <Dimmer.Dimmable as={Segment} dimmed={isPopulating && !wasPopulated}>
+        <ScrollToTopOnMount />
         <Dimmer active={isPopulating && !wasPopulated} page>
           <Loader>
             <Header size="large" color="green">
