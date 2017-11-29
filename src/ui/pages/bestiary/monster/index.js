@@ -1,8 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Container, Grid } from 'semantic-ui-react';
 
 import { bestiaryActions, bestiarySelectors } from 'state/ducks/bestiary';
 import { ScrollToTopOnMount } from 'ui/components';
+import MonsterInfo from './MonsterInfo';
+import MonsterSkills from './MonsterSkills';
 
 class MonsterPage extends React.Component {
   componentWillMount() {
@@ -10,13 +13,31 @@ class MonsterPage extends React.Component {
   }
 
   render() {
-    const { monster, match } = this.props;
+    const { monster } = this.props;
     return (
-      <div>
+      <Container>
         <ScrollToTopOnMount />
-        You are now viewing a monster!
+        <Grid stackable columns="equal">
+          <Grid.Column>
+            <MonsterInfo monster={monster} />
+          </Grid.Column>
+          <Grid.Column>
+            <MonsterSkills monster={monster} />
+          </Grid.Column>
+        </Grid>
+        <h1>Monster</h1>
         <pre>{JSON.stringify(monster, null, 2)}</pre>
-      </div>
+        <h1>Awakens From</h1>
+        <pre>
+          {monster.awakens_from
+            ? JSON.stringify(monster.awakens_from, null, 2)
+            : monster.awakens_from}
+        </pre>
+        <h1>Awakens To</h1>
+        <pre>
+          {monster.awakens_to ? JSON.stringify(monster.awakens_to, null, 2) : monster.awakens_to}
+        </pre>
+      </Container>
     );
   }
 }
