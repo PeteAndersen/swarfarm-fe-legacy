@@ -4,21 +4,21 @@ import { Segment, Image, Item, Label } from 'semantic-ui-react';
 
 const Effect = ({ effect }) => {
   console.log(effect);
-  const color = effect.is_buff ? 'blue' : 'red';
+  const color = effect.effect.is_buff ? 'blue' : 'red';
 
-  if (effect.icon_filename) {
+  if (effect.effect.icon_filename) {
     return (
       <Label image color={color}>
-        <Image src={`${process.env.PUBLIC_URL}/assets/buffs/${effect.icon_filename}`} />
-        {effect.name}
+        <Image src={`${process.env.PUBLIC_URL}/assets/buffs/${effect.effect.icon_filename}`} />
+        {effect.effect.name}
       </Label>
     );
   } else {
-    return <Label color={color}>{effect.name}</Label>;
+    return <Label color={color}>{effect.effect.name}</Label>;
   }
 };
 
-const Skill = ({ skill, effects }) => {
+const Skill = ({ skill }) => {
   return (
     <Item>
       <Item.Image
@@ -28,7 +28,7 @@ const Skill = ({ skill, effects }) => {
       <Item.Content>
         <Item.Header>{skill.name}</Item.Header>
         <Item.Meta>
-          {skill.effects.map((effect, idx) => <Effect key={idx} effect={effects[effect.effect]} />)}
+          {skill.effects.map((effect, idx) => <Effect key={idx} effect={effect} />)}
         </Item.Meta>
         <Item.Description>{skill.description}</Item.Description>
         <Item.Extra>
@@ -38,13 +38,11 @@ const Skill = ({ skill, effects }) => {
     </Item>
   );
 };
-const MonsterSkills = ({ skillIds, skills, effects }) => {
+const MonsterSkills = ({ skills }) => {
   return (
     <Segment>
       <Item.Group divided>
-        {skillIds.map((skillId, idx) => (
-          <Skill key={idx} skill={skills[skillId]} effects={effects} />
-        ))}
+        {skills.map((skill, idx) => <Skill key={idx} skill={skill} />)}
       </Item.Group>
     </Segment>
   );
