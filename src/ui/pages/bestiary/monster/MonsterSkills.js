@@ -1,13 +1,21 @@
 import React from 'react';
 
-import { Segment, Image, Item } from 'semantic-ui-react';
+import { Segment, Image, Item, Label } from 'semantic-ui-react';
 
 const Effect = ({ effect }) => {
   console.log(effect);
+  const color = effect.is_buff ? 'blue' : 'red';
+
   if (effect.icon_filename) {
-    return <Image avatar src={`${process.env.PUBLIC_URL}/assets/buffs/${effect.icon_filename}`} />;
+    return (
+      <Label image color={color}>
+        <Image src={`${process.env.PUBLIC_URL}/assets/buffs/${effect.icon_filename}`} />
+        {effect.name}
+      </Label>
+    );
+  } else {
+    return <Label color={color}>{effect.name}</Label>;
   }
-  return <span>{effect.name}</span>;
 };
 
 const Skill = ({ skill, effects }) => {
