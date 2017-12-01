@@ -5,8 +5,10 @@ import { Container, Grid, Loader } from 'semantic-ui-react';
 
 import { bestiaryActions, bestiarySelectors, bestiarySchema } from 'state/ducks/bestiary';
 import { ScrollToTopOnMount } from 'ui/components';
-import MonsterInfo from './MonsterInfo';
-import MonsterSkills from './MonsterSkills';
+
+import Info from './Info';
+import Skills from './Skills';
+import Stats from './Stats';
 
 class MonsterPage extends React.Component {
   componentWillMount() {
@@ -22,10 +24,11 @@ class MonsterPage extends React.Component {
         {monster ? (
           <Grid stackable columns="equal">
             <Grid.Column>
-              <MonsterInfo monster={monster} />
+              <Info monster={monster} />
+              <Stats monster={monster} />
             </Grid.Column>
             <Grid.Column>
-              <MonsterSkills skills={monster.skills} />
+              <Skills skills={monster.skills} />
             </Grid.Column>
           </Grid>
         ) : (

@@ -3,7 +3,7 @@ import { Segment, Item, Loader } from 'semantic-ui-react';
 
 import { SkillItem } from 'ui/components/skills';
 
-const MonsterSkills = ({ skills }) => {
+const Skills = ({ skills }) => {
   return (
     <Segment>
       <Item.Group divided>
@@ -16,4 +16,4 @@ const MonsterSkills = ({ skills }) => {
   );
 };
 
-export default MonsterSkills;
+export default Skills;

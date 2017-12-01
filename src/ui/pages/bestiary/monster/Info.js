@@ -4,7 +4,7 @@ import { Card, Image } from 'semantic-ui-react';
 
 import { Portrait } from 'ui/components/monsters';
 
-const MonsterInfo = ({ monster }) => {
+const Info = ({ monster }) => {
   const awakens_from_link = monster.awakens_from ? (
     <Card.Meta>
       Awakens from{' '}
@@ -46,4 +46,4 @@ const MonsterInfo = ({ monster }) => {
     </Card>
   );
 };
-export default MonsterInfo;
+export default Info;
