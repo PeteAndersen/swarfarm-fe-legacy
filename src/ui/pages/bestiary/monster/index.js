@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { denormalize } from 'normalizr';
-import { Container, Grid } from 'semantic-ui-react';
+import { Container, Grid, Loader } from 'semantic-ui-react';
 
 import { bestiaryActions, bestiarySelectors, bestiarySchema } from 'state/ducks/bestiary';
 import { ScrollToTopOnMount } from 'ui/components';
@@ -15,19 +15,22 @@ class MonsterPage extends React.Component {
 
   render() {
     const { monster } = this.props;
-    console.log(monster);
 
     return (
       <Container>
         <ScrollToTopOnMount />
-        <Grid stackable columns="equal">
-          <Grid.Column>
-            <MonsterInfo monster={monster} />
-          </Grid.Column>
-          <Grid.Column>
-            <MonsterSkills skills={monster.skills} />
-          </Grid.Column>
-        </Grid>
+        {monster ? (
+          <Grid stackable columns="equal">
+            <Grid.Column>
+              <MonsterInfo monster={monster} />
+            </Grid.Column>
+            <Grid.Column>
+              <MonsterSkills skills={monster.skills} />
+            </Grid.Column>
+          </Grid>
+        ) : (
+          <Loader>Loading</Loader>
+        )}
       </Container>
     );
   }
