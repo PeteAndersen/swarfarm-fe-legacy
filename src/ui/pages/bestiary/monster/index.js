@@ -12,6 +12,7 @@ import Stats from './Stats';
 
 class MonsterPage extends React.Component {
   componentWillMount() {
+    // Update the monster and skills
     this.props.getMonster(this.props.match.params.id);
   }
 
