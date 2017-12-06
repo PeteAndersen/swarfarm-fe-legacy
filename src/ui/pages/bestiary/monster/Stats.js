@@ -42,7 +42,15 @@ class Stats extends React.Component {
       <Segment>
         <Header size="small">
           <Header.Content>
-            Stats at <StarSelector min_stars={monster.base_stars} onChange={this.onChangeStars} />{' '}
+            Stats at{' '}
+            <StarSelector
+              min_stars={
+                monster.is_awakened && monster.archetype !== 'Material'
+                  ? monster.base_stars - 1
+                  : monster.base_stars
+              }
+              onChange={this.onChangeStars}
+            />{' '}
             lv. {maxLevel(this.state.stars)}
           </Header.Content>
         </Header>
