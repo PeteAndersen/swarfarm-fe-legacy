@@ -7,7 +7,7 @@ const magic_multipliers = [
   { 1: 6.4582449, 40: 10.97901633 }
 ];
 
-export function calcActualStat(stat, stars, level) {
+export const calcActualStat = (stat, stars, level) => {
   const max_lvl = 10 + stars * 5;
   const stat_lvl_1 = Math.round(stat * magic_multipliers[stars - 1][1], 0);
   const stat_lvl_max = Math.round(stat * magic_multipliers[stars - 1][max_lvl], 0);
@@ -23,4 +23,6 @@ export function calcActualStat(stat, stars, level) {
     const b_coeff = Math.log(stat_lvl_max / stat_lvl_1) / (max_lvl - 1);
     return Math.round(stat_lvl_1 * Math.exp(-b_coeff) * Math.exp(b_coeff * level));
   }
-}
+};
+
+export const maxLevel = stars => stars * 5 + 10;

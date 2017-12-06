@@ -1,7 +1,7 @@
 import React from 'react';
 import { Segment, Statistic, Grid, Icon, Header, Dropdown } from 'semantic-ui-react';
 
-import { calcActualStat } from 'services/monsters';
+import { calcActualStat, maxLevel } from 'services/monsters';
 
 const StarSelector = ({ min_stars, onChange }) => {
   const options = [];
@@ -19,24 +19,20 @@ const StarSelector = ({ min_stars, onChange }) => {
     });
   }
 
-  return (
-    <Header size="small">
-      <Header.Content>
-        Stats at{' '}
-        <Dropdown inline defaultValue={options[0].value} options={options} onChange={onChange} />
-      </Header.Content>
-    </Header>
-  );
+  return <Dropdown inline defaultValue={options[0].value} options={options} onChange={onChange} />;
 };
 
 class Stats extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { stars: 6 };
+    this.state = { stars: 6, level: maxLevel(6) };
   }
 
   onChangeStars = (event, data) => {
-    this.setState({ stars: data.value });
+    this.setState({
+      stars: data.value,
+      level: maxLevel(data.value)
+    });
   };
 
   render() {
@@ -44,26 +40,31 @@ class Stats extends React.Component {
 
     return (
       <Segment>
-        <StarSelector min_stars={monster.base_stars} onChange={this.onChangeStars} />
+        <Header size="small">
+          <Header.Content>
+            Stats at <StarSelector min_stars={monster.base_stars} onChange={this.onChangeStars} />{' '}
+            lv. {maxLevel(this.state.stars)}
+          </Header.Content>
+        </Header>
         <Grid columns="equal">
           <Grid.Row>
             <Grid.Column as={Statistic} size="tiny">
               <Statistic.Value>
-                {calcActualStat(monster.raw_hp, this.state.stars, 40) * 15}
+                {calcActualStat(monster.raw_hp, this.state.stars, this.state.level) * 15}
               </Statistic.Value>
               <Statistic.Label>HP</Statistic.Label>
             </Grid.Column>
 
             <Grid.Column as={Statistic} size="tiny">
               <Statistic.Value>
-                {calcActualStat(monster.raw_attack, this.state.stars, 40) * 15}
+                {calcActualStat(monster.raw_attack, this.state.stars, this.state.level) * 15}
               </Statistic.Value>
               <Statistic.Label>ATK</Statistic.Label>
             </Grid.Column>
 
             <Grid.Column as={Statistic} size="tiny">
               <Statistic.Value>
-                {calcActualStat(monster.raw_defense, this.state.stars, 40) * 15}
+                {calcActualStat(monster.raw_defense, this.state.stars, this.state.level) * 15}
               </Statistic.Value>
               <Statistic.Label>DEF</Statistic.Label>
             </Grid.Column>
