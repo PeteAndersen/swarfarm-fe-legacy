@@ -1,31 +1,36 @@
 import React from 'react';
-import { Item, Divider, Header, List, Label } from 'semantic-ui-react';
+import { Item, Header, List } from 'semantic-ui-react';
 
-import EffectLabel from './EffectLabel';
+import EffectList from './EffectList';
 
 const SkillItem = ({ skill }) => (
   <Item>
     <Item.Image
       size="mini"
+      rounded
       src={`${process.env.PUBLIC_URL}/assets/skills/${skill.icon_filename}`}
     />
 
     <Item.Content>
       <Item.Header>{skill.name}</Item.Header>
       <Item.Meta>
-        {skill.effects.map((effect, idx) => <EffectLabel key={idx} effect={effect} />)}
-        {skill.aoe ? <Label horizontal>AOE</Label> : null}
+        <EffectList effects={skill.effects} />
       </Item.Meta>
       <Item.Description>{skill.description}</Item.Description>
-      <Item.Extra>
-        <Divider hidden />
+      {skill.cooltime ? (
+        <Item.Description>
+          Cooltime: {skill.cooltime} turn{skill.cooltime > 1 ? 's' : ''}
+        </Item.Description>
+      ) : null}
+      <Item.Description>
         <Header size="small">
           Multiplier Formula:
           <Header.Subheader>
             {skill.multiplier_formula} {skill.hits ? `x${skill.hits} hits` : null}
           </Header.Subheader>
         </Header>
-        <Divider hidden />
+      </Item.Description>
+      <Item.Description>
         <Header size="small">
           Level-Up Progress:
           <Header.Subheader>
@@ -36,7 +41,7 @@ const SkillItem = ({ skill }) => (
             </List>
           </Header.Subheader>
         </Header>
-      </Item.Extra>
+      </Item.Description>
     </Item.Content>
   </Item>
 );

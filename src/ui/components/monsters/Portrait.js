@@ -13,7 +13,7 @@ const PortraitContainer = styled.div`
 
 const Portrait = ({ monster, level, stars }) => (
   <PortraitContainer>
-    <Image src={`${process.env.PUBLIC_URL}/assets/monsters/${monster.image_filename}`} />
+    <Image rounded src={`${process.env.PUBLIC_URL}/assets/monsters/${monster.image_filename}`} />
     <Stars
       stars={stars || monster.base_stars}
       awakened={monster.is_awakened}
