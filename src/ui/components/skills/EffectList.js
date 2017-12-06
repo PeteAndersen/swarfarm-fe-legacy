@@ -1,19 +1,21 @@
 import React from 'react';
 import { List, Image, Header } from 'semantic-ui-react';
 
-const Effect = ({ effect }) => {
+const Effect = ({ effect, show_image = true }) => {
   const color = effect.effect.is_buff ? 'blue' : 'red';
 
   return (
     <List.Item>
-      <Image
-        avatar
-        src={
-          effect.effect.icon_filename
-            ? `${process.env.PUBLIC_URL}/assets/buffs/${effect.effect.icon_filename}`
-            : null
-        }
-      />
+      {show_image ? (
+        <Image
+          avatar
+          src={
+            effect.effect.icon_filename
+              ? `${process.env.PUBLIC_URL}/assets/buffs/${effect.effect.icon_filename}`
+              : null
+          }
+        />
+      ) : null}
       <List.Content>
         <List.Header>
           <Header color={color} size="small">
@@ -26,9 +28,17 @@ const Effect = ({ effect }) => {
   );
 };
 
-const EffectList = ({ effects }) => (
-  <List>{effects.map(effect => <Effect effect={effect} />)}</List>
-);
+const EffectList = ({ effects }) => {
+  // If skill has no effects with icons, do not display the img tag to avoid awkward whitespace
+  const has_effect_icons = effects.reduce(
+    (accum, effect) => accum || effect.effect.icon_filename,
+    false
+  );
+
+  return (
+    <List>{effects.map(effect => <Effect effect={effect} show_image={has_effect_icons} />)}</List>
+  );
+};
 
 const effect_detail = effect => {
   const extra_effects = [];
