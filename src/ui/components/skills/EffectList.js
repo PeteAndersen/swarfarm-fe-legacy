@@ -36,7 +36,26 @@ const EffectList = ({ effects }) => {
   );
 
   return (
-    <List>{effects.map(effect => <Effect effect={effect} show_image={has_effect_icons} />)}</List>
+    <List>
+      {effects
+        .sort((a, b) => {
+          // Display icons first, other effects last
+          console.log(a.effect, b.effect);
+          if (
+            (a.effect.icon_filename !== '' && b.effect.icon_filename !== '') ||
+            (a.effect.icon_filename === '' && b.effect.icon_filename === '')
+          ) {
+            // Sort alphabetically
+            return a.effect.name.toLowerCase() < b.effect.name.toLowerCase() ? -1 : 1;
+          } else {
+            // Sort by which one has an icon
+            return a.effect.icon_filename ? -1 : 1;
+          }
+        })
+        .map((effect, index) => (
+          <Effect key={index} effect={effect} show_image={has_effect_icons} />
+        ))}
+    </List>
   );
 };
 
