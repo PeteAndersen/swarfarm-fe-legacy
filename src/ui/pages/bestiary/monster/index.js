@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { denormalize } from 'normalizr';
-import { Container, Grid, Loader } from 'semantic-ui-react';
+import { Container, Grid, Loader, Segment } from 'semantic-ui-react';
 
 import { bestiaryActions, bestiarySelectors, bestiarySchema } from 'state/ducks/bestiary';
 import { ScrollToTopOnMount } from 'ui/components';
+import { LeaderSkill } from 'ui/components/skills';
 
 import Info from './Info';
 import Skills from './Skills';
@@ -29,6 +30,7 @@ class MonsterPage extends React.Component {
               <Stats monster={monster} />
             </Grid.Column>
             <Grid.Column>
+              {monster.leader_skill ? <LeaderSkill skill={monster.leader_skill} /> : null}
               <Skills skills={monster.skills} />
             </Grid.Column>
           </Grid>
