@@ -40,7 +40,6 @@ const EffectList = ({ effects }) => {
       {effects
         .sort((a, b) => {
           // Display icons first, other effects last
-          console.log(a.effect, b.effect);
           if (
             (a.effect.icon_filename !== '' && b.effect.icon_filename !== '') ||
             (a.effect.icon_filename === '' && b.effect.icon_filename === '')

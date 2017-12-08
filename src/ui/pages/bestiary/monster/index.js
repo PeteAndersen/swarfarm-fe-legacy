@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { denormalize } from 'normalizr';
-import { Container, Grid, Loader, Segment } from 'semantic-ui-react';
+import { Container, Grid, Loader } from 'semantic-ui-react';
 
 import { bestiaryActions, bestiarySelectors, bestiarySchema } from 'state/ducks/bestiary';
 import { ScrollToTopOnMount } from 'ui/components';

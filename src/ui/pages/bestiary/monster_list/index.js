@@ -20,7 +20,7 @@ class Bestiary extends React.Component {
 
   render() {
     const { isPopulating, wasPopulated, monsterList } = this.props;
-    const page = this.props.match.params.page || 1;
+    const page = Number(this.props.match.params.page) || 1;
     const monsterPageSlice = monsterList.slice(
       (page - 1) * this.state.pageSize,
       page * this.state.pageSize

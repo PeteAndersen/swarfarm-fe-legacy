@@ -1,5 +1,5 @@
 import React from 'react';
-import { Item, Segment, Image } from 'semantic-ui-react';
+import { Item, Segment } from 'semantic-ui-react';
 
 const generate_image_filename = skill => {
   let suffix;
@@ -38,24 +38,22 @@ const generate_description = skill => {
   return `Increase the ${skill.attribute} of all monsters ${condition}by ${skill.amount}%`;
 };
 
-const LeaderSkill = ({ skill }) => {
-  const image_filename = '';
-  return (
-    <Segment>
-      <Item.Group>
-        <Item>
-          <Item.Image
-            size="mini"
-            rounded
-            src={`${process.env.PUBLIC_URL}/assets/skills/leader/${generate_image_filename(skill)}`}
-          />
-          <Item.Content>
-            <Item.Header>Leader Skill</Item.Header>
-            <Item.Description>{generate_description(skill)}</Item.Description>
-          </Item.Content>
-        </Item>
-      </Item.Group>
-    </Segment>
-  );
-};
+const LeaderSkill = ({ skill }) => (
+  <Segment>
+    <Item.Group>
+      <Item>
+        <Item.Image
+          size="mini"
+          rounded
+          src={`${process.env.PUBLIC_URL}/assets/skills/leader/${generate_image_filename(skill)}`}
+        />
+        <Item.Content>
+          <Item.Header>Leader Skill</Item.Header>
+          <Item.Description>{generate_description(skill)}</Item.Description>
+        </Item.Content>
+      </Item>
+    </Item.Group>
+  </Segment>
+);
+
 export default LeaderSkill;
