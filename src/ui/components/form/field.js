@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FormField } from 'semantic-ui-react';
 
 // Wraps Semantic UI's Form.Field w/ Formik compatible event handling
@@ -33,5 +34,11 @@ class Field extends React.Component {
     );
   }
 }
+
+Field.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func,
+  error: PropTypes.bool
+};
 
 export default Field;

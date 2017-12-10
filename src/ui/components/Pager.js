@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Menu } from 'semantic-ui-react';
 
 class Pager extends React.Component {
@@ -87,6 +88,13 @@ class Pager extends React.Component {
       </Menu>
     );
   }
+}
+
+Pager.propTypes = {
+  currentPage: PropTypes.number.isRequired,
+  numPages: PropTypes.number.isRequired,
+  onPageChange: PropTypes.func.isRequired,
+  visibleButtons: PropTypes.number,
 }
 
 export default Pager;

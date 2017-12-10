@@ -11,7 +11,9 @@ const Body = styled.div`
   flex-direction: column;
 `;
 
-const Content = styled.div`flex: 1;`;
+const Content = styled.div`
+  flex: 1;
+`;
 
 const App = props => (
   <Body>

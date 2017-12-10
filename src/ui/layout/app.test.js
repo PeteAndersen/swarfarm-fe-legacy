@@ -10,6 +10,6 @@ it('renders without crashing', () => {
     <Router>
       <App />
     </Router>,
-    div,
+    div
   );
 });
