@@ -18,7 +18,7 @@ class MonsterPage extends React.Component {
   }
 
   render() {
-    const { monster } = this.props;
+    const { monster, family } = this.props;
 
     return (
       <Container>
@@ -46,12 +46,17 @@ const mapDispatchToProps = dispatch => ({
   getMonster: id => dispatch(bestiaryActions.getMonster(id))
 });
 
-const mapStateToProps = (state, ownProps) => ({
-  monster: denormalize(
+const mapStateToProps = (state, ownProps) => {
+  const monster = denormalize(
     bestiarySelectors.getMonsters(state, ownProps.match.params.id),
     bestiarySchema.monster,
     state.bestiary.entities
-  )
-});
+  );
+
+  return {
+    monster,
+    family: bestiarySelectors.getMonsterFamily(state, monster.family_id)
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(MonsterPage);

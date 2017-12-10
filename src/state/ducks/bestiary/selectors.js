@@ -1,17 +1,16 @@
 import { createSelector } from 'reselect';
 
-const _getEntityHelper = (entities, id) => {
-  //console.log(entities, id);
-  if (id) {
-    if (Array.isArray(id)) {
+const _getEntityHelper = (entities, entity_ids) => {
+  if (entity_ids) {
+    if (Array.isArray(entity_ids)) {
       // Array of IDs - return object of entities
-      return id.reduce((effects, effect_id) => {
-        effects[effect_id] = entities[effect_id];
-        return effects;
+      return entity_ids.reduce((entity_map, id) => {
+        entity_map[id] = entities[id];
+        return entity_map;
       }, {});
     } else {
       // Return single entity
-      return entities[id];
+      return entities[entity_ids];
     }
   } else {
     // Return all entities
@@ -31,6 +30,14 @@ const getSkills = (state, id) => _getEntityHelper(state.bestiary.entities.skills
 const getEffects = (state, id) => _getEntityHelper(state.bestiary.entities.effects, id);
 const getLeaderSkills = (state, id) => _getEntityHelper(state.bestiary.entities.leaderSkills, id);
 const getSources = (state, id) => _getEntityHelper(state.bestiary.entities.sources, id);
+const getMonsterFamily = (state, familyId) => {
+  const monsters = getMonsters(state);
+
+  return _getEntityHelper(
+    state.bestiary.entities.monsters,
+    Object.keys(monsters).filter(monsterId => monsters[monsterId].family_id === familyId)
+  );
+};
 
 const getMonsterList = createSelector(
   getMonsters,
@@ -43,9 +50,11 @@ const getMonsterList = createSelector(
       .sort((a, b) => (a.name > b.name ? 1 : -1))
       .map(monster => ({
         ...monster,
-        skills: monster.skills ? monster.skills.map(skillId => skills[skillId]) : null,
-        leaderSkill: monster.leaderSkill ? leaderSkills[monster.leaderSkill] : null,
-        source: monster.source ? monster.source.map(sourceId => sources[sourceId]) : null
+        skills: monster.skills ? _getEntityHelper(skills, monster.skills) : null,
+        leaderSkill: monster.leaderSkill
+          ? _getEntityHelper(getLeaderSkills, monster.leaderSkill)
+          : null,
+        source: monster.source ? _getEntityHelper(getSources, monster.source) : null
       }));
   }
 );
@@ -66,6 +75,7 @@ export default {
   getMonsters,
   getMonsterList,
   getObtainableMonsterList,
+  getMonsterFamily,
   getSkills,
   getEffects,
   getVisibleMonsterList

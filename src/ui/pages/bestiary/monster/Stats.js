@@ -1,5 +1,5 @@
 import React from 'react';
-import { Segment, Statistic, Grid, Icon, Header, Dropdown } from 'semantic-ui-react';
+import { Segment, Statistic, Icon, Header, Dropdown } from 'semantic-ui-react';
 
 import { calcActualStat, maxLevel } from 'services/monsters';
 
@@ -54,57 +54,53 @@ class Stats extends React.Component {
             lv. {maxLevel(this.state.stars)}
           </Header.Content>
         </Header>
-        <Grid columns="equal">
-          <Grid.Row>
-            <Grid.Column as={Statistic} size="tiny">
-              <Statistic.Value>
-                {calcActualStat(monster.raw_hp, this.state.stars, this.state.level) * 15}
-              </Statistic.Value>
-              <Statistic.Label>HP</Statistic.Label>
-            </Grid.Column>
+        <Statistic.Group size="tiny" widths="four">
+          <Statistic>
+            <Statistic.Value>
+              {calcActualStat(monster.raw_hp, this.state.stars, this.state.level) * 15}
+            </Statistic.Value>
+            <Statistic.Label>HP</Statistic.Label>
+          </Statistic>
 
-            <Grid.Column as={Statistic} size="tiny">
-              <Statistic.Value>
-                {calcActualStat(monster.raw_attack, this.state.stars, this.state.level) * 15}
-              </Statistic.Value>
-              <Statistic.Label>ATK</Statistic.Label>
-            </Grid.Column>
+          <Statistic>
+            <Statistic.Value>
+              {calcActualStat(monster.raw_attack, this.state.stars, this.state.level) * 15}
+            </Statistic.Value>
+            <Statistic.Label>ATK</Statistic.Label>
+          </Statistic>
 
-            <Grid.Column as={Statistic} size="tiny">
-              <Statistic.Value>
-                {calcActualStat(monster.raw_defense, this.state.stars, this.state.level) * 15}
-              </Statistic.Value>
-              <Statistic.Label>DEF</Statistic.Label>
-            </Grid.Column>
+          <Statistic>
+            <Statistic.Value>
+              {calcActualStat(monster.raw_defense, this.state.stars, this.state.level) * 15}
+            </Statistic.Value>
+            <Statistic.Label>DEF</Statistic.Label>
+          </Statistic>
 
-            <Grid.Column as={Statistic} size="tiny">
-              <Statistic.Value>{monster.speed}</Statistic.Value>
-              <Statistic.Label>SPD</Statistic.Label>
-            </Grid.Column>
-          </Grid.Row>
+          <Statistic>
+            <Statistic.Value>{monster.speed}</Statistic.Value>
+            <Statistic.Label>SPD</Statistic.Label>
+          </Statistic>
 
-          <Grid.Row>
-            <Grid.Column as={Statistic} size="tiny">
-              <Statistic.Value>{monster.crit_rate}%</Statistic.Value>
-              <Statistic.Label>CRI Rate</Statistic.Label>
-            </Grid.Column>
+          <Statistic>
+            <Statistic.Value>{monster.crit_rate}%</Statistic.Value>
+            <Statistic.Label>CRI Rate</Statistic.Label>
+          </Statistic>
 
-            <Grid.Column as={Statistic} size="tiny">
-              <Statistic.Value>{monster.crit_damage}%</Statistic.Value>
-              <Statistic.Label>CRI Dmg</Statistic.Label>
-            </Grid.Column>
+          <Statistic>
+            <Statistic.Value>{monster.crit_damage}%</Statistic.Value>
+            <Statistic.Label>CRI Dmg</Statistic.Label>
+          </Statistic>
 
-            <Grid.Column as={Statistic} size="tiny">
-              <Statistic.Value>{monster.resistance}%</Statistic.Value>
-              <Statistic.Label>Resistance</Statistic.Label>
-            </Grid.Column>
+          <Statistic>
+            <Statistic.Value>{monster.resistance}%</Statistic.Value>
+            <Statistic.Label>Resistance</Statistic.Label>
+          </Statistic>
 
-            <Grid.Column as={Statistic} size="tiny">
-              <Statistic.Value>{monster.accuracy}%</Statistic.Value>
-              <Statistic.Label>Accuracy</Statistic.Label>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
+          <Statistic>
+            <Statistic.Value>{monster.accuracy}%</Statistic.Value>
+            <Statistic.Label>Accuracy</Statistic.Label>
+          </Statistic>
+        </Statistic.Group>
       </Segment>
     );
   }
