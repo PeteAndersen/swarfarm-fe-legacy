@@ -25,12 +25,13 @@ export const getAuthToken = () => {
   }
 };
 
-export default async function request(method, url, data, use_auth = true) {
+export default async function request(method, url, data, params, use_auth = true) {
   const token = JWT.get();
   const reqConfig = {
     method,
     url,
-    data
+    data,
+    params
   };
 
   if (token && JWT.validate(token) && use_auth) {

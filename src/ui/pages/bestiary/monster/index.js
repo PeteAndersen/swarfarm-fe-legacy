@@ -55,7 +55,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     monster,
-    family: bestiarySelectors.getMonsterFamily(state, monster.family_id)
+    family: monster ? bestiarySelectors.getMonsterFamily(state, monster.family_id) : {}
   };
 };
 

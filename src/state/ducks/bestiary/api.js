@@ -1,23 +1,13 @@
 import request from 'services/api';
 
-const getMonsterList = (page = null) => {
-  let endpoint = 'monsters/';
-
-  if (page) {
-    endpoint += `?page=${page}`;
-  }
-  return request('get', endpoint);
+const getMonsterList = params => {
+  return request('get', 'monsters/', null, params);
 };
 
 const getMonster = id => request('get', `monsters/${id}/`);
 
-const getSkillList = (page = null) => {
-  let endpoint = 'skills/';
-
-  if (page) {
-    endpoint += `?page=${page}`;
-  }
-  return request('get', endpoint);
+const getSkillList = params => {
+  return request('get', 'skills/', null, params);
 };
 
 const getSkill = id => request('get', `skills/${id}/`);

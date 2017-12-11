@@ -14,6 +14,15 @@ class Bestiary extends React.Component {
     this.state = { page: 1, pageSize: 50 };
   }
 
+  componentWillMount() {
+    // Check if bestiary data is older than an hour
+    const lastPopulated = new Date(this.props.lastPopulated);
+
+    if (new Date() - lastPopulated >= 60 * 60 * 1000) {
+      this.props.populateBestiary();
+    }
+  }
+
   handlePageChange = (e, { page }) => {
     history.push(`/bestiary/${page}`);
   };
@@ -64,6 +73,7 @@ class Bestiary extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   isLoading: bestiarySelectors.isLoading(state),
+  lastPopulated: bestiarySelectors.lastPopulated(state),
   isPopulating: bestiarySelectors.isPopulating(state),
   wasPopulated: bestiarySelectors.wasPopulated(state),
   monsterList: bestiarySelectors.getVisibleMonsterList(state)

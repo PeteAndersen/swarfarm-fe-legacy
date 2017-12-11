@@ -10,7 +10,7 @@ function* getEntireList(apiFunc, dataSchema) {
   let page = 1;
   let data = {};
   do {
-    data = yield call(apiFunc, page);
+    data = yield call(apiFunc, { page });
     const normalized = normalize(data.results, dataSchema);
     yield put(actions.receiveBestiaryData(normalized.entities));
     page += 1;
@@ -37,10 +37,15 @@ function* getMonster({ type, payload: id }) {
     const normalized = normalize(data, schema.monster);
     yield put(actions.receiveBestiaryData(normalized.entities));
 
-    // Queue up actions to update its skills
+    // Get its Skills
     for (let skillID of data.skills) {
       yield put(actions.getSkill(skillID));
     }
+
+    // Monster family too
+    const family = yield call(api.getMonsterList, { family_id: data.family_id });
+    const normalized_family = normalize(family.results, schema.monsterList);
+    yield put(actions.receiveBestiaryData(normalized_family.entities));
 
     yield put(actions.getMonsterComplete());
   } catch (err) {
