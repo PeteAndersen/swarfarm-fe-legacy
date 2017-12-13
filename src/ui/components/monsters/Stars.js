@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Image } from 'semantic-ui-react';
 
 const StarContainer = styled.div`
   position: absolute;
@@ -8,19 +7,18 @@ const StarContainer = styled.div`
   top: 0px;
 `;
 
-const OverlappingImage = styled(Image)`
-  margin-right: -10px;
-`;
-
-const Star = ({ imageFilename }) => {
+const Star = ({ imageFilename, mini }) => {
+  const OverlappingImage = styled.img`
+    margin-right: ${mini ? '-6px' : '-10px'};
+  `;
   return (
     <OverlappingImage
-      height="20px"
+      height={mini ? '15px' : '20px'}
       src={`${process.env.PUBLIC_URL}/assets/stars/${imageFilename}`}
     />
   );
 };
-const Stars = ({ stars: num_stars, awakened, can_awaken }) => {
+const Stars = ({ stars: num_stars, awakened, can_awaken, mini }) => {
   const stars = [];
   let imageFilename;
 
@@ -33,9 +31,9 @@ const Stars = ({ stars: num_stars, awakened, can_awaken }) => {
   }
 
   for (let x = 0; x < num_stars; x++) {
-    stars.push(<Star key={x} imageFilename={imageFilename} />);
+    stars.push(<Star key={x} imageFilename={imageFilename} mini={mini} />);
   }
-  return <StarContainer basic>{stars}</StarContainer>;
+  return <StarContainer>{stars}</StarContainer>;
 };
 
 export default Stars;
