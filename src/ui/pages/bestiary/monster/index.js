@@ -25,11 +25,16 @@ class MonsterPage extends React.Component {
     return (
       <Container>
         <ScrollToTopOnMount />
-        <Menu>
+        <Menu pointing>
           <Menu.Item as={Link} to="/bestiary">
             <Icon name="arrow left" />Back
           </Menu.Item>
-          <ElementSwitcher family={family} prefer_awakened={monster.is_awakened} position="right" />
+          <ElementSwitcher
+            family={family}
+            preferAwakened={monster.is_awakened}
+            position="right"
+            activeElement={monster.element.toLowerCase()}
+          />
         </Menu>
 
         {monster ? (
