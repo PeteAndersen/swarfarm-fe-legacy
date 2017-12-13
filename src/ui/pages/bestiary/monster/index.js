@@ -1,15 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { denormalize } from 'normalizr';
-import { Container, Grid, Loader } from 'semantic-ui-react';
+import { Container, Grid, Menu, Loader, Icon } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 import { bestiaryActions, bestiarySelectors, bestiarySchema } from 'state/ducks/bestiary';
 import { ScrollToTopOnMount } from 'ui/components';
 import { LeaderSkill } from 'ui/components/skills';
 
-import Info from './Info';
-import Skills from './Skills';
-import Stats from './Stats';
+import Info from './info';
+import Skills from './skills';
+import Stats from './stats';
+import ElementSwitcher from './element_switcher';
 
 class MonsterPage extends React.Component {
   componentWillMount() {
@@ -23,6 +25,13 @@ class MonsterPage extends React.Component {
     return (
       <Container>
         <ScrollToTopOnMount />
+        <Menu>
+          <Menu.Item as={Link} to="/bestiary">
+            <Icon name="arrow left" />Back
+          </Menu.Item>
+          <ElementSwitcher family={family} prefer_awakened={monster.is_awakened} position="right" />
+        </Menu>
+
         {monster ? (
           <Grid stackable columns="equal">
             <Grid.Column>

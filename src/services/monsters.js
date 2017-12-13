@@ -1,3 +1,5 @@
+import slugify from 'slugify';
+
 const magic_multipliers = [
   { 1: 1.0, 15: 1.9958 },
   { 1: 1.5966, 20: 3.03050646 },
@@ -26,3 +28,5 @@ export const calcActualStat = (stat, stars, level) => {
 };
 
 export const maxLevel = stars => stars * 5 + 10;
+
+export const getSlug = monster => slugify(monster.name).toLowerCase();

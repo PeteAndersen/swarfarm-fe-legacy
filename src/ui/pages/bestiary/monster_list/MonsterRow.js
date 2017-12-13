@@ -1,15 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Table, Image, Icon } from 'semantic-ui-react';
-import slugify from 'slugify';
+
+import { getSlug } from 'services/monsters';
 
 const MonsterCard = ({ monster }) => {
-  const slug = slugify(monster.name).toLowerCase();
-
   return (
     <Table.Row>
       <Table.Cell>
-        <Link to={`/bestiary/${monster.id}-${slug}`}>
+        <Link to={`/bestiary/${monster.id}-${getSlug(monster)}`}>
           <Image src={`${process.env.PUBLIC_URL}/assets/monsters/${monster.image_filename}`} />{' '}
           {monster.name}
         </Link>
