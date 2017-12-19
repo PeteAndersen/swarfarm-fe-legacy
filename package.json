@@ -12,8 +12,8 @@
     "localforage": "^1.5.5",
     "normalizr": "^3.2.4",
     "prop-types": "^15.6.0",
-    "react": "^16.1.1",
-    "react-dom": "^16.1.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.8",
@@ -23,9 +23,9 @@
     "redux-saga": "^0.16.0",
     "reselect": "^3.0.1",
     "semantic-ui-css": "^2.2.12",
-    "semantic-ui-react": "^0.77.0",
-    "slugify": "^1.2.6",
-    "styled-components": "^2.2.4",
+    "semantic-ui-react": "^0.77.1",
+    "slugify": "^1.2.7",
+    "styled-components": "^2.3.0",
     "yup": "^0.23.0"
   },
   "devDependencies": {
