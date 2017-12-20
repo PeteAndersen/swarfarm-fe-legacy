@@ -64,14 +64,14 @@ class Stats extends React.Component {
 
           <Statistic>
             <Statistic.Value>
-              {calcActualStat(monster.raw_attack, this.state.stars, this.state.level) * 15}
+              {calcActualStat(monster.raw_attack, this.state.stars, this.state.level)}
             </Statistic.Value>
             <Statistic.Label>ATK</Statistic.Label>
           </Statistic>
 
           <Statistic>
             <Statistic.Value>
-              {calcActualStat(monster.raw_defense, this.state.stars, this.state.level) * 15}
+              {calcActualStat(monster.raw_defense, this.state.stars, this.state.level)}
             </Statistic.Value>
             <Statistic.Label>DEF</Statistic.Label>
           </Statistic>
