@@ -25,16 +25,16 @@ const wasPopulated = state => state.bestiary.wasPopulated;
 const lastPopulated = state => state.bestiary.lastPopulated;
 
 // Bestiary Entities
-const getMonsters = (state, id) => _getEntityHelper(state.bestiary.entities.monsters, id);
-const getSkills = (state, id) => _getEntityHelper(state.bestiary.entities.skills, id);
-const getEffects = (state, id) => _getEntityHelper(state.bestiary.entities.effects, id);
-const getLeaderSkills = (state, id) => _getEntityHelper(state.bestiary.entities.leaderSkills, id);
-const getSources = (state, id) => _getEntityHelper(state.bestiary.entities.sources, id);
+const getMonsters = (state, id) => _getEntityHelper(state.bestiary.monsters, id);
+const getSkills = (state, id) => _getEntityHelper(state.bestiary.skills, id);
+const getEffects = (state, id) => _getEntityHelper(state.bestiary.effects, id);
+const getLeaderSkills = (state, id) => _getEntityHelper(state.bestiary.leaderSkills, id);
+const getSources = (state, id) => _getEntityHelper(state.bestiary.sources, id);
 const getMonsterFamily = (state, familyId) => {
   const monsters = getMonsters(state);
 
   return _getEntityHelper(
-    state.bestiary.entities.monsters,
+    state.bestiary.monsters,
     Object.keys(monsters).filter(monsterId => monsters[monsterId].family_id === familyId)
   );
 };

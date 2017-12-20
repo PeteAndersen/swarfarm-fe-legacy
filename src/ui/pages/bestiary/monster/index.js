@@ -19,6 +19,12 @@ class MonsterPage extends React.Component {
     this.props.getMonster(this.props.match.params.id);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.match.params.id !== this.props.match.params.id) {
+      this.props.getMonster(nextProps.match.params.id);
+    }
+  }
+
   render() {
     const { monster, family } = this.props;
 
@@ -31,9 +37,9 @@ class MonsterPage extends React.Component {
           </Menu.Item>
           <ElementSwitcher
             family={family}
-            preferAwakened={monster.is_awakened}
+            preferAwakened={monster && monster.is_awakened}
             position="right"
-            activeElement={monster.element.toLowerCase()}
+            activeElement={monster && monster.element.toLowerCase()}
           />
         </Menu>
 
@@ -64,7 +70,7 @@ const mapStateToProps = (state, ownProps) => {
   const monster = denormalize(
     bestiarySelectors.getMonsters(state, ownProps.match.params.id),
     bestiarySchema.monster,
-    state.bestiary.entities
+    state.bestiary
   );
 
   return {

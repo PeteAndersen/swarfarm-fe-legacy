@@ -1,18 +1,18 @@
 import { persistReducer } from 'redux-persist';
 import localForage from 'localforage';
+import isEqual from 'lodash.isequal';
+
 import types from './types';
 
 /* State shape
 {
-  entities: {
-    monsters: {},
-    skills: {},
-    leaderSkills: {},
-    effects: {},
-    homunculusSkills: {},
-    craftMaterials: {},
-    sources: {}
-  },
+  monsters: {},
+  skills: {},
+  leaderSkills: {},
+  effects: {},
+  homunculusSkills: {},
+  craftMaterials: {},
+  sources: {},
   isLoading: boolean,
   isPopulating: boolean,
   wasPopulated: boolean,
@@ -24,22 +24,21 @@ const INITIAL_STATE = {
   isPopulating: false,
   wasPopulated: false,
   lastPopulated: null,
-  entities: {
-    monsters: {},
-    skills: {},
-    leaderSkills: {},
-    effects: {},
-    homunculusSkills: {},
-    craftMaterials: {},
-    sources: {}
-  },
+  monsters: {},
+  skills: {},
+  leaderSkills: {},
+  effects: {},
+  homunculusSkills: {},
+  craftMaterials: {},
+  sources: {},
   isLoading: false
 };
 
 const persistConfig = {
   key: 'bestiary',
   storage: localForage,
-  whitelist: ['wasPopulated', 'lastPopulated', 'entities']
+  blacklist: ['isLoading'],
+  debug: true
 };
 
 const reducer = persistReducer(
@@ -47,26 +46,20 @@ const reducer = persistReducer(
   (state = INITIAL_STATE, { type: actionType, payload }) => {
     switch (actionType) {
       case types.RECEIVE_BESTIARY_DATA:
-        return {
-          ...state,
-          entities: {
-            monsters: Object.assign({}, state.entities.monsters, payload.monsters),
-            skills: Object.assign({}, state.entities.skills, payload.skills),
-            leaderSkills: Object.assign({}, state.entities.leaderSkills, payload.leaderSkills),
-            effects: Object.assign({}, state.entities.effects, payload.effects),
-            homunculusSkills: Object.assign(
-              {},
-              state.entities.homunculusSkills,
-              payload.homunculusSkills
-            ),
-            craftMaterials: Object.assign(
-              {},
-              state.entities.craftMaterials,
-              payload.craftMaterials
-            ),
-            sources: Object.assign({}, state.entities.sources, payload.sources)
+        // Compare each entity in payload to existing entities, update if different
+        const newState = { ...state };
+        let updated = false;
+
+        for (const [entityType, newEntities] of Object.entries(payload)) {
+          for (const [id, entity] of Object.entries(newEntities)) {
+            if (state[entityType][id] === undefined || !isEqual(state[entityType][id], entity)) {
+              newState[entityType] = { ...newState[entityType], [id]: entity };
+              updated = true;
+            }
           }
-        };
+        }
+
+        return updated ? newState : state;
 
       case types.POPULATE_BESTIARY:
         return {

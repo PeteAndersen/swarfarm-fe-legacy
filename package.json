@@ -10,6 +10,7 @@
     "history": "^4.7.2",
     "jwt-client": "^0.2.1",
     "localforage": "^1.5.5",
+    "lodash": "^4.17.4",
     "normalizr": "^3.2.4",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
