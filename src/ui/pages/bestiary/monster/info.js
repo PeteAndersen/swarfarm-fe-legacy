@@ -34,7 +34,7 @@ const Info = ({ monster }) => {
         <Card.Header>{monster.name}</Card.Header>
         <Card.Meta>
           <Image
-            size="mini"
+            avatar
             spaced="right"
             src={`${process.env.PUBLIC_URL}/assets/elements/${monster.element.toLowerCase()}.png`}
           />

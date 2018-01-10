@@ -1,23 +1,14 @@
 import React from 'react';
-import { Table } from 'semantic-ui-react';
+import { Item } from 'semantic-ui-react';
 
-import MonsterRow from './MonsterRow';
+import MonsterItem from './MonsterItem';
 
 const MonsterList = ({ monsters }) => (
-  <Table>
-    <Table.Header>
-      <Table.Row>
-        <Table.HeaderCell>Monster</Table.HeaderCell>
-        <Table.HeaderCell>Base Stars</Table.HeaderCell>
-        <Table.HeaderCell>Element</Table.HeaderCell>
-      </Table.Row>
-    </Table.Header>
-    <Table.Body>
-      {monsters.map(monster => {
-        return <MonsterRow key={monster.id} monster={monster} />;
-      })}
-    </Table.Body>
-  </Table>
+  <Item.Group link divided>
+    {monsters.map(monster => {
+      return <MonsterItem key={monster.id} monster={monster} />;
+    })}
+  </Item.Group>
 );
 
 export default MonsterList;

@@ -17,6 +17,9 @@ import types from './types';
   isPopulating: boolean,
   wasPopulated: boolean,
   lastPopulated: datetime || null
+  sortKey: string || null,
+  sortDir: integer (-1 | 1)
+  filters: {}
 }
 */
 
@@ -31,7 +34,12 @@ const INITIAL_STATE = {
   homunculusSkills: {},
   craftMaterials: {},
   sources: {},
-  isLoading: false
+  isLoading: false,
+  sortKey: 'name',
+  sortDirection: 1,
+  filters: {
+    obtainable: true
+  }
 };
 
 const persistConfig = {

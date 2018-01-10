@@ -76,7 +76,7 @@ const mapStateToProps = (state, ownProps) => ({
   lastPopulated: bestiarySelectors.lastPopulated(state),
   isPopulating: bestiarySelectors.isPopulating(state),
   wasPopulated: bestiarySelectors.wasPopulated(state),
-  monsterList: bestiarySelectors.getVisibleMonsterList(state)
+  monsterList: bestiarySelectors.getFilteredMonsterList(state)
 });
 
 const mapDispatchToProps = dispatch => ({

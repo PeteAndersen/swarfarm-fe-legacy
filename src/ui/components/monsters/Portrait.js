@@ -9,17 +9,23 @@ const PortraitContainer = styled.div`
   border-radius: 5px;
   border: 1px solid black;
   margin-right: 5px;
+  height: 100%;
 `;
 
-const Portrait = ({ monster, level, stars }) => (
-  <PortraitContainer>
-    <Image rounded src={`${process.env.PUBLIC_URL}/assets/monsters/${monster.image_filename}`} />
-    <Stars
-      stars={stars || monster.base_stars}
-      awakened={monster.is_awakened}
-      can_awaken={monster.can_awaken}
-    />
-  </PortraitContainer>
-);
-
+const Portrait = ({ monster, level, stars, size }) => {
+  return (
+    <PortraitContainer>
+      <Image
+        size={size}
+        rounded
+        src={`${process.env.PUBLIC_URL}/assets/monsters/${monster.image_filename}`}
+      />
+      <Stars
+        stars={stars || monster.base_stars}
+        awakened={monster.is_awakened}
+        can_awaken={monster.can_awaken}
+      />
+    </PortraitContainer>
+  );
+};
 export default Portrait;

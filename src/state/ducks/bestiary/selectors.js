@@ -1,4 +1,6 @@
 import { createSelector } from 'reselect';
+import { denormalize } from 'normalizr';
+import schema from './schema';
 
 const _getEntityHelper = (entities, entity_ids) => {
   if (entity_ids) {
@@ -41,31 +43,45 @@ const getMonsterFamily = (state, familyId) => {
 
 const getMonsterList = createSelector(
   getMonsters,
-  getSkills,
-  getLeaderSkills,
-  getSources,
-  (monsters, skills, leaderSkills, sources) => {
-    //console.log(monsters, skills, leaderSkills, sources);
-    return Object.values(monsters)
-      .sort((a, b) => (a.name > b.name ? 1 : -1))
-      .map(monster => ({
-        ...monster,
-        skills: monster.skills ? _getEntityHelper(skills, monster.skills) : null,
-        leaderSkill: monster.leaderSkill
-          ? _getEntityHelper(getLeaderSkills, monster.leaderSkill)
-          : null,
-        source: monster.source ? _getEntityHelper(getSources, monster.source) : null
-      }));
-  }
-);
-
-const getObtainableMonsterList = createSelector(getMonsterList, monsters =>
-  monsters.filter(mon => mon.obtainable)
+  state => state.bestiary,
+  (monsters, entities) => denormalize(Object.keys(monsters), schema.monsterList, entities)
 );
 
 // UI
-// TODO: Add bestiary filters here
-const getVisibleMonsterList = createSelector(getObtainableMonsterList, monsters => monsters);
+const getSortKey = state => state.bestiary.sortKey;
+const getSortDirection = state => state.bestiary.sortDirection;
+const getListFilters = state => state.bestiary.filters;
+
+const getSortedMonsterList = createSelector(
+  getMonsterList,
+  getSortKey,
+  getSortDirection,
+  (monsters, sortKey, sortDir) => {
+    if (sortKey && sortDir) {
+      return monsters.sort((a, b) => (a[sortKey] > b[sortKey] ? sortDir : -sortDir));
+    }
+    return monsters;
+  }
+);
+
+// TODO: Add bestiary filtering based on state here
+const getFilteredMonsterList = createSelector(
+  getSortedMonsterList,
+  getListFilters,
+  (monsters, filters) => {
+    let filteredMonsters = monsters;
+    for (const [key, filterVals] of Object.entries(filters)) {
+      console.log(key, filterVals);
+      if (Array.isArray(filterVals)) {
+        filteredMonsters = filteredMonsters.filter(monster => filterVals.includes(monster[key]));
+      } else {
+        filteredMonsters = filteredMonsters.filter(monster => monster[key] === filterVals);
+      }
+    }
+
+    return filteredMonsters;
+  }
+);
 
 export default {
   isLoading,
@@ -74,9 +90,8 @@ export default {
   lastPopulated,
   getMonsters,
   getMonsterList,
-  getObtainableMonsterList,
   getMonsterFamily,
   getSkills,
   getEffects,
-  getVisibleMonsterList
+  getFilteredMonsterList
 };

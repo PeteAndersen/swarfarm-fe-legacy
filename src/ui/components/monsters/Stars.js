@@ -5,19 +5,18 @@ const StarContainer = styled.div`
   position: absolute;
   left: 0px;
   top: 0px;
+  height: 22%;
+  width: 100%;
 `;
 
 const Star = ({ imageFilename, mini }) => {
   const OverlappingImage = styled.img`
-    margin-right: ${mini ? '-6px' : '-10px'};
+    margin-right: -10%;
+    height: 100%;
   `;
-  return (
-    <OverlappingImage
-      height={mini ? '15px' : '20px'}
-      src={`${process.env.PUBLIC_URL}/assets/stars/${imageFilename}`}
-    />
-  );
+  return <OverlappingImage src={`${process.env.PUBLIC_URL}/assets/stars/${imageFilename}`} />;
 };
+
 const Stars = ({ stars: num_stars, awakened, can_awaken, mini }) => {
   const stars = [];
   let imageFilename;
