@@ -65,18 +65,21 @@ const MonsterCard = ({ monster }) => {
         </Card.Content>
         <Card.Content extra>
           <List>
-            {monster.skills
-              ? monster.skills.map(skill => (
-                  <List.Item>
-                    <Image
-                      size="mini"
-                      rounded
-                      verticalAlign="middle"
-                      src={`${process.env.PUBLIC_URL}/assets/skills/${skill.icon_filename}`}
-                    />{' '}
-                    <span>{skill.name}</span>
-                  </List.Item>
-                ))
+            {monster.skills.length > 0
+              ? monster.skills.map(
+                  skill =>
+                    skill ? (
+                      <List.Item>
+                        <Image
+                          size="mini"
+                          rounded
+                          verticalAlign="middle"
+                          src={`${process.env.PUBLIC_URL}/assets/skills/${skill.icon_filename}`}
+                        />{' '}
+                        <span>{skill.name}</span>
+                      </List.Item>
+                    ) : null
+                )
               : null}
           </List>
         </Card.Content>
