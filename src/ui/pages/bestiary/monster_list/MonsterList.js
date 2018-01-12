@@ -1,14 +1,14 @@
 import React from 'react';
-import { Item } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
 
-import MonsterItem from './MonsterItem';
+import MonsterCard from './MonsterCard';
 
 const MonsterList = ({ monsters }) => (
-  <Item.Group link divided>
+  <Grid>
     {monsters.map(monster => {
-      return <MonsterItem key={monster.id} monster={monster} />;
+      return <MonsterCard key={monster.id} monster={monster} />;
     })}
-  </Item.Group>
+  </Grid>
 );
 
 export default MonsterList;

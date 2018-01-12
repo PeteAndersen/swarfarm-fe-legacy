@@ -9,7 +9,6 @@ const PortraitContainer = styled.div`
   border-radius: 5px;
   border: 1px solid black;
   margin-right: 5px;
-  height: 100%;
 `;
 
 const Portrait = ({ monster, level, stars, size }) => {

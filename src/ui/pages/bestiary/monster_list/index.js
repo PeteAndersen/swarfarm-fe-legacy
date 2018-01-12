@@ -1,17 +1,27 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Segment, Grid, Dimmer, Loader, Header } from 'semantic-ui-react';
+import {
+  Segment,
+  Grid,
+  Menu,
+  Dropdown,
+  Dimmer,
+  Loader,
+  Header,
+  Pagination,
+  Icon
+} from 'semantic-ui-react';
 
 import { bestiaryActions, bestiarySelectors } from 'state/ducks/bestiary';
 import history from 'state/history';
-import { Pager, ScrollToTopOnMount } from 'ui/components';
+import { ScrollToTopOnMount } from 'ui/components';
 import FilterForm from './FilterForm';
 import MonsterList from './MonsterList';
 
 class Bestiary extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { page: 1, pageSize: 50 };
+    this.state = { page: 1, pageSize: 100 };
   }
 
   componentWillMount() {
@@ -23,25 +33,31 @@ class Bestiary extends React.Component {
     }
   }
 
-  handlePageChange = (e, { page }) => {
-    history.push(`/bestiary/${page}`);
+  handlePageChange = (e, { activePage }) => {
+    history.push(`/bestiary/${activePage}`);
   };
 
   render() {
     const { isPopulating, wasPopulated, monsterList } = this.props;
-    const page = Number(this.props.match.params.page) || 1;
+    const activePage = Number(this.props.match.params.page) || 1;
     const monsterPageSlice = monsterList.slice(
-      (page - 1) * this.state.pageSize,
-      page * this.state.pageSize
+      (activePage - 1) * this.state.pageSize,
+      activePage * this.state.pageSize
     );
     const numPages = Math.ceil(monsterList.length / this.state.pageSize);
     const pager = (
-      <Pager
-        pagination
+      <Pagination
         floated="right"
-        currentPage={page}
-        numPages={numPages}
+        pointing
+        secondary
+        activePage={activePage}
         onPageChange={this.handlePageChange}
+        totalPages={numPages}
+        ellipsisItem={{ content: <Icon name="ellipsis horizontal" />, icon: true }}
+        firstItem={{ content: <Icon name="angle double left" />, icon: true }}
+        lastItem={{ content: <Icon name="angle double right" />, icon: true }}
+        prevItem={{ content: <Icon name="angle left" />, icon: true }}
+        nextItem={{ content: <Icon name="angle right" />, icon: true }}
       />
     );
 
@@ -61,9 +77,18 @@ class Bestiary extends React.Component {
             <FilterForm />
           </Grid.Column>
           <Grid.Column width={12}>
-            {pager}
+            <Menu secondary>
+              <Dropdown item text="Sort By">
+                <Dropdown.Menu>
+                  <Dropdown.Item>Small</Dropdown.Item>
+                  <Dropdown.Item>Medium</Dropdown.Item>
+                  <Dropdown.Item>Large</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+              {pager}
+            </Menu>
             <MonsterList monsters={monsterPageSlice} />
-            {pager}
+            <Menu secondary>{pager}</Menu>
           </Grid.Column>
         </Grid>
       </Dimmer.Dimmable>
