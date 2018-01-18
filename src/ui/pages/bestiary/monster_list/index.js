@@ -64,14 +64,7 @@ class Bestiary extends React.Component {
     return (
       <Dimmer.Dimmable as={Segment} dimmed={isPopulating && !wasPopulated}>
         <ScrollToTopOnMount />
-        <Dimmer active={isPopulating && !wasPopulated} page>
-          <Loader>
-            <Header size="large" color="green">
-              Populating Bestiary...
-            </Header>
-            <p>This is a one-time process</p>
-          </Loader>
-        </Dimmer>
+
         <Grid>
           <Grid.Column width={4}>
             <FilterForm />
@@ -87,7 +80,15 @@ class Bestiary extends React.Component {
               </Dropdown>
               {pager}
             </Menu>
-            <MonsterList monsters={monsterPageSlice} />
+            <Dimmer active={isPopulating && !wasPopulated} inverted>
+              <Loader>
+                <Header size="large" color="green">
+                  Populating Bestiary...
+                </Header>
+                <p>This is a one-time process</p>
+              </Loader>
+            </Dimmer>
+            {wasPopulated ? <MonsterList monsters={monsterPageSlice} /> : null}
             <Menu secondary>{pager}</Menu>
           </Grid.Column>
         </Grid>

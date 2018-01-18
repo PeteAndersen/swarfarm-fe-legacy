@@ -71,7 +71,6 @@ const getFilteredMonsterList = createSelector(
   (monsters, filters) => {
     let filteredMonsters = monsters;
     for (const [key, filterVals] of Object.entries(filters)) {
-      console.log(key, filterVals);
       if (Array.isArray(filterVals)) {
         filteredMonsters = filteredMonsters.filter(monster => filterVals.includes(monster[key]));
       } else {
