@@ -26,13 +26,13 @@ class MonsterPage extends React.Component {
   }
 
   render() {
-    const { monster, family } = this.props;
+    const { monster, family, bestiaryPage } = this.props;
 
     return (
       <Container>
         <ScrollToTopOnMount />
         <Menu pointing>
-          <Menu.Item as={Link} to="/bestiary">
+          <Menu.Item as={Link} to={`/bestiary/${bestiaryPage || 1}`}>
             <Icon name="arrow left" />Back
           </Menu.Item>
           <ElementSwitcher
@@ -75,7 +75,8 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     monster,
-    family: monster ? bestiarySelectors.getMonsterFamily(state, monster.family_id) : {}
+    family: monster ? bestiarySelectors.getMonsterFamily(state, monster.family_id) : {},
+    bestiaryPage: bestiarySelectors.bestiaryPage(state)
   };
 };
 

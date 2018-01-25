@@ -69,7 +69,7 @@ const MonsterCard = ({ monster }) => {
               ? monster.skills.map(
                   skill =>
                     skill ? (
-                      <List.Item>
+                      <List.Item key={skill.id}>
                         <Image
                           size="mini"
                           rounded

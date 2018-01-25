@@ -35,6 +35,8 @@ const INITIAL_STATE = {
   craftMaterials: {},
   sources: {},
   isLoading: false,
+  bestiaryPage: 1,
+  pageSize: 100,
   sortKey: 'name',
   sortDirection: 1,
   filters: {
@@ -45,8 +47,7 @@ const INITIAL_STATE = {
 const persistConfig = {
   key: 'bestiary',
   storage: localForage,
-  blacklist: ['isLoading'],
-  debug: true
+  blacklist: ['isLoading', 'bestiaryPage', 'sortKey', 'sortDirection', 'filters']
 };
 
 const reducer = persistReducer(
@@ -126,6 +127,12 @@ const reducer = persistReducer(
           ...state,
           isLoading: false,
           error: payload
+        };
+
+      case types.SET_BESTIARY_PAGE:
+        return {
+          ...state,
+          bestiaryPage: payload
         };
 
       default:
