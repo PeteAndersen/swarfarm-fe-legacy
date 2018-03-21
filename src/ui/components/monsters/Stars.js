@@ -1,19 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Image } from 'semantic-ui-react';
 
 const StarContainer = styled.div`
   position: absolute;
   left: 0px;
   top: 0px;
-  height: 22%;
+  height: 100%;
   width: 100%;
 `;
 
+const OverlappingImage = styled.img`
+  margin-right: -10%;
+  height: 22%;
+  width: auto;
+`;
+
 const Star = ({ imageFilename, mini }) => {
-  const OverlappingImage = styled.img`
-    margin-right: -10%;
-    height: 100%;
-  `;
   return <OverlappingImage src={`${process.env.PUBLIC_URL}/assets/stars/${imageFilename}`} />;
 };
 

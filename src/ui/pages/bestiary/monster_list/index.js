@@ -71,16 +71,7 @@ class Bestiary extends React.Component {
             <FilterForm />
           </Grid.Column>
           <Grid.Column width={12}>
-            <Menu secondary>
-              <Dropdown item text="Sort By">
-                <Dropdown.Menu>
-                  <Dropdown.Item>Small</Dropdown.Item>
-                  <Dropdown.Item>Medium</Dropdown.Item>
-                  <Dropdown.Item>Large</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-              {pager}
-            </Menu>
+            <Menu secondary>{pager}</Menu>
             <Dimmer active={isPopulating && !wasPopulated} inverted>
               <Loader>
                 <Header size="large" color="green">
