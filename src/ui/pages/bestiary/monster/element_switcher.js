@@ -9,7 +9,7 @@ const ElementSwitcher = ({ family, preferAwakened = false, activeElement, ...pro
   const elementOrder = ['fire', 'water', 'wind', 'light', 'dark'];
   const familyByElement = Object.values(family).reduce((accum, monster) => {
     const element = monster.element.toLowerCase();
-    // Set object key to monster matching element, priority to the one that matches awakened preference
+    // Set object key to monster matching element, priority to the one that matches awakened status
     if (monster.is_awakened === preferAwakened || !accum[element]) {
       accum[element] = monster;
     }

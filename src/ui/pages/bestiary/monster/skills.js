@@ -1,7 +1,7 @@
 import React from 'react';
 import { Segment, Item, Loader } from 'semantic-ui-react';
 
-import { SkillItem } from 'ui/components/skills';
+import SkillPanel from './skill_panel';
 
 const Skills = ({ skills }) => {
   return (
@@ -9,7 +9,7 @@ const Skills = ({ skills }) => {
       <Item.Group divided>
         {skills.map(
           (skill, idx) =>
-            skill ? <SkillItem key={idx} skill={skill} /> : <Loader key={idx} active />
+            skill ? <SkillPanel key={idx} skill={skill} /> : <Loader key={idx} active />
         )}
       </Item.Group>
     </Segment>

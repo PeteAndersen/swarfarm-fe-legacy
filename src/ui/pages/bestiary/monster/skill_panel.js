@@ -1,16 +1,11 @@
 import React from 'react';
 import { Item, Header, List } from 'semantic-ui-react';
 
-import EffectList from './EffectList';
+import { SkillImage, EffectList } from 'ui/components/skills';
 
-const SkillItem = ({ skill }) => (
+const SkillPanel = ({ skill }) => (
   <Item>
-    <Item.Image
-      size="mini"
-      rounded
-      src={`${process.env.PUBLIC_URL}/assets/skills/${skill.icon_filename}`}
-    />
-
+    <SkillImage as={Item.Image} skill={skill} size="mini" rounded />
     <Item.Content>
       <Item.Header>{skill.name}</Item.Header>
       <Item.Meta>
@@ -46,4 +41,4 @@ const SkillItem = ({ skill }) => (
   </Item>
 );
 
-export default SkillItem;
+export default SkillPanel;

@@ -6,10 +6,10 @@ import { Link } from 'react-router-dom';
 
 import { bestiaryActions, bestiarySelectors, bestiarySchema } from 'state/ducks/bestiary';
 import { ScrollToTopOnMount } from 'ui/components';
-import { LeaderSkill } from 'ui/components/skills';
 
 import Info from './info';
 import Skills from './skills';
+import LeaderSkillPanel from './leader_skill_panel';
 import Stats from './stats';
 import ElementSwitcher from './element_switcher';
 
@@ -26,13 +26,13 @@ class MonsterPage extends React.Component {
   }
 
   render() {
-    const { monster, family, bestiaryPage } = this.props;
+    const { monster, family } = this.props;
 
     return (
       <Container>
         <ScrollToTopOnMount />
         <Menu pointing>
-          <Menu.Item as={Link} to={`/bestiary/${bestiaryPage || 1}`}>
+          <Menu.Item as={Link} to="/bestiary/">
             <Icon name="arrow left" />Back
           </Menu.Item>
           <ElementSwitcher
@@ -50,7 +50,7 @@ class MonsterPage extends React.Component {
               <Stats monster={monster} />
             </Grid.Column>
             <Grid.Column>
-              {monster.leader_skill ? <LeaderSkill skill={monster.leader_skill} /> : null}
+              {monster.leader_skill ? <LeaderSkillPanel skill={monster.leader_skill} /> : null}
               <Skills skills={monster.skills} />
             </Grid.Column>
           </Grid>
@@ -75,8 +75,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     monster,
-    family: monster ? bestiarySelectors.getMonsterFamily(state, monster.family_id) : {},
-    bestiaryPage: bestiarySelectors.bestiaryPage(state)
+    family: monster ? bestiarySelectors.getMonsterFamily(state, monster.family_id) : {}
   };
 };
 

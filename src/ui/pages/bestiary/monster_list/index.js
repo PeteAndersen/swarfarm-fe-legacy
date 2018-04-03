@@ -1,19 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {
-  Segment,
-  Grid,
-  Menu,
-  Dropdown,
-  Dimmer,
-  Loader,
-  Header,
-  Pagination,
-  Icon
-} from 'semantic-ui-react';
+import { Segment, Grid, Dimmer, Loader, Header } from 'semantic-ui-react';
 
 import { bestiaryActions, bestiarySelectors } from 'state/ducks/bestiary';
-import history from 'state/history';
 import { ScrollToTopOnMount } from 'ui/components';
 import FilterForm from './FilterForm';
 import MonsterList from './MonsterList';
@@ -26,42 +15,10 @@ class Bestiary extends React.Component {
     if (new Date() - lastPopulated >= 60 * 60 * 1000) {
       this.props.populateBestiary();
     }
-
-    // Update state if page is from URL.
-    // Update URL if page is from state.
-    const urlPage = Number(this.props.match.params.page);
-    if (urlPage) {
-      this.props.changePage(urlPage);
-    } else {
-      this.props.changePage(1);
-    }
   }
 
-  handlePageChange = (e, { activePage }) => {
-    history.push(`/bestiary/${activePage}`);
-    this.props.changePage(activePage);
-  };
-
   render() {
-    const { isPopulating, wasPopulated, monsterList, pageSize, page } = this.props;
-    const monsterPageSlice = monsterList.slice((page - 1) * pageSize, page * pageSize);
-    const numPages = Math.ceil(monsterList.length / pageSize);
-    const pager = (
-      <Pagination
-        floated="right"
-        pointing
-        secondary
-        activePage={page}
-        onPageChange={this.handlePageChange}
-        totalPages={numPages}
-        ellipsisItem={{ content: <Icon name="ellipsis horizontal" />, icon: true }}
-        firstItem={{ content: <Icon name="angle double left" />, icon: true }}
-        lastItem={{ content: <Icon name="angle double right" />, icon: true }}
-        prevItem={{ content: <Icon name="angle left" />, icon: true }}
-        nextItem={{ content: <Icon name="angle right" />, icon: true }}
-      />
-    );
-
+    const { isPopulating, wasPopulated, monsterList } = this.props;
     return (
       <Dimmer.Dimmable as={Segment} dimmed={isPopulating && !wasPopulated}>
         <ScrollToTopOnMount />
@@ -71,7 +28,6 @@ class Bestiary extends React.Component {
             <FilterForm />
           </Grid.Column>
           <Grid.Column width={12}>
-            <Menu secondary>{pager}</Menu>
             <Dimmer active={isPopulating && !wasPopulated} inverted>
               <Loader>
                 <Header size="large" color="green">
@@ -80,8 +36,7 @@ class Bestiary extends React.Component {
                 <p>This is a one-time process</p>
               </Loader>
             </Dimmer>
-            {wasPopulated ? <MonsterList monsters={monsterPageSlice} /> : null}
-            <Menu secondary>{pager}</Menu>
+            {wasPopulated ? <MonsterList monsters={monsterList} /> : null}
           </Grid.Column>
         </Grid>
       </Dimmer.Dimmable>
@@ -94,14 +49,11 @@ const mapStateToProps = (state, ownProps) => ({
   lastPopulated: bestiarySelectors.lastPopulated(state),
   isPopulating: bestiarySelectors.isPopulating(state),
   wasPopulated: bestiarySelectors.wasPopulated(state),
-  monsterList: bestiarySelectors.getFilteredMonsterList(state),
-  page: bestiarySelectors.bestiaryPage(state),
-  pageSize: bestiarySelectors.bestiaryPageSize(state)
+  monsterList: bestiarySelectors.getFilteredMonsterList(state)
 });
 
 const mapDispatchToProps = dispatch => ({
-  populateBestiary: () => dispatch(bestiaryActions.populateBestiary()),
-  changePage: page => dispatch(bestiaryActions.setBestiaryPage(page))
+  populateBestiary: () => dispatch(bestiaryActions.populateBestiary())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Bestiary);

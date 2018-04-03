@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Image } from 'semantic-ui-react';
 
 const StarContainer = styled.div`
   position: absolute;

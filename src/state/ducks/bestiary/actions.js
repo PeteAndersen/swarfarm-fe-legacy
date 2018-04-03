@@ -45,11 +45,6 @@ const receiveBestiaryData = entities => ({
   payload: entities
 });
 
-const setBestiaryPage = page => ({
-  type: types.SET_BESTIARY_PAGE,
-  payload: page
-});
-
 export default {
   populateBestiary,
   populateBestiaryComplete,
@@ -60,6 +55,5 @@ export default {
   getSkill,
   getSkillFailed,
   getSkillComplete,
-  receiveBestiaryData,
-  setBestiaryPage
+  receiveBestiaryData
 };

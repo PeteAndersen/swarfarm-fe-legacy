@@ -35,8 +35,6 @@ const INITIAL_STATE = {
   craftMaterials: {},
   sources: {},
   isLoading: false,
-  bestiaryPage: 1,
-  pageSize: 100,
   sortKey: 'name',
   sortDirection: 1,
   filters: {
@@ -127,12 +125,6 @@ const reducer = persistReducer(
           ...state,
           isLoading: false,
           error: payload
-        };
-
-      case types.SET_BESTIARY_PAGE:
-        return {
-          ...state,
-          bestiaryPage: payload
         };
 
       default:

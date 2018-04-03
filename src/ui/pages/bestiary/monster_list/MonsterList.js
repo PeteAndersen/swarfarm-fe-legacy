@@ -1,44 +1,152 @@
-import React from 'react';
-import { Table, Icon, Image } from 'semantic-ui-react';
+import React, { Component } from 'react';
+import { WindowScroller, AutoSizer, Table, Column, SortDirection } from 'react-virtualized';
+import 'react-virtualized/styles.css';
+import { Icon } from 'semantic-ui-react';
 
-import Portrait from 'ui/components/monsters/Portrait';
+import history from 'state/history';
+import { getSlug } from 'services/monsters';
+import { Portrait, Element } from 'ui/components/monsters';
+import { SkillImage, LeaderSkillImage } from 'ui/components/skills';
 
-//import MonsterCard from './MonsterCard';
+class MonsterList extends Component {
+  onRowClick = ({ rowData: monster }) => {
+    history.push(`/bestiary/${monster.id}-${getSlug(monster)}`);
+  };
 
-const MonsterRow = ({ monster }) => (
-  <Table.Row>
-    <Table.Cell collapsing>
-      <Portrait monster={monster} size="tiny" />
-    </Table.Cell>
-    <Table.Cell>{monster.name}</Table.Cell>
-    <Table.Cell>
-      {monster.base_stars}
-      <Icon name="star" />
-    </Table.Cell>
-    <Table.Cell>
-      <Image src={`${process.env.PUBLIC_URL}/assets/elements/${monster.element}.png`} size="mini" />
-    </Table.Cell>
-    <Table.Cell>{monster.archetype}</Table.Cell>
-    <Table.Cell />
-  </Table.Row>
-);
+  _renderPortrait = ({ rowData }) => {
+    return <Portrait monster={rowData} />;
+  };
 
-const MonsterList = ({ monsters }) => (
-  <Table>
-    <Table.Header>
-      <Table.Row>
-        <Table.HeaderCell />
-        <Table.HeaderCell>Name</Table.HeaderCell>
-        <Table.HeaderCell>Stars</Table.HeaderCell>
-        <Table.HeaderCell>Element</Table.HeaderCell>
-        <Table.HeaderCell>Archetype</Table.HeaderCell>
-        <Table.HeaderCell>Skills</Table.HeaderCell>
-      </Table.Row>
-    </Table.Header>
-    <Table.Body>
-      {monsters.map(monster => <MonsterRow key={monster.id} monster={monster} />)}
-    </Table.Body>
-  </Table>
-);
+  _renderElement = ({ rowData }) => {
+    return <Element monster={rowData} avatar />;
+  };
+
+  _renderStars = ({ cellData }) => {
+    return (
+      <span>
+        {cellData}
+        <Icon name="star" />
+      </span>
+    );
+  };
+
+  _renderLeaderSkill = ({ rowData }) => {
+    return rowData.leader_skill ? (
+      <LeaderSkillImage skill={rowData.leader_skill} size="mini" tooltip />
+    ) : null;
+  };
+
+  _renderSkills = ({ rowData: { skills } }) => {
+    return (
+      <span>
+        {skills.map((skill, index) => (
+          <SkillImage tooltip size="mini" inline skill={skill} key={index} />
+        ))}
+      </span>
+    );
+  };
+
+  _renderPercentage = ({ cellData }) => `${cellData}%`;
+
+  render() {
+    const { monsters } = this.props;
+
+    return (
+      <WindowScroller>
+        {({ height, isScrolling, registerChild, onChildScroll, scrollTop }) => (
+          <AutoSizer disableHeight>
+            {({ width }) => (
+              <Table
+                autoHeight
+                headerHeight={30}
+                height={height}
+                isScrolling={isScrolling}
+                onScroll={onChildScroll}
+                overscanRowCount={2}
+                rowCount={monsters.length}
+                rowHeight={80}
+                rowGetter={({ index }) => monsters[index]}
+                scrollTop={scrollTop}
+                width={width}
+                sortBy="name"
+                sortDirection={SortDirection.ASC}
+                onRowClick={this.onRowClick}
+              >
+                <Column
+                  label=""
+                  dataKey="portrait"
+                  width={80}
+                  cellRenderer={this._renderPortrait}
+                />
+                <Column label="Name" dataKey="name" width={1} flexGrow={1} />
+                <Column
+                  label="Stars"
+                  dataKey="base_stars"
+                  width={1}
+                  flexGrow={1}
+                  cellRenderer={this._renderStars}
+                />
+                <Column
+                  label="Element"
+                  dataKey="element"
+                  width={1}
+                  flexGrow={1}
+                  cellRenderer={this._renderElement}
+                />
+                <Column label="Archetype" dataKey="archetype" width={1} flexGrow={1} />
+                <Column
+                  label="Leader Skill"
+                  dataKey="leaderSkill"
+                  width={1}
+                  flexGrow={1}
+                  cellRenderer={this._renderLeaderSkill}
+                />
+                <Column
+                  label="Skills"
+                  dataKey="skills"
+                  width={1}
+                  flexGrow={1}
+                  cellRenderer={this._renderSkills}
+                />
+                <Column label="HP (Lv. MAX)" dataKey="max_lvl_hp" width={1} flexGrow={1} />
+                <Column label="ATK (Lv. MAX)" dataKey="max_lvl_attack" width={1} flexGrow={1} />
+                <Column label="DEF (Lv. MAX)" dataKey="max_lvl_defense" width={1} flexGrow={1} />
+                <Column label="SPD" dataKey="speed" width={1} flexGrow={1} />
+                <Column
+                  label="CRI Rate"
+                  dataKey="crit_rate"
+                  width={1}
+                  flexGrow={1}
+                  cellRenderer={this._renderPercentage}
+                />
+                <Column
+                  label="CRI Damage"
+                  dataKey="crit_damage"
+                  width={1}
+                  flexGrow={1}
+                  cellRenderer={this._renderPercentage}
+                />
+                <Column
+                  label="Accuracy"
+                  dataKey="accuracy"
+                  width={1}
+                  flexGrow={1}
+                  cellRenderer={this._renderPercentage}
+                />
+                <Column
+                  label="Resistance"
+                  dataKey="resistance"
+                  width={1}
+                  flexGrow={1}
+                  cellRenderer={this._renderPercentage}
+                />
+              </Table>
+            )}
+          </AutoSizer>
+        )}
+      </WindowScroller>
+    );
+  }
+}
 
 export default MonsterList;
