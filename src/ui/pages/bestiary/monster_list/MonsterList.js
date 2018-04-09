@@ -58,16 +58,16 @@ class MonsterList extends Component {
             {({ width }) => (
               <Table
                 autoHeight
-                headerHeight={30}
                 height={height}
+                width={width}
                 isScrolling={isScrolling}
                 onScroll={onChildScroll}
                 overscanRowCount={2}
+                headerHeight={30}
                 rowCount={monsters.length}
                 rowHeight={80}
                 rowGetter={({ index }) => monsters[index]}
                 scrollTop={scrollTop}
-                width={width}
                 sortBy="name"
                 sortDirection={SortDirection.ASC}
                 onRowClick={this.onRowClick}
