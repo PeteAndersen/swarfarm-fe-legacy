@@ -1,7 +1,5 @@
 import React from 'react';
-import { Popup } from 'semantic-ui-react';
-
-import BorderedImage from 'ui/components/BorderedImage';
+import { Image, Popup } from 'semantic-ui-react';
 
 export const generate_description = skill => {
   let condition;
@@ -42,7 +40,7 @@ const generate_image_filename = skill => {
 
 const LeaderSkillImage = ({ skill, tooltip, ...props }) => {
   const img = (
-    <BorderedImage
+    <Image
       src={`${process.env.PUBLIC_URL}/assets/skills/leader/${generate_image_filename(skill)}`}
       {...props}
     />

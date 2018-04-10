@@ -7,7 +7,7 @@ const LeaderSkillPanel = ({ skill }) => (
   <Segment>
     <Item.Group>
       <Item>
-        <LeaderSkillImage as={Item.Image} skill={skill} size="mini" rounded />
+        <LeaderSkillImage as={Item.Image} skill={skill} size="tiny" />
         <Item.Content>
           <Item.Header>Leader Skill</Item.Header>
           <Item.Description>{generate_description(skill)}</Item.Description>

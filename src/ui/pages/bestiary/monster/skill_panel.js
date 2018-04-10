@@ -5,7 +5,7 @@ import { SkillImage, EffectList } from 'ui/components/skills';
 
 const SkillPanel = ({ skill }) => (
   <Item>
-    <SkillImage as={Item.Image} skill={skill} size="mini" rounded />
+    <SkillImage as={Item.Image} skill={skill} size="tiny" />
     <Item.Content>
       <Item.Header>{skill.name}</Item.Header>
       <Item.Meta>

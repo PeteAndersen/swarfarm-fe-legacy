@@ -30,3 +30,13 @@ export const calcActualStat = (stat, stars, level) => {
 export const maxLevel = stars => stars * 5 + 10;
 
 export const getSlug = monster => slugify(monster.name).toLowerCase();
+
+const colorMap = {
+  fire: 'red',
+  water: 'blue',
+  wind: 'yellow',
+  dark: 'black',
+  light: 'grey'
+};
+
+export const elementColor = monster => colorMap[monster.element.toLowerCase()];

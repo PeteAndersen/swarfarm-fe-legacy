@@ -11,13 +11,13 @@ const PortraitContainer = styled.div`
   margin-right: 5px;
 `;
 
-const Portrait = ({ monster, level, stars, size }) => {
+const Portrait = ({ monster, level, stars, ...props }) => {
   return (
     <PortraitContainer>
       <Image
-        size={size}
         rounded
         src={`${process.env.PUBLIC_URL}/assets/monsters/${monster.image_filename}`}
+        {...props}
       />
       <Stars
         stars={stars || monster.base_stars}

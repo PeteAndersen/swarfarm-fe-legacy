@@ -70,7 +70,7 @@ const effect_detail = effect => {
     } else {
       // For other effects, quantity may refer to other values
       // If quantity is small, it is most likely a count and not a percentage.
-      let quantity = `${effect.quantity}${effect.quantity > 10 ? '%' : ''}`;
+      let quantity = `${effect.quantity}${effect.quantity > 8 ? '%' : ''}`;
 
       if (effect.self_hp) {
         quantity += ' of Self HP';
