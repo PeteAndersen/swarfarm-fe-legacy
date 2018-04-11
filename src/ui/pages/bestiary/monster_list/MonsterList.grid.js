@@ -16,7 +16,7 @@ class MonsterList extends Component {
         {({ height, isScrolling, registerChild, onChildScroll, scrollTop }) => (
           <AutoSizer disableHeight>
             {({ width }) => {
-              const itemsPerRow = Math.floor(width / this.minCardWidth);
+              const itemsPerRow = Math.max(1, Math.floor(width / this.minCardWidth));
 
               return (
                 <List
@@ -42,7 +42,7 @@ class MonsterList extends Component {
                     }
 
                     return (
-                      <div style={{ ...style, padding: '1em' }}>
+                      <div key={key} style={{ ...style, padding: '1em' }}>
                         <Card.Group itemsPerRow={itemsPerRow}>
                           {rowMonsters.map((monster, idx) => (
                             <MonsterCard key={idx} monster={monster} />
