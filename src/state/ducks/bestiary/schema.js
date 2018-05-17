@@ -2,8 +2,6 @@ import { schema } from 'normalizr';
 
 const craftMaterial = new schema.Entity('craftMaterials');
 const source = new schema.Entity('sources');
-const leaderSkill = new schema.Entity('leaderSkills');
-
 const effect = new schema.Entity('effects');
 const skill = new schema.Entity('skills', {
   effects: [{ effect }]
@@ -12,7 +10,6 @@ const skillList = [skill];
 
 const monster = new schema.Entity('monsters', {
   skills: skillList,
-  leader_skill: leaderSkill,
   craft_materials: [{ material: craftMaterial }],
   source: [source]
 });

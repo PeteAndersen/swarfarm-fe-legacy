@@ -19,7 +19,10 @@ import types from './types';
   lastPopulated: datetime || null
   sortKey: string || null,
   sortDir: integer (-1 | 1)
-  filters: {}
+  filters: {
+    monster: [],
+    skill: [],
+  }
 }
 */
 
@@ -38,7 +41,13 @@ const INITIAL_STATE = {
   sortKey: 'name',
   sortDirection: 1,
   filters: {
-    obtainable: true
+    monster: [
+      {
+        attribute: 'obtainable',
+        value: true
+      }
+    ],
+    skill: []
   }
 };
 

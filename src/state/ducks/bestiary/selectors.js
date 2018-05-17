@@ -2,6 +2,8 @@ import { createSelector } from 'reselect';
 import { denormalize } from 'normalizr';
 import schema from './schema';
 
+import applyFilters from 'services/filters';
+
 const _getEntityHelper = (entities, entity_ids) => {
   if (entity_ids) {
     if (Array.isArray(entity_ids)) {
@@ -64,21 +66,18 @@ const getSortedMonsterList = createSelector(
   }
 );
 
-// TODO: Add bestiary filtering based on state here
 const getFilteredMonsterList = createSelector(
   getSortedMonsterList,
   getListFilters,
   (monsters, filters) => {
-    let filteredMonsters = monsters;
-    for (const [key, filterVals] of Object.entries(filters)) {
-      if (Array.isArray(filterVals)) {
-        filteredMonsters = filteredMonsters.filter(monster => filterVals.includes(monster[key]));
-      } else {
-        filteredMonsters = filteredMonsters.filter(monster => monster[key] === filterVals);
-      }
-    }
-
-    return filteredMonsters;
+    /* How filtering is going to work
+    * 1. Filter is split into {monster, skill} keys
+    * 2. Filter applies to skills, returns list of monster IDs from 'used_on' field
+    * 3. Filter applies to monsters, returns list of IDs.
+    * 4. Combine IDs, take unique set, get entities. 
+    */
+    //Todo: Implement above. For now this only works on monster entities directly.
+    return applyFilters(monsters, filters.monster);
   }
 );
 
