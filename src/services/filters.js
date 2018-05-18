@@ -7,7 +7,8 @@ const gte = _.curry((b, a) => a >= b);
 const lt = _.curry((b, a) => a < b);
 const lte = _.curry((b, a) => a <= b);
 const value_in = _.some;
-const contains = _.curry((b, a) => _.startsWith(a.toLowerCase(), b.toLowerCase()));
+const starts_with = _.curry((b, a) => _.startsWith(b.toLowerCase(), a.toLowerCase()));
+const contains = _.curry((b, a) => _.contains(b.toLowerCase(), a.toLowerCase()));
 
 const comparators = {
   eq,
@@ -16,64 +17,24 @@ const comparators = {
   lt,
   lte,
   value_in,
+  starts_with,
   contains
 };
 
-const get_comparator = comparator => {
-  if (comparator === undefined) {
-    return comparators.eq;
-  } else {
-    return comparators[comparator];
-  }
-};
-
-const all_true = _.reduce((prev, value) => prev && value, true);
-
-const get_filter_func = ({ attribute, value, comparator, inverted }) => {
-  // Return a function that will:
-  // 1. Grab the value from an object key ('attribute')
-  // 2. Pass it to a comparator function primed with the value to compare it to
-  // 3. Perform a NOT if requested to invert result.
-
-  return _.flow(
-    _.get(attribute), // Get the value of the attribute being examined
-    get_comparator(comparator)(value), // Get function for comparator and send value to it
-    result => (inverted ? !result : result) // Invert result if requested
+const entityValue = _.get;
+const compare = comparator => (comparator ? comparators[comparator] : comparators.eq);
+const invert = _.curry((inverted, value) => (inverted ? !value : value));
+const getFilters = _.map(filter => getFilterFunc(filter));
+const getFilterFunc = ({ attribute, value, comparator, invert: inverted }) =>
+  _.flow(
+    entityValue(attribute), // Get the value of the key being examined
+    compare(comparator)(value), // Get function for comparator and send filter value to it
+    invert(inverted) // Invert result if requested
   );
-};
-
+const checkEntity = _.allPass;
 const applyFilters = (entities, filters) => {
-  // Get filters with comparator function replacing the string
-  const filter_funcs = filters.map(filter => get_filter_func(filter));
-
-  return entities.filter(entity => all_true(_.over(filter_funcs)(entity)));
+  const filterFuncs = getFilters(filters);
+  return entities.filter(entity => checkEntity(filterFuncs)(entity));
 };
 
 export default applyFilters;
-
-/* Example filter objects
-Object contains two keys: `skills` and `monsters`
-Each entry is an array of filters to apply
-Filters follow the following format:
-{
-  attribute: String or Array. Used with  _.get() so follow that format
-  value: String, Number, or Array. Value to compare. Array defaults to an 'any' type match. 
-  comparator: String. matches keys in `comparators` object. Default: `eq` unless value is Array, then `value_in`
-  inverted: Boolean. If true, inverts filter matching
-}
-
-Example filter object
-{
-  monster: [
-    {
-      attribute: 'obtainable',
-      value: true
-    },
-    {
-      attribute: 'base_stars',
-      value: 5,
-      comparator: 'gte'
-    }
-  ]
-}
-*/
