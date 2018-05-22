@@ -40,15 +40,12 @@ const INITIAL_STATE = {
   isLoading: false,
   sortKey: 'name',
   sortDirection: 1,
-  filters: {
-    monster: [
-      {
-        attribute: 'obtainable',
-        value: true
-      }
-    ],
-    skill: []
-  }
+  filters: [
+    {
+      attribute: 'obtainable',
+      value: true
+    }
+  ]
 };
 
 const persistConfig = {
