@@ -1,6 +1,8 @@
 import _ from 'lodash/fp';
 
-const lowercaseIfString = value => (typeof value === 'string' ? value.toLowerCase() : value);
+const makeLowerCase = value => (typeof value === 'string' ? value.toLowerCase() : value);
+const lowercaseIfString = value =>
+  Array.isArray(value) ? value.map(makeLowerCase) : makeLowerCase(value);
 
 // Curried comparator functions
 const eq = _.eq;
@@ -60,16 +62,16 @@ const entityValue = _.curry((path, entity) => {
 
 const compare = _.curry((comparator, operator, b, a) => {
   const comparator_func = comparator ? comparators[comparator] : comparators.eq;
+
   if (Array.isArray(a)) {
     // Apply comparator func to all values in array
     // Use logical operator to determine final result
-    const test_result = a.reduce((accum, test_value) => {
+    return a.reduce((accum, test_value) => {
       const operator_func = operator ? operators[operator] : operators.or;
       return accum === null
         ? comparator_func(b, test_value) // First result uses first result
         : operator_func(accum, comparator_func(b, test_value)); // Subsequent results use logical operator
     }, null);
-    return test_result;
   } else {
     // Compare the two simple values
     return comparator_func(b, a);
