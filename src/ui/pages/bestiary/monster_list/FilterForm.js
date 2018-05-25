@@ -1,7 +1,7 @@
 import React from 'react';
 import { withFormik } from 'formik';
 import { Menu, Form, Button } from 'semantic-ui-react';
-import Yup from 'yup';
+import * as yup from 'yup';
 import { Field, Dropdown } from 'ui/components/form';
 
 const elementOptions = ['Fire', 'Water', 'Wind', 'Light', 'Dark'].map(element => ({
@@ -11,15 +11,16 @@ const elementOptions = ['Fire', 'Water', 'Wind', 'Light', 'Dark'].map(element =>
 }));
 
 const formikEnhancer = withFormik({
+  displayName: 'FilterForm',
   mapPropsToValues: () => ({
     name: '',
     element: [],
     is_awakened: null
   }),
-  validationSchema: Yup.object().shape({
-    name: Yup.string().ensure(),
-    element: Yup.array(),
-    is_awakened: Yup.boolean().nullable()
+  validationSchema: yup.object().shape({
+    name: yup.string().ensure(),
+    element: yup.array(),
+    is_awakened: yup.boolean().nullable()
   }),
   handleSubmit: (payload, bag) => {
     bag.props.handleSubmit(payload);
@@ -38,41 +39,39 @@ const FilterForm = ({
   handleSubmit,
   isSubmitting,
   ...props
-}) => {
-  return (
-    <Menu vertical fluid>
-      <Menu.Item>
-        <Form size="small" onSubmit={handleSubmit} loading={isSubmitting}>
-          <Field
-            control="input"
-            type="text"
-            name="name"
-            label="Name"
-            error={Boolean(touched.name && errors.name)}
-            value={values.name}
-            onChange={setFieldValue}
-            onBlur={setFieldTouched}
-          />
-          <Dropdown
-            name="element"
-            label="Element"
-            placeholder="Element"
-            fluid
-            multiple
-            search
-            selection
-            options={elementOptions}
-            value={values.element}
-            onChange={setFieldValue}
-            onBlur={setFieldTouched}
-          />
-          <Button type="submit" disabled={isValid && isDirty}>
-            Apply
-          </Button>
-        </Form>
-      </Menu.Item>
-    </Menu>
-  );
-};
+}) => (
+  <Menu vertical fluid>
+    <Menu.Item>
+      <Form size="small" onSubmit={handleSubmit} loading={isSubmitting}>
+        <Field
+          control="input"
+          type="text"
+          name="name"
+          label="Name"
+          error={Boolean(touched.name && errors.name)}
+          value={values.name}
+          onChange={setFieldValue}
+          onBlur={setFieldTouched}
+        />
+        <Dropdown
+          name="element"
+          label="Element"
+          placeholder="Element"
+          fluid
+          multiple
+          search
+          selection
+          options={elementOptions}
+          value={values.element}
+          onChange={setFieldValue}
+          onBlur={setFieldTouched}
+        />
+        <Button type="submit" disabled={isValid && isDirty}>
+          Apply
+        </Button>
+      </Form>
+    </Menu.Item>
+  </Menu>
+);
 
 export default formikEnhancer(FilterForm);

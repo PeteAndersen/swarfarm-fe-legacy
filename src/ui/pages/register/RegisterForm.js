@@ -1,6 +1,6 @@
 import React from 'react';
 import { withFormik } from 'formik';
-import Yup from 'yup';
+import * as yup from 'yup';
 import { Form, Button, Message, Checkbox, Select } from 'semantic-ui-react';
 
 import { Field } from 'ui/components/form';
@@ -16,20 +16,22 @@ const formikEnhancer = withFormik({
     server: 0,
     timezone: 'America/Los_Angeles'
   }),
-  validationSchema: Yup.object().shape({
-    email: Yup.string()
+  validationSchema: yup.object().shape({
+    email: yup
+      .string()
       .email('Please enter a valid e-mail address')
       .required('An e-mail address is required'),
-    username: Yup.string().required('Please enter a username'),
-    public: Yup.boolean(),
-    password: Yup.string().required('Please enter a password'),
-    passwordConfirm: Yup.string()
+    username: yup.string().required('Please enter a username'),
+    public: yup.boolean(),
+    password: yup.string().required('Please enter a password'),
+    passwordConfirm: yup
+      .string()
       .required('Please enter the same password again')
       .test('sameAs', 'Passwords do not match', function(passwordConfirm) {
         const password = this.parent.password;
         return passwordConfirm === password;
       }),
-    timezone: Yup.string().required('Please select a timezone')
+    timezone: yup.string().required('Please select a timezone')
   }),
   handleSubmit: (payload, bag) => {
     bag.props.handleSubmit(payload);

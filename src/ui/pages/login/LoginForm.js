@@ -1,16 +1,16 @@
 import React from 'react';
 import classnames from 'classnames';
 import { withFormik } from 'formik';
-import Yup from 'yup';
+import * as yup from 'yup';
 import { Form, Button, Message } from 'semantic-ui-react';
 
 import { Field } from 'ui/components/form';
 
 const formikEnhancer = withFormik({
   mapPropsToValues: props => ({ username: '', password: '' }),
-  validationSchema: Yup.object().shape({
-    username: Yup.string().required('Please enter a username'),
-    password: Yup.string().required('Please enter a password')
+  validationSchema: yup.object().shape({
+    username: yup.string().required('Please enter a username'),
+    password: yup.string().required('Please enter a password')
   }),
   handleSubmit: (payload, bag) => {
     bag.props.handleSubmit(payload);

@@ -10,7 +10,7 @@ import history from 'state/history';
 import registerServiceWorker from './registerServiceWorker';
 
 import App from 'ui/layout/app';
-import GlobalLoader from 'ui/components/GlobalLoader';
+import { GlobalLoader } from 'ui/components';
 
 const { store, persistor } = configureStore(window.REDUX_INITIAL_DATA);
 
