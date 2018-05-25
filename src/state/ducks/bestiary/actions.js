@@ -45,6 +45,11 @@ const receiveBestiaryData = entities => ({
   payload: entities
 });
 
+const setBestiaryFilters = filters => ({
+  type: types.SET_BESTIARY_FILTERS,
+  payload: filters
+});
+
 export default {
   populateBestiary,
   populateBestiaryComplete,
@@ -55,5 +60,6 @@ export default {
   getSkill,
   getSkillFailed,
   getSkillComplete,
-  receiveBestiaryData
+  receiveBestiaryData,
+  setBestiaryFilters
 };

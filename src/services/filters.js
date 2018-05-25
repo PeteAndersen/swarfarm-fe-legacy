@@ -10,7 +10,7 @@ const gt = _.curry((b, a) => a > b);
 const gte = _.curry((b, a) => a >= b);
 const lt = _.curry((b, a) => a < b);
 const lte = _.curry((b, a) => a <= b);
-const value_in = _.curry((b, a) => _.some(_.eq(lowercaseIfString(a)), lowercaseIfString(b)));
+const value_in = _.curry((b, a) => _.some(_.eq(lowercaseIfString(b)), lowercaseIfString(a)));
 const starts_with = _.curry((b, a) => _.startsWith(lowercaseIfString(b), lowercaseIfString(a)));
 const contains = _.curry((b, a) => _.contains(lowercaseIfString(b), lowercaseIfString(a)));
 
@@ -38,7 +38,9 @@ const operators = {
 
 // Filtering functions
 const entityValue = _.curry((path, entity) => {
+  // path is a flat string as specified by _.get documentation
   path = path.split('.');
+
   const len = path.length;
   let index = 0;
 
@@ -47,11 +49,13 @@ const entityValue = _.curry((path, entity) => {
     return accum.concat(entityValue(remaining_path, curr));
   };
 
+  // Drill down into the object object properties specified in the path
   while (entity != null && index < len) {
     entity = entity[path[index]];
 
     if (Array.isArray(entity)) {
-      // Recurse on the sub-objects, returning an array of flat values.
+      // When an array is encountered, recurse and grab the individual
+      // values of the objects in the array. Return value is an array.
       return entity.reduce(reducer, []);
     }
     index++;

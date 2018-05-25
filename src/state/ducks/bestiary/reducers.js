@@ -132,6 +132,12 @@ const reducer = persistReducer(
           isLoading: false,
           error: payload
         };
+      case types.SET_BESTIARY_FILTERS:
+        console.log(payload);
+        return {
+          ...state
+          //filters: payload
+        };
 
       default:
         return state;
