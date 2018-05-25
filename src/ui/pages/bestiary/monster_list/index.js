@@ -5,7 +5,7 @@ import { Segment, Grid, Dimmer, Loader, Header } from 'semantic-ui-react';
 import { bestiaryActions, bestiarySelectors } from 'state/ducks/bestiary';
 import { ScrollToTopOnMount } from 'ui/components';
 import FilterForm from './FilterForm';
-import MonsterList from './MonsterList.grid';
+import MonsterList from './MonsterList';
 
 class Bestiary extends React.Component {
   componentWillMount() {
