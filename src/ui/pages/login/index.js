@@ -27,9 +27,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  attemptLogin: values => {
-    dispatch(authActions.login(values.username, values.password));
-  }
+  attemptLogin: values => dispatch(authActions.login(values.username, values.password))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

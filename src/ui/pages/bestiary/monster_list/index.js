@@ -25,7 +25,7 @@ class Bestiary extends React.Component {
 
         <Grid>
           <Grid.Column width={4}>
-            <FilterForm />
+            <FilterForm handleSubmit={this.props.applyFilters} />
           </Grid.Column>
           <Grid.Column width={12}>
             <Dimmer active={isPopulating && !wasPopulated} inverted>
@@ -53,7 +53,8 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  populateBestiary: () => dispatch(bestiaryActions.populateBestiary())
+  populateBestiary: () => dispatch(bestiaryActions.populateBestiary()),
+  applyFilters: values => dispatch(bestiaryActions.setBestiaryFilters(values))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Bestiary);

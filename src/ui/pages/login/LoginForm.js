@@ -66,7 +66,7 @@ class LoginForm extends React.Component {
           type="text"
           name="username"
           label="Username"
-          error={touched.username && errors.username}
+          error={Boolean(touched.username && errors.username)}
           value={values.username}
           onChange={setFieldValue}
           onBlur={setFieldTouched}
@@ -78,7 +78,7 @@ class LoginForm extends React.Component {
           type="password"
           name="password"
           label="Password"
-          error={touched.password && errors.password}
+          error={Boolean(touched.password && errors.password)}
           value={values.password}
           onChange={setFieldValue}
           onBlur={setFieldTouched}

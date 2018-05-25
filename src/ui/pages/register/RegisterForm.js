@@ -88,7 +88,7 @@ class LoginForm extends React.Component {
           type="text"
           name="email"
           label="E-mail Address"
-          error={touched.email && errors.email}
+          error={Boolean(touched.email && errors.email)}
           value={values.email}
           onChange={setFieldValue}
           onBlur={setFieldTouched}
@@ -100,7 +100,7 @@ class LoginForm extends React.Component {
           type="text"
           name="username"
           label="Username"
-          error={touched.username && errors.username}
+          error={Boolean(touched.username && errors.username)}
           value={values.username}
           onChange={setFieldValue}
           onBlur={setFieldTouched}
@@ -112,7 +112,7 @@ class LoginForm extends React.Component {
           toggle
           name="public"
           label="Public Profile"
-          error={touched.public && errors.public}
+          error={Boolean(touched.public && errors.public)}
           checked={values.public}
           onChange={setFieldValue}
           onBlur={setFieldTouched}
@@ -123,7 +123,7 @@ class LoginForm extends React.Component {
           type="password"
           name="password"
           label="Password"
-          error={touched.password && errors.password}
+          error={Boolean(touched.password && errors.password)}
           value={values.password}
           onChange={setFieldValue}
           onBlur={setFieldTouched}
@@ -135,7 +135,7 @@ class LoginForm extends React.Component {
           type="password"
           name="passwordConfirm"
           label="Confirm Password"
-          error={touched.passwordConfirm && errors.passwordConfirm}
+          error={Boolean(touched.passwordConfirm && errors.passwordConfirm)}
           value={values.passwordConfirm}
           onChange={setFieldValue}
           onBlur={setFieldTouched}
@@ -148,7 +148,7 @@ class LoginForm extends React.Component {
           options={serverOptions}
           name="server"
           label="Server"
-          error={touched.server && errors.server}
+          error={Boolean(touched.server && errors.server)}
           value={values.server}
           onChange={setFieldValue}
           onBlur={setFieldTouched}
@@ -160,7 +160,7 @@ class LoginForm extends React.Component {
           options={timezones}
           name="timezone"
           label="Timezone"
-          error={touched.timezone && errors.timezone}
+          error={Boolean(touched.timezone && errors.timezone)}
           value={values.timezone}
           onChange={setFieldValue}
           onBlur={setFieldTouched}
