@@ -10,7 +10,7 @@ const gt = _.curry((b, a) => a > b);
 const gte = _.curry((b, a) => a >= b);
 const lt = _.curry((b, a) => a < b);
 const lte = _.curry((b, a) => a <= b);
-const value_in = _.curry((b, a) => _.some(_.eq(lowercaseIfString(b)), lowercaseIfString(a)));
+const value_in = _.curry((b, a) => _.some(_.eq(lowercaseIfString(a)), lowercaseIfString(b)));
 const starts_with = _.curry((b, a) => _.startsWith(lowercaseIfString(b), lowercaseIfString(a)));
 const contains = _.curry((b, a) => _.contains(lowercaseIfString(b), lowercaseIfString(a)));
 
