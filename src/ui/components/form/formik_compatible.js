@@ -7,9 +7,25 @@ function formikCompatible(WrappedComponent) {
       let value;
 
       if (data) {
-        value = data.type === 'checkbox' ? (data.indeterminate ? null : data.checked) : data.value;
+        if (data.type === 'checkbox' && data.radio !== true) {
+          value = data.indeterminate ? null : data.checked;
+        } else {
+          value = data.value === '' ? null : data.value;
+        }
       } else {
         value = event.target.value;
+      }
+
+      // Convert strings of 'null', 'true', 'false' to the actual JS type
+      // because HTML inputs can only have string or number value types
+      if (value === 'null') {
+        value = null;
+      }
+      if (value === 'true') {
+        value = true;
+      }
+      if (value === 'false') {
+        value = false;
       }
 
       this.props.onChange(this.props.name || this.props.id, value);

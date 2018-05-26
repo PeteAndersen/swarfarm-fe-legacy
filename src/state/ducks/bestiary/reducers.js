@@ -129,7 +129,6 @@ const reducer = persistReducer(
           error: payload
         };
       case types.SET_BESTIARY_FILTERS:
-        console.log(payload);
         return {
           ...state,
           filters: payload

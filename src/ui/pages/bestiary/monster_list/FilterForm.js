@@ -69,12 +69,13 @@ const FilterForm = ({
             onChange={setFieldValue}
             onBlur={setFieldTouched}
           />
-          <Form.Group inline label="Awakened">
+          <Form.Group inline>
+            <Form.Field label="Awakened" />
             <Checkbox
               name="is_awakened"
               label="N/A"
               radio
-              value={null}
+              value={'null'}
               checked={values.is_awakened === null}
               onChange={setFieldValue}
               onBlur={setFieldTouched}
@@ -83,7 +84,7 @@ const FilterForm = ({
               name="is_awakened"
               label="Yes"
               radio
-              value={true}
+              value={'true'}
               checked={values.is_awakened === true}
               onChange={setFieldValue}
               onBlur={setFieldTouched}
@@ -92,7 +93,7 @@ const FilterForm = ({
               name="is_awakened"
               label="No"
               radio
-              value={false}
+              value={'false'}
               checked={values.is_awakened === false}
               onChange={setFieldValue}
               onBlur={setFieldTouched}
