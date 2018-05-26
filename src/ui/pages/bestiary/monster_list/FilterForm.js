@@ -13,13 +13,15 @@ const elementOptions = ['Fire', 'Water', 'Wind', 'Light', 'Dark'].map(element =>
 const formikEnhancer = withFormik({
   displayName: 'FilterForm',
   mapPropsToValues: () => ({
-    name: '',
-    element: [],
+    obtainable: true,
+    name__starts_with: '',
+    element__value_in: [],
     is_awakened: null
   }),
   validationSchema: yup.object().shape({
-    name: yup.string().ensure(),
-    element: yup.array(),
+    obtainable: yup.boolean(),
+    name__starts_with: yup.string().ensure(),
+    element__value_in: yup.array(),
     is_awakened: yup.boolean().nullable()
   }),
   handleSubmit: (payload, bag) => {
@@ -46,15 +48,15 @@ const FilterForm = ({
         <Field
           control="input"
           type="text"
-          name="name"
+          name="name__starts_with"
           label="Name"
-          error={Boolean(touched.name && errors.name)}
-          value={values.name}
+          error={Boolean(touched.name__starts_with && errors.name__starts_with)}
+          value={values.name__starts_with}
           onChange={setFieldValue}
           onBlur={setFieldTouched}
         />
         <Dropdown
-          name="element"
+          name="element__value_in"
           label="Element"
           placeholder="Element"
           fluid
@@ -62,7 +64,7 @@ const FilterForm = ({
           search
           selection
           options={elementOptions}
-          value={values.element}
+          value={values.element__value_in}
           onChange={setFieldValue}
           onBlur={setFieldTouched}
         />

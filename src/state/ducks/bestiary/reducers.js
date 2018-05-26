@@ -3,6 +3,7 @@ import localForage from 'localforage';
 import isEqual from 'lodash.isequal';
 
 import types from './types';
+import { defaultFilters } from './filters';
 
 /* State shape
 {
@@ -29,7 +30,7 @@ import types from './types';
 const INITIAL_STATE = {
   isPopulating: false,
   wasPopulated: false,
-  lastPopulated: null,
+  lastPopulated: null, // datetime || null
   monsters: {},
   skills: {},
   leaderSkills: {},
@@ -38,20 +39,15 @@ const INITIAL_STATE = {
   craftMaterials: {},
   sources: {},
   isLoading: false,
-  sortKey: 'name',
-  sortDirection: 1,
-  filters: [
-    {
-      attribute: 'obtainable',
-      value: true
-    }
-  ]
+  sortKey: 'name', // attribute path for _.get()
+  sortDirection: 1, // (-1 || 1)
+  filters: defaultFilters
 };
 
 const persistConfig = {
   key: 'bestiary',
   storage: localForage,
-  blacklist: ['isLoading', 'bestiaryPage', 'sortKey', 'sortDirection', 'filters']
+  blacklist: ['isLoading', 'sortKey', 'sortDirection', 'filters']
 };
 
 const reducer = persistReducer(
@@ -135,8 +131,8 @@ const reducer = persistReducer(
       case types.SET_BESTIARY_FILTERS:
         console.log(payload);
         return {
-          ...state
-          //filters: payload
+          ...state,
+          filters: payload
         };
 
       default:

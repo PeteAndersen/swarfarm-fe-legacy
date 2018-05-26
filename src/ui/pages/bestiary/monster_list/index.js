@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Segment, Grid, Dimmer, Loader, Header } from 'semantic-ui-react';
 
-import { bestiaryActions, bestiarySelectors } from 'state/ducks/bestiary';
+import { bestiaryActions, bestiarySelectors, bestiaryFilters } from 'state/ducks/bestiary';
 import { ScrollToTopOnMount } from 'ui/components';
 import FilterForm from './FilterForm';
 import MonsterList from './MonsterList';
@@ -54,7 +54,8 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   populateBestiary: () => dispatch(bestiaryActions.populateBestiary()),
-  applyFilters: values => dispatch(bestiaryActions.setBestiaryFilters(values))
+  applyFilters: values =>
+    dispatch(bestiaryActions.setBestiaryFilters(bestiaryFilters.transformValuesToFilters(values)))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Bestiary);
