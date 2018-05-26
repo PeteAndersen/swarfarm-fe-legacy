@@ -21,7 +21,7 @@ export const transformValuesToFilters = filterValues => {
     if (Array.isArray(value)) {
       return value.length > 0 ? ret : accum;
     } else {
-      return value ? ret : accum;
+      return value !== null && value !== undefined ? ret : accum;
     }
   }, []);
   console.log(filters);

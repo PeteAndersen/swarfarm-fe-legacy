@@ -7,7 +7,7 @@ function formikCompatible(WrappedComponent) {
       let value;
 
       if (data) {
-        value = data.type === 'checkbox' ? data.checked : data.value;
+        value = data.type === 'checkbox' ? (data.indeterminate ? null : data.checked) : data.value;
       } else {
         value = event.target.value;
       }

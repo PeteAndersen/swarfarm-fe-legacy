@@ -2,7 +2,7 @@ import React from 'react';
 import { withFormik } from 'formik';
 import { Menu, Form, Button } from 'semantic-ui-react';
 import * as yup from 'yup';
-import { Field, Dropdown } from 'ui/components/form';
+import { Field, Dropdown, Checkbox } from 'ui/components/form';
 
 const elementOptions = ['Fire', 'Water', 'Wind', 'Light', 'Dark'].map(element => ({
   text: element,
@@ -41,39 +41,70 @@ const FilterForm = ({
   handleSubmit,
   isSubmitting,
   ...props
-}) => (
-  <Menu vertical fluid>
-    <Menu.Item>
-      <Form size="small" onSubmit={handleSubmit} loading={isSubmitting}>
-        <Field
-          control="input"
-          type="text"
-          name="name__starts_with"
-          label="Name"
-          error={Boolean(touched.name__starts_with && errors.name__starts_with)}
-          value={values.name__starts_with}
-          onChange={setFieldValue}
-          onBlur={setFieldTouched}
-        />
-        <Dropdown
-          name="element__value_in"
-          label="Element"
-          placeholder="Element"
-          fluid
-          multiple
-          search
-          selection
-          options={elementOptions}
-          value={values.element__value_in}
-          onChange={setFieldValue}
-          onBlur={setFieldTouched}
-        />
-        <Button type="submit" disabled={isValid && isDirty}>
-          Apply
-        </Button>
-      </Form>
-    </Menu.Item>
-  </Menu>
-);
+}) => {
+  return (
+    <Menu vertical fluid>
+      <Menu.Item>
+        <Form size="small" onSubmit={handleSubmit} loading={isSubmitting}>
+          <Field
+            control="input"
+            type="text"
+            name="name__starts_with"
+            label="Name"
+            error={Boolean(touched.name__starts_with && errors.name__starts_with)}
+            value={values.name__starts_with}
+            onChange={setFieldValue}
+            onBlur={setFieldTouched}
+          />
+          <Dropdown
+            name="element__value_in"
+            label="Element"
+            placeholder="Element"
+            fluid
+            multiple
+            search
+            selection
+            options={elementOptions}
+            value={values.element__value_in}
+            onChange={setFieldValue}
+            onBlur={setFieldTouched}
+          />
+          <Form.Group inline label="Awakened">
+            <Checkbox
+              name="is_awakened"
+              label="N/A"
+              radio
+              value={null}
+              checked={values.is_awakened === null}
+              onChange={setFieldValue}
+              onBlur={setFieldTouched}
+            />
+            <Checkbox
+              name="is_awakened"
+              label="Yes"
+              radio
+              value={true}
+              checked={values.is_awakened === true}
+              onChange={setFieldValue}
+              onBlur={setFieldTouched}
+            />
+            <Checkbox
+              name="is_awakened"
+              label="No"
+              radio
+              value={false}
+              checked={values.is_awakened === false}
+              onChange={setFieldValue}
+              onBlur={setFieldTouched}
+            />
+          </Form.Group>
+          <Button type="submit" disabled={isValid && isDirty}>
+            Apply
+          </Button>
+        </Form>
+      </Menu.Item>
+    </Menu>
+  );
+};
 
 export default formikEnhancer(FilterForm);
