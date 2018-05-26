@@ -102,4 +102,25 @@ const applyFilters = (entities, filters) => {
   return entities.filter(checkEntity);
 };
 
+// Utility functions for code that works with setting/using filters
+const splitComparator = attribute => {
+  // Attribute names may tack on the desired comparator, separated
+  // from the attribute by double underscore
+  const split = attribute.split('__');
+  return split.length > 1 ? { attribute: split[0], comparator: split[1] } : { attribute: split[0] };
+};
+
+const transformValuesToFilters = filterValues =>
+  // Transform an object with { key: value } pairs into an array of filter objects
+  Object.entries(filterValues).reduce((accum, [key, value]) => {
+    const { attribute, comparator } = splitComparator(key);
+    const ret = accum.concat({ attribute, comparator, value });
+    if (Array.isArray(value)) {
+      return value.length > 0 ? ret : accum;
+    } else {
+      return value !== null && value !== undefined ? ret : accum;
+    }
+  }, []);
+
 export default applyFilters;
+export { splitComparator, transformValuesToFilters };

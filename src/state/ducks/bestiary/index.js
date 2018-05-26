@@ -5,6 +5,6 @@ export { default as bestiaryRootSaga } from './sagas';
 export { default as bestiaryApi } from './api';
 export { default as bestiarySelectors } from './selectors';
 export { default as bestiarySchema } from './schema';
-export { default as bestiaryFilters } from './filters';
+export { default as defaultBestiaryFilters } from './filters';
 
 export default reducer;

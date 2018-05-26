@@ -3,7 +3,7 @@ import localForage from 'localforage';
 import isEqual from 'lodash.isequal';
 
 import types from './types';
-import { defaultFilters } from './filters';
+import defaultFilters from './filters';
 
 /* State shape
 {
