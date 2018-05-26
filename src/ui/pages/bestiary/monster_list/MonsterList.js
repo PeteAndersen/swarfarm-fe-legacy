@@ -33,8 +33,8 @@ class MonsterList extends Component {
                   scrollTop={scrollTop}
                   rowRenderer={({ index, style, key, parent }) => {
                     const rowMonsters = [];
-                    for (let i = 0; i < 3; i++) {
-                      const monster = this.props.monsters[index * 3 + i];
+                    for (let i = 0; i < itemsPerRow; i++) {
+                      const monster = this.props.monsters[index * itemsPerRow + i];
 
                       if (monster) {
                         rowMonsters.push(monster);

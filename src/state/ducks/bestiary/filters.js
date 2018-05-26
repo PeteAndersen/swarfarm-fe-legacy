@@ -1,5 +1,3 @@
-import { last } from 'lodash/string';
-
 export const defaultFilters = [
   {
     attribute: 'obtainable',
