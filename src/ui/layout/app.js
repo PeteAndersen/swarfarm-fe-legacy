@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import MainMenu from 'ui/components/MainMenu';
 import Footer from 'ui/components/Footer';
+import NewContentModal from 'ui/components/NewContentModal';
 import Routes from 'ui/layout/Routes';
 
 const Body = styled.div`
@@ -22,6 +23,7 @@ const App = props => (
       <Routes />
     </Content>
     <Footer />
+    <NewContentModal />
   </Body>
 );
 
