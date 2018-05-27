@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Popup } from 'semantic-ui-react';
+import { Image } from 'semantic-ui-react';
 
 export const generate_description = skill => {
   let condition;
@@ -38,20 +38,11 @@ const generate_image_filename = skill => {
   return `leader_skill_${skill.attribute.replace(' ', '_')}${suffix}.png`;
 };
 
-const LeaderSkillImage = ({ skill, tooltip, ...props }) => {
-  const img = (
-    <Image
-      src={`${process.env.PUBLIC_URL}/assets/skills/leader/${generate_image_filename(skill)}`}
-      {...props}
-    />
-  );
-  return tooltip ? (
-    <Popup hoverable trigger={img}>
-      {generate_description(skill)}
-    </Popup>
-  ) : (
-    img
-  );
-};
+const LeaderSkillImage = ({ skill, ...props }) => (
+  <Image
+    src={`${process.env.PUBLIC_URL}/assets/skills/leader/${generate_image_filename(skill)}`}
+    {...props}
+  />
+);
 
 export default LeaderSkillImage;
