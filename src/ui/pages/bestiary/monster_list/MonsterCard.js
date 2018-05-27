@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Header, Image, Statistic, Divider, List, Popup, Label } from 'semantic-ui-react';
+import { Card, Header, Image, Statistic, Divider, Popup } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -19,8 +19,17 @@ const SkillContainer = styled.div`
 const SkillItem = styled.div`
   flex: 1;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  padding: 2px;
+  div.ui.sub.header {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+`;
+
+const EffectIcon = styled(Image)`
+  width: 20px;
+  height: 20px;
 `;
 
 const MonsterCard = ({ monster }) => {
@@ -68,8 +77,20 @@ const MonsterCard = ({ monster }) => {
               hoverable
               trigger={
                 <SkillItem>
-                  <SkillImage skill={skill} size="mini" rounded bordered />
-                  {skill.name}
+                  <Header sub>{skill.name}</Header>
+                  <SkillImage skill={skill} size="mini" rounded bordered floated="left" />
+                  {skill.effects
+                    .reduce((accum, effect) => {
+                      return effect.effect.icon_filename
+                        ? accum.concat(effect.effect.icon_filename)
+                        : accum;
+                    }, [])
+                    .map((icon_filename, idx) => (
+                      <EffectIcon
+                        key={idx}
+                        src={`${process.env.PUBLIC_URL}/assets/buffs/${icon_filename}`}
+                      />
+                    ))}
                 </SkillItem>
               }
             >
