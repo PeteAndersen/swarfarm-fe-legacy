@@ -50,6 +50,16 @@ const setBestiaryFilters = filters => ({
   payload: filters
 });
 
+const setBestiarySortKey = key => ({
+  type: types.SET_BESTIARY_SORT_KEY,
+  payload: key
+});
+
+const setBestiarySortDir = dir => ({
+  type: types.SET_BESTIARY_SORT_DIR,
+  payload: dir
+});
+
 export default {
   populateBestiary,
   populateBestiaryComplete,
@@ -61,5 +71,7 @@ export default {
   getSkillFailed,
   getSkillComplete,
   receiveBestiaryData,
-  setBestiaryFilters
+  setBestiaryFilters,
+  setBestiarySortKey,
+  setBestiarySortDir
 };

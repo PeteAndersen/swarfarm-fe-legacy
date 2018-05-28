@@ -3,6 +3,7 @@ import { denormalize } from 'normalizr';
 import schema from './schema';
 
 import applyFilters from 'services/filters';
+import defaultFilters from './filters';
 
 const _getEntityHelper = (entities, entity_ids) => {
   if (entity_ids) {
@@ -60,16 +61,27 @@ const getSortedMonsterList = createSelector(
   getSortDirection,
   (monsters, sortKey, sortDir) => {
     if (sortKey && sortDir) {
-      return monsters.sort((a, b) => (a[sortKey] > b[sortKey] ? sortDir : -sortDir));
+      return monsters.sort((a, b) => {
+        if (a[sortKey] === b[sortKey]) {
+          // secondary sort by name if keys match
+          return a.name > b.name ? sortDir : -sortDir;
+        } else {
+          return a[sortKey] > b[sortKey] ? sortDir : -sortDir;
+        }
+      });
     }
     return monsters;
   }
 );
 
+const getDefaultMonsterList = createSelector(getMonsterList, monsters =>
+  applyFilters(monsters, defaultFilters)
+);
+
 const getFilteredMonsterList = createSelector(
   getSortedMonsterList,
   getListFilters,
-  (monsters, filters) => applyFilters(monsters, filters)
+  (monsters, filters) => applyFilters(monsters, [...defaultFilters, ...filters])
 );
 
 export default {
@@ -82,5 +94,10 @@ export default {
   getMonsterFamily,
   getSkills,
   getEffects,
+  getLeaderSkills,
+  getSources,
+  getSortKey,
+  getSortDirection,
+  getDefaultMonsterList,
   getFilteredMonsterList
 };

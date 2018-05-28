@@ -8,7 +8,7 @@ import { authActions } from 'state/ducks/auth/';
 class MainMenu extends React.Component {
   render() {
     return (
-      <Menu>
+      <Menu fixed="top">
         <Menu.Item as={Link} to="/" header>
           SWARFARM
         </Menu.Item>

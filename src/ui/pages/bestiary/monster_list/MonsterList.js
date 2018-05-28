@@ -6,7 +6,7 @@ import { Card } from 'semantic-ui-react';
 import MonsterCard from './MonsterCard';
 
 class MonsterList extends Component {
-  minCardWidth = 450;
+  minCardWidth = 420;
 
   render() {
     const { monsters } = this.props;
@@ -42,7 +42,15 @@ class MonsterList extends Component {
                     }
 
                     return (
-                      <div key={key} style={{ ...style, padding: '1em' }}>
+                      <div
+                        key={key}
+                        style={{
+                          ...style,
+                          paddingLeft: '1em',
+                          paddingRight: '1em',
+                          marginTop: '5px'
+                        }}
+                      >
                         <Card.Group itemsPerRow={itemsPerRow}>
                           {rowMonsters.map((monster, idx) => (
                             <MonsterCard key={idx} monster={monster} />

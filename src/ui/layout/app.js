@@ -14,6 +14,7 @@ const Body = styled.div`
 
 const Content = styled.div`
   flex: 1;
+  margin-top: 42px;
 `;
 
 const App = props => (

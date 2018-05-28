@@ -3,7 +3,6 @@ import localForage from 'localforage';
 import isEqual from 'lodash.isequal';
 
 import types from './types';
-import defaultFilters from './filters';
 
 /* State shape
 {
@@ -19,7 +18,7 @@ import defaultFilters from './filters';
   wasPopulated: boolean,
   lastPopulated: datetime || null
   sortKey: string || null,
-  sortDir: integer (-1 | 1)
+  sortDirection: integer (-1 | 1)
   filters: {
     monster: [],
     skill: [],
@@ -41,7 +40,7 @@ const INITIAL_STATE = {
   isLoading: false,
   sortKey: 'name', // attribute path for _.get()
   sortDirection: 1, // (-1 || 1)
-  filters: defaultFilters
+  filters: []
 };
 
 const persistConfig = {
@@ -132,6 +131,16 @@ const reducer = persistReducer(
         return {
           ...state,
           filters: payload
+        };
+      case types.SET_BESTIARY_SORT_KEY:
+        return {
+          ...state,
+          sortKey: payload
+        };
+      case types.SET_BESTIARY_SORT_DIR:
+        return {
+          ...state,
+          sortDirection: payload
         };
 
       default:
