@@ -14,7 +14,7 @@ const SkillPanel = ({ skill }) => (
         Cooltime: {skill.cooltime} turn{skill.cooltime > 1 ? 's' : ''}
       </p>
     ) : null}
-    <Header size="small">Multiplier Formula:</Header>
+    {skill.multiplier_formula ? <Header size="small">Multiplier Formula:</Header> : null}
     {skill.multiplier_formula} {skill.hits ? `x${skill.hits} hits` : null}
     <Header size="small">Level-Up Progress:</Header>
     <List>

@@ -17,14 +17,16 @@ const SkillPanel = ({ skill }) => (
           Cooltime: {skill.cooltime} turn{skill.cooltime > 1 ? 's' : ''}
         </Item.Description>
       ) : null}
-      <Item.Description>
-        <Header size="small">
-          Multiplier Formula:
-          <Header.Subheader>
-            {skill.multiplier_formula} {skill.hits ? `x${skill.hits} hits` : null}
-          </Header.Subheader>
-        </Header>
-      </Item.Description>
+      {skill.multiplier_formula ? (
+        <Item.Description>
+          <Header size="small">
+            Multiplier Formula:
+            <Header.Subheader>
+              {skill.multiplier_formula} {skill.hits ? `x${skill.hits} hits` : null}
+            </Header.Subheader>
+          </Header>
+        </Item.Description>
+      ) : null}
       <Item.Description>
         <Header size="small">
           Level-Up Progress:
