@@ -110,7 +110,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch(bestiaryActions.setBestiaryFilters(transformValuesToFilters(values))),
   setSortKey: (e, data) => dispatch(bestiaryActions.setBestiarySortKey(data.value)),
   setSortDir: (e, data) => {
-    console.log(data);
     dispatch(bestiaryActions.setBestiarySortDir(data.value));
   }
 });

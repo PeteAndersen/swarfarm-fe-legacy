@@ -11,4 +11,5 @@ const Select = formikCompatible(Form.Select);
 const TextArea = formikCompatible(Form.TextArea);
 
 export { default as formikCompatible } from './formik_compatible';
+export { default as Rating } from './rating';
 export { Button, Checkbox, Dropdown, Field, Input, Radio, Select, TextArea };
