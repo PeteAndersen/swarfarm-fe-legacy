@@ -29,6 +29,11 @@ const leaderSkillAttributeOptions = [
   value: attribute
 }));
 
+const leaderSkillAreaOptions = ['General', 'Dungeon', 'Element', 'Arena', 'Guild'].map(area => ({
+  text: area,
+  value: area
+}));
+
 const formikEnhancer = withFormik({
   displayName: 'FilterForm',
   mapPropsToValues: () => ({
@@ -37,7 +42,10 @@ const formikEnhancer = withFormik({
     is_awakened: null,
     base_stars__gte: 1,
     base_stars__lte: 6,
-    archetype__value_in: []
+    archetype__value_in: [],
+    leader_skill__area__value_in: [],
+    leader_skill__attribute__value_in: [],
+    leader_skill__amount__gte: 0
   }),
   validationSchema: yup.object().shape({
     name__contains: yup.string().ensure(),
@@ -45,7 +53,13 @@ const formikEnhancer = withFormik({
     is_awakened: yup.boolean().nullable(),
     base_stars__gte: yup.number().required(),
     base_stars__lte: yup.number().required(),
-    archetype__value_in: yup.array()
+    archetype__value_in: yup.array(),
+    leader_skill__area__value_in: yup.array(),
+    leader_skill__amount__gte: yup
+      .number()
+      .min(0)
+      .max(55)
+      .required()
   }),
   handleSubmit: (payload, bag) => {
     bag.props.handleSubmit(payload);
@@ -173,6 +187,46 @@ class FilterForm extends React.Component {
           onChange={setFieldValue}
           onBlur={setFieldTouched}
         />
+
+        <Header sub>Leader Skill</Header>
+        <Dropdown
+          name="leader_skill__area__value_in"
+          label="Area of Effect"
+          placeholder="Area of Effect"
+          fluid
+          multiple
+          search
+          selection
+          options={leaderSkillAreaOptions}
+          value={values.leader_skill__area__value_in}
+          onChange={setFieldValue}
+          onBlur={setFieldTouched}
+        />
+        <Dropdown
+          name="leader_skill__attribute__value_in"
+          label="Attribute"
+          placeholder="Attribute"
+          fluid
+          multiple
+          search
+          selection
+          options={leaderSkillAttributeOptions}
+          value={values.leader_skill__attribute__value_in}
+          onChange={setFieldValue}
+          onBlur={setFieldTouched}
+        />
+        <Field
+          control="input"
+          type="number"
+          min={0}
+          max={55}
+          name="leader_skill__amount__gte"
+          label="Minimum Bonus"
+          value={values.leader_skill__amount__gte}
+          onChange={setFieldValue}
+          onBlur={setFieldTouched}
+        />
+
         <Button type="submit" disabled={isValid && isDirty}>
           Apply
         </Button>
