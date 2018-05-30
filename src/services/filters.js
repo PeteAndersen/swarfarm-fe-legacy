@@ -39,7 +39,9 @@ const operators = {
 // Filtering functions
 const entityValue = _.curry((path, entity) => {
   // path is a flat string as specified by _.get documentation
-  path = path.split('.');
+  if (typeof path === 'string') {
+    path = path.split('.');
+  }
 
   const len = path.length;
   let index = 0;
@@ -107,7 +109,26 @@ const splitComparator = attribute => {
   // Attribute names may tack on the desired comparator, separated
   // from the attribute by double underscore
   const split = attribute.split('__');
-  return split.length > 1 ? { attribute: split[0], comparator: split[1] } : { attribute: split[0] };
+  if (split.length <= 1) {
+    // No special handling required
+    return { attribute: split };
+  } else {
+    // Check if last element separated by __ is a comparator or not
+    const possibleComparator = split[split.length - 1];
+    const attribute = _.slice(0, split.length - 1, split);
+
+    console.log({
+      possibleComparator,
+      attribute,
+      contains: _.contains(possibleComparator, Object.keys(comparators))
+    });
+
+    if (_.contains(possibleComparator, Object.keys(comparators))) {
+      return { attribute: attribute, comparator: possibleComparator };
+    } else {
+      return { attribute: split };
+    }
+  }
 };
 
 const transformValuesToFilters = filterValues =>
