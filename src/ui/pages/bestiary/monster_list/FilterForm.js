@@ -3,6 +3,7 @@ import { withFormik } from 'formik';
 import { Form, Button, Header } from 'semantic-ui-react';
 import * as yup from 'yup';
 import { Field, Dropdown, Checkbox, Rating } from 'ui/components/form';
+import SkillBuffDropdown from 'ui/components/form/SkillBuffDropdown';
 
 const elementOptions = ['Fire', 'Water', 'Wind', 'Light', 'Dark'].map(element => ({
   text: element,
@@ -38,28 +39,30 @@ const formikEnhancer = withFormik({
   displayName: 'FilterForm',
   mapPropsToValues: () => ({
     name__contains: '',
-    element__value_in: [],
+    element__valueIn: [],
     is_awakened: null,
     base_stars__gte: 1,
     base_stars__lte: 6,
-    archetype__value_in: [],
-    leader_skill__area__value_in: [],
-    leader_skill__attribute__value_in: [],
-    leader_skill__amount__gte: 0
+    archetype__valueIn: [],
+    leader_skill__area__valueIn: [],
+    leader_skill__attribute__valueIn: [],
+    leader_skill__amount__gte: 0,
+    skills__effects__effect__id__allInArray: []
   }),
   validationSchema: yup.object().shape({
     name__contains: yup.string().ensure(),
-    element__value_in: yup.array(),
+    element__valueIn: yup.array(),
     is_awakened: yup.boolean().nullable(),
     base_stars__gte: yup.number().required(),
     base_stars__lte: yup.number().required(),
-    archetype__value_in: yup.array(),
-    leader_skill__area__value_in: yup.array(),
+    archetype__valueIn: yup.array(),
+    leader_skill__area__valueIn: yup.array(),
     leader_skill__amount__gte: yup
       .number()
       .min(0)
       .max(55)
-      .required()
+      .required(),
+    skills__effects__effect__id__allInArray: yup.array()
   }),
   handleSubmit: (payload, bag) => {
     bag.props.handleSubmit(payload);
@@ -110,7 +113,7 @@ class FilterForm extends React.Component {
           onBlur={setFieldTouched}
         />
         <Dropdown
-          name="element__value_in"
+          name="element__valueIn"
           label="Element"
           placeholder="Element"
           fluid
@@ -118,7 +121,7 @@ class FilterForm extends React.Component {
           search
           selection
           options={elementOptions}
-          value={values.element__value_in}
+          value={values.element__valueIn}
           onChange={setFieldValue}
           onBlur={setFieldTouched}
         />
@@ -175,7 +178,7 @@ class FilterForm extends React.Component {
           />
         </Form.Field>
         <Dropdown
-          name="archetype__value_in"
+          name="archetype__valueIn"
           label="Archetype"
           placeholder="Archetype"
           fluid
@@ -183,14 +186,14 @@ class FilterForm extends React.Component {
           search
           selection
           options={archetypeOptions}
-          value={values.archetype__value_in}
+          value={values.archetype__valueIn}
           onChange={setFieldValue}
           onBlur={setFieldTouched}
         />
 
         <Header sub>Leader Skill</Header>
         <Dropdown
-          name="leader_skill__area__value_in"
+          name="leader_skill__area__valueIn"
           label="Area of Effect"
           placeholder="Area of Effect"
           fluid
@@ -198,12 +201,12 @@ class FilterForm extends React.Component {
           search
           selection
           options={leaderSkillAreaOptions}
-          value={values.leader_skill__area__value_in}
+          value={values.leader_skill__area__valueIn}
           onChange={setFieldValue}
           onBlur={setFieldTouched}
         />
         <Dropdown
-          name="leader_skill__attribute__value_in"
+          name="leader_skill__attribute__valueIn"
           label="Attribute"
           placeholder="Attribute"
           fluid
@@ -211,7 +214,7 @@ class FilterForm extends React.Component {
           search
           selection
           options={leaderSkillAttributeOptions}
-          value={values.leader_skill__attribute__value_in}
+          value={values.leader_skill__attribute__valueIn}
           onChange={setFieldValue}
           onBlur={setFieldTouched}
         />
@@ -223,6 +226,20 @@ class FilterForm extends React.Component {
           name="leader_skill__amount__gte"
           label="Minimum Bonus"
           value={values.leader_skill__amount__gte}
+          onChange={setFieldValue}
+          onBlur={setFieldTouched}
+        />
+
+        <Header sub>Skills</Header>
+        <SkillBuffDropdown
+          name="skills__effects__effect__id__allInArray"
+          label="Buffs"
+          placeholder="Buffs"
+          fluid
+          multiple
+          search
+          selection
+          value={values.skills__effects__effect__id__allInArray}
           onChange={setFieldValue}
           onBlur={setFieldTouched}
         />
