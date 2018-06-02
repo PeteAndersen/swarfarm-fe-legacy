@@ -34,6 +34,27 @@ class Bestiary extends React.Component {
     }
   }
 
+  handleFilterSubmit = payload => {
+    // Transform form values into filter values
+    const filterValues = transformValuesToFilters({
+      name__contains: payload.name,
+      element__valueIn: payload.element,
+      is_awakened: payload.is_awakened,
+      base_stars__gte: payload.min_stars,
+      base_stars__lte: payload.max_stars,
+      archetype__valueIn: payload.archetype,
+      leader_skill__area__valueIn: payload.leader_skill_area,
+      leader_skill__attribute__valueIn: payload.leader_skill_attribute,
+      leader_skill__amount__gte:
+        payload.leader_skill_area.length > 0 || payload.leader_skill_attribute > 0
+          ? payload.leader_skill_min_amount
+          : undefined,
+      skills__effects__effect__id__allInArray: payload.buffs.concat(payload.debuffs, payload.others)
+    });
+
+    this.props.applyFilters(filterValues);
+  };
+
   render() {
     const {
       isPopulating,
@@ -52,7 +73,7 @@ class Bestiary extends React.Component {
             <Menu.Header>Filters</Menu.Header>
           </Menu.Item>
           <Menu.Item>
-            <FilterForm handleSubmit={this.props.applyFilters} />
+            <FilterForm handleSubmit={this.handleFilterSubmit} />
           </Menu.Item>
         </FilterMenu>
         <Dimmer.Dimmable as={MonsterListContainer}>
@@ -106,8 +127,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   populateBestiary: () => dispatch(bestiaryActions.populateBestiary()),
-  applyFilters: values =>
-    dispatch(bestiaryActions.setBestiaryFilters(transformValuesToFilters(values))),
+  applyFilters: values => dispatch(bestiaryActions.setBestiaryFilters(values)),
   setSortKey: (e, data) => dispatch(bestiaryActions.setBestiarySortKey(data.value)),
   setSortDir: (e, data) => {
     dispatch(bestiaryActions.setBestiarySortDir(data.value));

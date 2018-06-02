@@ -27,18 +27,20 @@ const SkillPanel = ({ skill }) => (
           </Header>
         </Item.Description>
       ) : null}
-      <Item.Description>
-        <Header size="small">
-          Level-Up Progress:
-          <Header.Subheader>
-            <List>
-              {skill.level_progress_description.map((desc, idx) => (
-                <List.Item key={idx}>{desc}</List.Item>
-              ))}
-            </List>
-          </Header.Subheader>
-        </Header>
-      </Item.Description>
+      {skill.level_progress_description.length > 0 ? (
+        <Item.Description>
+          <Header size="small">
+            Level-Up Progress:
+            <Header.Subheader>
+              <List>
+                {skill.level_progress_description.map((desc, idx) => (
+                  <List.Item key={idx}>{desc}</List.Item>
+                ))}
+              </List>
+            </Header.Subheader>
+          </Header>
+        </Item.Description>
+      ) : null}
     </Item.Content>
   </Item>
 );

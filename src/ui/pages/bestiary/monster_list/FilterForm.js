@@ -2,8 +2,7 @@ import React from 'react';
 import { withFormik } from 'formik';
 import { Form, Button, Header } from 'semantic-ui-react';
 import * as yup from 'yup';
-import { Field, Dropdown, Checkbox, Rating } from 'ui/components/form';
-import SkillBuffDropdown from 'ui/components/form/SkillBuffDropdown';
+import { Field, Dropdown, Checkbox, Rating, EffectDropdown } from 'ui/components/form';
 
 const elementOptions = ['Fire', 'Water', 'Wind', 'Light', 'Dark'].map(element => ({
   text: element,
@@ -38,31 +37,37 @@ const leaderSkillAreaOptions = ['General', 'Dungeon', 'Element', 'Arena', 'Guild
 const formikEnhancer = withFormik({
   displayName: 'FilterForm',
   mapPropsToValues: () => ({
-    name__contains: '',
-    element__valueIn: [],
+    auto_apply: false,
+    name: '',
+    element: [],
     is_awakened: null,
-    base_stars__gte: 1,
-    base_stars__lte: 6,
-    archetype__valueIn: [],
-    leader_skill__area__valueIn: [],
-    leader_skill__attribute__valueIn: [],
-    leader_skill__amount__gte: 0,
-    skills__effects__effect__id__allInArray: []
+    min_stars: 1,
+    max_stars: 6,
+    archetype: [],
+    leader_skill_area: [],
+    leader_skill_attribute: [],
+    leader_skill_min_amount: 0,
+    buffs: [],
+    debuffs: [],
+    others: []
   }),
   validationSchema: yup.object().shape({
-    name__contains: yup.string().ensure(),
-    element__valueIn: yup.array(),
+    name: yup.string().ensure(),
+    element: yup.array(),
     is_awakened: yup.boolean().nullable(),
-    base_stars__gte: yup.number().required(),
-    base_stars__lte: yup.number().required(),
-    archetype__valueIn: yup.array(),
-    leader_skill__area__valueIn: yup.array(),
-    leader_skill__amount__gte: yup
+    min_stars: yup.number().required(),
+    max_stars: yup.number().required(),
+    archetype: yup.array(),
+    leader_skill_area: yup.array(),
+    leader_skill_attribute: yup.array(),
+    leader_skill_min_amount: yup
       .number()
       .min(0)
       .max(55)
       .required(),
-    skills__effects__effect__id__allInArray: yup.array()
+    buffs: yup.array(),
+    debuffs: yup.array(),
+    others: yup.array()
   }),
   handleSubmit: (payload, bag) => {
     bag.props.handleSubmit(payload);
@@ -73,14 +78,13 @@ const formikEnhancer = withFormik({
 class FilterForm extends React.Component {
   checkBaseStars = (name, rating) => {
     // Ensure that the min/max star fields follow each other if values overlap
-    const min_value = this.props.values.base_stars__gte;
-    const max_value = this.props.values.base_stars__lte;
+    const { min_stars, max_stars } = this.props.values;
 
-    if (name === 'base_stars__lte' && min_value > rating) {
-      this.props.setFieldValue('base_stars__gte', rating);
+    if (name === 'max_stars' && min_stars > rating) {
+      this.props.setFieldValue('min_stars', rating);
     }
-    if (name === 'base_stars__gte' && max_value < rating) {
-      this.props.setFieldValue('base_stars__lte', rating);
+    if (name === 'min_stars' && max_stars < rating) {
+      this.props.setFieldValue('max_stars', rating);
     }
 
     this.props.setFieldValue(name, rating);
@@ -92,12 +96,12 @@ class FilterForm extends React.Component {
       errors,
       touched,
       isValid,
-      isDirty,
       setFieldValue,
       setFieldTouched,
       handleSubmit,
       isSubmitting
     } = this.props;
+    console.log(this.props);
 
     return (
       <Form size="small" onSubmit={handleSubmit} loading={isSubmitting}>
@@ -105,15 +109,15 @@ class FilterForm extends React.Component {
         <Field
           control="input"
           type="text"
-          name="name__contains"
+          name="name"
           label="Name"
-          error={Boolean(touched.name__contains && errors.name__contains)}
-          value={values.name__contains}
+          error={Boolean(touched.name && errors.name)}
+          value={values.name}
           onChange={setFieldValue}
           onBlur={setFieldTouched}
         />
         <Dropdown
-          name="element__valueIn"
+          name="element"
           label="Element"
           placeholder="Element"
           fluid
@@ -121,7 +125,7 @@ class FilterForm extends React.Component {
           search
           selection
           options={elementOptions}
-          value={values.element__valueIn}
+          value={values.element}
           onChange={setFieldValue}
           onBlur={setFieldTouched}
         />
@@ -158,9 +162,9 @@ class FilterForm extends React.Component {
         <Form.Field>
           <label>Minimum Stars</label>
           <Rating
-            name="base_stars__gte"
+            name="min_stars"
             label="Minimum Stars"
-            value={values.base_stars__gte}
+            value={values.min_stars}
             maxRating={6}
             onChange={this.checkBaseStars}
             onBlur={setFieldTouched}
@@ -169,16 +173,16 @@ class FilterForm extends React.Component {
         <Form.Field>
           <label>Maximum Stars</label>
           <Rating
-            name="base_stars__lte"
+            name="max_stars"
             label="Minimum Stars"
-            value={values.base_stars__lte}
+            value={values.max_stars}
             maxRating={6}
             onChange={this.checkBaseStars}
             onBlur={setFieldTouched}
           />
         </Form.Field>
         <Dropdown
-          name="archetype__valueIn"
+          name="archetype"
           label="Archetype"
           placeholder="Archetype"
           fluid
@@ -186,14 +190,14 @@ class FilterForm extends React.Component {
           search
           selection
           options={archetypeOptions}
-          value={values.archetype__valueIn}
+          value={values.archetype}
           onChange={setFieldValue}
           onBlur={setFieldTouched}
         />
 
         <Header sub>Leader Skill</Header>
         <Dropdown
-          name="leader_skill__area__valueIn"
+          name="leader_skill_area"
           label="Area of Effect"
           placeholder="Area of Effect"
           fluid
@@ -201,12 +205,12 @@ class FilterForm extends React.Component {
           search
           selection
           options={leaderSkillAreaOptions}
-          value={values.leader_skill__area__valueIn}
+          value={values.leader_skill_area}
           onChange={setFieldValue}
           onBlur={setFieldTouched}
         />
         <Dropdown
-          name="leader_skill__attribute__valueIn"
+          name="leader_skill_attribute"
           label="Attribute"
           placeholder="Attribute"
           fluid
@@ -214,7 +218,7 @@ class FilterForm extends React.Component {
           search
           selection
           options={leaderSkillAttributeOptions}
-          value={values.leader_skill__attribute__valueIn}
+          value={values.leader_skill_attribute}
           onChange={setFieldValue}
           onBlur={setFieldTouched}
         />
@@ -223,30 +227,65 @@ class FilterForm extends React.Component {
           type="number"
           min={0}
           max={55}
-          name="leader_skill__amount__gte"
+          name="leader_skill_min_amount"
           label="Minimum Bonus"
-          value={values.leader_skill__amount__gte}
+          value={values.leader_skill_min_amount}
           onChange={setFieldValue}
           onBlur={setFieldTouched}
         />
 
         <Header sub>Skills</Header>
-        <SkillBuffDropdown
-          name="skills__effects__effect__id__allInArray"
+        <EffectDropdown
+          name="buffs"
           label="Buffs"
           placeholder="Buffs"
+          type="buffs"
           fluid
           multiple
           search
           selection
-          value={values.skills__effects__effect__id__allInArray}
+          value={values.buffs}
+          onChange={setFieldValue}
+          onBlur={setFieldTouched}
+        />
+        <EffectDropdown
+          name="debuffs"
+          label="Debuffs"
+          placeholder="Debuffs"
+          type="debuffs"
+          fluid
+          multiple
+          search
+          selection
+          value={values.debuffs}
+          onChange={setFieldValue}
+          onBlur={setFieldTouched}
+        />
+        <EffectDropdown
+          name="others"
+          label="Other Effects"
+          placeholder="Other Effects"
+          type="others"
+          fluid
+          multiple
+          search
+          selection
+          value={values.others}
           onChange={setFieldValue}
           onBlur={setFieldTouched}
         />
 
-        <Button type="submit" disabled={isValid && isDirty}>
-          Apply
-        </Button>
+        <Form.Group inline>
+          <Button type="submit" disabled={values.auto_apply || !isValid}>
+            Apply
+          </Button>
+          <Checkbox
+            label="Auto apply"
+            name="auto_apply"
+            checked={values.auto_apply}
+            onChange={setFieldValue}
+          />
+        </Form.Group>
       </Form>
     );
   }

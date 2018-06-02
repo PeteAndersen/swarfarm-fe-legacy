@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Portrait } from 'ui/components/monsters';
-import { SkillImage, SkillPanel } from 'ui/components/skills';
+import { SkillImage, LeaderSkillImage, SkillPanel } from 'ui/components/skills';
+import { generate_description } from 'ui/components/skills/LeaderSkillImage';
 import { getSlug, elementColor } from 'services/monsters';
 
 const SkillContainer = styled.div`
@@ -25,6 +26,10 @@ const SkillItem = styled.div`
     white-space: nowrap;
     overflow: hidden;
   }
+`;
+
+const LeaderSkillItem = styled(SkillItem)`
+  flex: 0 0 auto;
 `;
 
 const EffectIcon = styled(Image)`
@@ -71,6 +76,25 @@ const MonsterCard = ({ monster }) => {
       </Card.Content>
       <Card.Content>
         <SkillContainer>
+          {monster.leader_skill ? (
+            <Popup
+              hoverable
+              trigger={
+                <LeaderSkillItem>
+                  <Header sub>Leader Skill</Header>
+                  <LeaderSkillImage
+                    skill={monster.leader_skill}
+                    size="mini"
+                    rounded
+                    bordered
+                    floated="left"
+                  />
+                </LeaderSkillItem>
+              }
+            >
+              {generate_description(monster.leader_skill)}
+            </Popup>
+          ) : null}
           {monster.skills.map((skill, index) => (
             <Popup
               key={index}
