@@ -276,7 +276,7 @@ class FilterForm extends React.Component {
         />
 
         <Form.Group inline>
-          <Button type="submit" disabled={values.auto_apply || !isValid}>
+          <Button type="submit" disabled={values.auto_apply}>
             Apply
           </Button>
           <Checkbox

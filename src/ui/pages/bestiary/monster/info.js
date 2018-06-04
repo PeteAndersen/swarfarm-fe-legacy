@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Card, Image } from 'semantic-ui-react';
+import { Card, Image, Header, Divider } from 'semantic-ui-react';
 
 import { Portrait } from 'ui/components/monsters';
 
@@ -30,15 +30,24 @@ const Info = ({ monster }) => {
   return (
     <Card fluid>
       <Card.Content>
-        <Portrait monster={monster} />
-        <Card.Header>{monster.name}</Card.Header>
+        <div>
+          <Header sub floated="right">
+            {monster.archetype}
+          </Header>
+          <Header floated="left">
+            <Image
+              inline
+              size="tiny"
+              spaced="right"
+              src={`${process.env.PUBLIC_URL}/assets/elements/${monster.element.toLowerCase()}.png`}
+            />
+            {monster.name}
+          </Header>
+        </div>
+
+        <Divider hidden clearing />
+        <Portrait monster={monster} size="tiny" />
         <Card.Meta>
-          <Image
-            avatar
-            spaced="right"
-            src={`${process.env.PUBLIC_URL}/assets/elements/${monster.element.toLowerCase()}.png`}
-          />
-          <span>{monster.archetype}</span>
           {awakens_from_link}
           {awakens_to_link}
           {monster.awaken_bonus ? <div>Awakening Bonus: {monster.awaken_bonus}</div> : null}
