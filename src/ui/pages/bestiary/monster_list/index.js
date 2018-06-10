@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { Menu, Dimmer, Loader, Header, Dropdown } from 'semantic-ui-react';
+import { Menu, Dimmer, Loader, Segment, Header, Dropdown } from 'semantic-ui-react';
 import { bestiaryActions, bestiarySelectors } from 'state/ducks/bestiary';
 import { transformValuesToFilters } from 'services/filters';
 import FilterForm from './FilterForm';
@@ -15,6 +15,7 @@ const FilterMenu = styled(Menu)`
 
 const MonsterListContainer = styled.div`
   margin-left: 280px;
+  min-height: 200px;
 `;
 
 const sortByOptions = [
@@ -87,7 +88,7 @@ class Bestiary extends React.Component {
         </FilterMenu>
         <Dimmer.Dimmable as={MonsterListContainer}>
           <Dimmer active={isPopulating && !wasPopulated} inverted>
-            <Loader>
+            <Loader size="large">
               <Header size="large" color="green">
                 Populating Bestiary...
               </Header>
