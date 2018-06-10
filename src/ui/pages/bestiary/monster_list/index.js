@@ -56,6 +56,7 @@ class Bestiary extends React.Component {
         operator: 'all',
         swap: true
       },
+      skills__scales_with__valueIn: { value: payload.scales_with, operator: 'all', swap: true },
       skills__hits__gte: { value: payload.hits[0] },
       skills__hits__lte: { value: payload.hits[1] }
     });

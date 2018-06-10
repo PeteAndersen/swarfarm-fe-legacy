@@ -36,6 +36,26 @@ const leaderSkillAreaOptions = ['General', 'Dungeon', 'Element', 'Arena', 'Guild
   value: area
 }));
 
+const scalesWithOptions = [
+  'ATK',
+  'Current HP %',
+  'DEF',
+  'Level',
+  'Life Share',
+  'Life Share (AOE)',
+  'Living Ally %',
+  'MAX HP',
+  'Missing HP',
+  'SPD',
+  'Surviving Allies',
+  'Target Current HP %',
+  'Target MAX HP',
+  'Target SPD'
+].map(stat => ({
+  text: stat,
+  value: stat
+}));
+
 const formikEnhancer = withFormik({
   displayName: 'FilterForm',
   mapPropsToValues: () => ({
@@ -52,7 +72,8 @@ const formikEnhancer = withFormik({
     buffs: [],
     debuffs: [],
     others: [],
-    hits: [0, 13]
+    hits: [0, 13],
+    scales_with: []
   }),
   validationSchema: yup.object().shape({
     name: yup.string().ensure(),
@@ -71,7 +92,8 @@ const formikEnhancer = withFormik({
     buffs: yup.array(),
     debuffs: yup.array(),
     others: yup.array(),
-    hits: yup.array()
+    hits: yup.array(),
+    scales_with: yup.array()
   }),
   handleSubmit: (payload, bag) => {
     bag.props.handleSubmit(payload);
@@ -276,6 +298,21 @@ class FilterForm extends React.Component {
           onChange={setFieldValue}
           onBlur={setFieldTouched}
         />
+
+        <Dropdown
+          name="scales_with"
+          label="Scales With"
+          placeholder="Scales With"
+          fluid
+          multiple
+          search
+          selection
+          options={scalesWithOptions}
+          value={values.scales_with}
+          onChange={setFieldValue}
+          onBlur={setFieldTouched}
+        />
+
         <Form.Field>
           <label>Number of Hits</label>
           <Range

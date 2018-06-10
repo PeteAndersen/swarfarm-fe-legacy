@@ -55,7 +55,7 @@ const entityValue = _.curry((path, entity) => {
   while (entity != null && index < len) {
     entity = entity[path[index]];
 
-    if (Array.isArray(entity)) {
+    if (Array.isArray(entity) && len > index + 1) {
       // When an array is encountered, recurse and grab the individual
       // values of the objects in the array. Return value is an array.
       return entity.reduce(reducer, []);
