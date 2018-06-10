@@ -10,22 +10,9 @@ const gt = _.curry((b, a) => a > b);
 const gte = _.curry((b, a) => a >= b);
 const lt = _.curry((b, a) => a < b);
 const lte = _.curry((b, a) => a <= b);
-const valueIn = _.curry((b, a) => _.some(_.eq(lowercaseIfString(a)), lowercaseIfString(b)));
-
-// Array comparitor functions
-// Check if values of A are in B. Return array of booleans same length as A.
-const inArray = (b, a) =>
-  _.map(aValue => _.includes(aValue, lowercaseIfString(b)), lowercaseIfString(a));
-const allInArray = _.curry((a, b) => {
-  return _.all(Boolean, inArray(b, a));
-});
-const someInArray = _.curry((a, b) => {
-  return _.some(Boolean, inArray(b, a));
-});
-
-// String comparitor functions
+const valueIn = _.curry((b, a) => _.includes(lowercaseIfString(a), lowercaseIfString(b)));
+const contains = _.curry((b, a) => _.includes(lowercaseIfString(b), lowercaseIfString(a)));
 const startsWith = _.curry((b, a) => _.startsWith(lowercaseIfString(b), lowercaseIfString(a)));
-const contains = _.curry((b, a) => _.contains(lowercaseIfString(b), lowercaseIfString(a)));
 
 const comparators = {
   eq,
@@ -34,10 +21,19 @@ const comparators = {
   lt,
   lte,
   valueIn,
-  allInArray,
-  someInArray,
-  startsWith,
-  contains
+  contains,
+  startsWith
+};
+
+// Logical operators for array results
+const all = _.all(Boolean);
+const any = _.some(Boolean);
+const none = _.all(val => !Boolean(val));
+
+const operators = {
+  all,
+  any,
+  none
 };
 
 // Filtering functions
@@ -70,17 +66,36 @@ const entityValue = _.curry((path, entity) => {
   return index && index === len ? entity : undefined;
 });
 
-const compare = _.curry((comparator, b, a) => {
+const compare = _.curry((comparator, operator, swap, b, a) => {
   const comparator_func = comparator ? comparators[comparator] : comparators.eq;
-  return comparator_func(b, a);
+  if (swap) {
+    const temp = b;
+    b = a;
+    a = temp;
+  }
+
+  if (Array.isArray(a)) {
+    const operator_func = operator ? operators[operator] : operators.any;
+    const results = _.map(aValue => comparator_func(b, aValue), a);
+    return operator_func(results);
+  } else {
+    return comparator_func(b, a);
+  }
 });
 
 const invert = _.curry((inverted, value) => (inverted ? !value : value));
 const getFilters = _.map(filter => getFilterFunc(filter));
-const getFilterFunc = ({ attribute, value: filter_value, comparator, invert: inverted }) =>
+const getFilterFunc = ({
+  attribute,
+  value: filter_value,
+  comparator,
+  operator,
+  swap,
+  invert: inverted
+}) =>
   _.flow(
     entityValue(attribute), // Get the value of the key being examined
-    compare(comparator, filter_value), // Get function for comparator and send filter value to it
+    compare(comparator, operator, swap, filter_value), // Get function for comparator and send filter value to it
     invert(inverted) // Invert result if requested
   );
 
@@ -112,9 +127,10 @@ const splitComparator = attribute => {
 
 const transformValuesToFilters = filterValues =>
   // Transform an object with { key: value } pairs into an array of filter objects
-  Object.entries(filterValues).reduce((accum, [key, value]) => {
+  Object.entries(filterValues).reduce((accum, [key, { value, operator, swap }]) => {
     const { attribute, comparator } = splitComparator(key);
-    const ret = accum.concat({ attribute, comparator, value });
+    const ret = accum.concat({ attribute, comparator, value, operator, swap });
+
     if (Array.isArray(value)) {
       return value.length > 0 ? ret : accum;
     } else {

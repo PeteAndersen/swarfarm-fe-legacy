@@ -1,8 +1,10 @@
 import React from 'react';
 import { withFormik } from 'formik';
-import { Form, Button, Header } from 'semantic-ui-react';
+import { Form, Button, Header, Divider } from 'semantic-ui-react';
 import * as yup from 'yup';
-import { Field, Dropdown, Checkbox, Rating, EffectDropdown } from 'ui/components/form';
+import 'rc-slider/assets/index.css';
+
+import { Field, Dropdown, Checkbox, Rating, EffectDropdown, Range } from 'ui/components/form';
 
 const elementOptions = ['Fire', 'Water', 'Wind', 'Light', 'Dark'].map(element => ({
   text: element,
@@ -49,7 +51,8 @@ const formikEnhancer = withFormik({
     leader_skill_min_amount: 0,
     buffs: [],
     debuffs: [],
-    others: []
+    others: [],
+    hits: [0, 13]
   }),
   validationSchema: yup.object().shape({
     name: yup.string().ensure(),
@@ -67,7 +70,8 @@ const formikEnhancer = withFormik({
       .required(),
     buffs: yup.array(),
     debuffs: yup.array(),
-    others: yup.array()
+    others: yup.array(),
+    hits: yup.array()
   }),
   handleSubmit: (payload, bag) => {
     bag.props.handleSubmit(payload);
@@ -95,13 +99,11 @@ class FilterForm extends React.Component {
       values,
       errors,
       touched,
-      isValid,
       setFieldValue,
       setFieldTouched,
       handleSubmit,
       isSubmitting
     } = this.props;
-    console.log(this.props);
 
     return (
       <Form size="small" onSubmit={handleSubmit} loading={isSubmitting}>
@@ -274,6 +276,29 @@ class FilterForm extends React.Component {
           onChange={setFieldValue}
           onBlur={setFieldTouched}
         />
+        <Form.Field>
+          <label>Number of Hits</label>
+          <Range
+            name="hits"
+            min={0}
+            max={7}
+            pushable={0}
+            marks={{
+              0: 'None',
+              1: 1,
+              2: 2,
+              3: 3,
+              4: 4,
+              5: 5,
+              6: 6,
+              7: 7
+            }}
+            value={values.hits}
+            onChange={setFieldValue}
+            onBlur={setFieldTouched}
+          />
+          <Divider clearing hidden />
+        </Form.Field>
 
         <Form.Group inline>
           <Button type="submit" disabled={values.auto_apply}>

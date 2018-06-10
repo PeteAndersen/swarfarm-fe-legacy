@@ -37,19 +37,27 @@ class Bestiary extends React.Component {
   handleFilterSubmit = payload => {
     // Transform form values into filter values
     const filterValues = transformValuesToFilters({
-      name__contains: payload.name,
-      element__valueIn: payload.element,
-      is_awakened: payload.is_awakened,
-      base_stars__gte: payload.min_stars,
-      base_stars__lte: payload.max_stars,
-      archetype__valueIn: payload.archetype,
-      leader_skill__area__valueIn: payload.leader_skill_area,
-      leader_skill__attribute__valueIn: payload.leader_skill_attribute,
-      leader_skill__amount__gte:
-        payload.leader_skill_area.length > 0 || payload.leader_skill_attribute > 0
-          ? payload.leader_skill_min_amount
-          : undefined,
-      skills__effects__effect__id__allInArray: payload.buffs.concat(payload.debuffs, payload.others)
+      name__contains: { value: payload.name },
+      element__valueIn: { value: payload.element },
+      is_awakened: { value: payload.is_awakened },
+      base_stars__gte: { value: payload.min_stars },
+      base_stars__lte: { value: payload.max_stars },
+      archetype__valueIn: { value: payload.archetype },
+      leader_skill__area__valueIn: { value: payload.leader_skill_area },
+      leader_skill__attribute__valueIn: { value: payload.leader_skill_attribute },
+      leader_skill__amount__gte: {
+        value:
+          payload.leader_skill_area.length > 0 || payload.leader_skill_attribute > 0
+            ? payload.leader_skill_min_amount
+            : undefined
+      },
+      skills__effects__effect__id__valueIn: {
+        value: payload.buffs.concat(payload.debuffs, payload.others),
+        operator: 'all',
+        swap: true
+      },
+      skills__hits__gte: { value: payload.hits[0] },
+      skills__hits__lte: { value: payload.hits[1] }
     });
 
     this.props.applyFilters(filterValues);
