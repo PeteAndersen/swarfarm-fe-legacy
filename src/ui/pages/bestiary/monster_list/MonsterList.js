@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { WindowScroller, AutoSizer, List } from 'react-virtualized';
 import 'react-virtualized/styles.css';
-import { Card } from 'semantic-ui-react';
+import { Card, Header, Icon } from 'semantic-ui-react';
 
 import MonsterCard from './MonsterCard';
 
@@ -59,6 +59,12 @@ class MonsterList extends Component {
                       </div>
                     );
                   }}
+                  noRowsRenderer={() => (
+                    <Header icon textAlign="center">
+                      <Icon name="filter" />No Matches
+                      <Header.Subheader>Your perfect monster doesn't exist</Header.Subheader>
+                    </Header>
+                  )}
                 />
               );
             }}
