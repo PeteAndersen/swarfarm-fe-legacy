@@ -14,7 +14,7 @@ const FilterMenu = styled(Menu)`
 `;
 
 const MonsterListContainer = styled.div`
-  margin-left: 280px;
+  margin-left: 304px;
   min-height: 200px;
 `;
 
@@ -144,4 +144,7 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Bestiary);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Bestiary);
